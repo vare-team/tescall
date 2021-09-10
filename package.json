@@ -1,0 +1,22 @@
+{
+  "name": "support-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vare-team/support-bot.git"
+  },
+  "author": "Dellyare",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vare-team/support-bot/issues"
+  },
+  "homepage": "https://github.com/vare-team/support-bot#readme",
+  "dependencies": {
+    "discord.js": "^13.1.0"
+  }
+}
