@@ -1,5 +1,10 @@
+if (!process.env.WEBHOOK || !process.env.TOKEN) {
+    console.log("Ошибка окружения!");
+    process.exit();
+}
+
 const discord = require('discord.js'),
-      client = new discord.Client({
+      client  = new discord.Client({
           intents: [
               discord.Intents.FLAGS.GUILDS,
               discord.Intents.FLAGS.DIRECT_MESSAGES,
@@ -10,158 +15,67 @@ const discord = require('discord.js'),
           partials: [
               "CHANNEL"
           ]
-      }),
-      config = require("./config.json");
+      });
 
-const webHook = new discord.WebhookClient({url: process.env.WEBHOOK})
+const $resolveInteractionButtonsClose = require('./resolvers/interactions/buttons/close'),
+      $resolveInteractionButtonsGet   = require('./resolvers/interactions/buttons/get'),
+      $resolveMessagesDirect          = require('./resolvers/messages/directMessage'),
+      $resolveMessagesThread          = require('./resolvers/messages/thread');
 
-let tickets = new Map(),
-    threads = new Map(),
-    channel;
-
-client.on("ready", async () => {
-    console.log(`Auth success! Account: ${client.user.username}`);
-    channel = await client.channels.fetch(config.logChannel);
-})
+client.userLib = {
+    config : require("./config.json"),
+    webHook: new discord.WebhookClient({url: process.env.WEBHOOK}),
+    tickets: new Map(),
+    threads: new Map(),
+    channel: {},
+    getTime: function () {const date = new Date();return `(${date.getDate() > 9 ? date.getDate() : "0" + date.getDate()}.${(date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1)} ${date.getHours() > 9 ? date.getHours() : "0" + date.getHours()}:${date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()}:${date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds()}) `}
+};
 
 client.on("messageCreate", msg => {
     if (msg.author.bot) return;
 
-    if (msg.channel.type === "DM") {
-        if (!tickets.has(msg.author.id)) {
-            tickets.set(msg.author.id, {});
-            const embedDM = new discord.MessageEmbed()
-                .setDescription(config.autoMessages.hello.replace("%NAME%", msg.author.username))
-                .setColor("#7083CF");
-
-            msg.channel.send( {embeds: [embedDM]} )
-
-            const embed = new discord.MessageEmbed()
-                    .setTitle("Новый тикет!")
-                    .setDescription(`<@${msg.author.id}>: ` + msg.content)
-                    .setFooter(msg.author.username, msg.author.displayAvatarURL())
-                    .setColor("#D82D42"),
-                row = new discord.MessageActionRow()
-                    .addComponents(
-                        new discord.MessageButton()
-                            .setCustomId("GET:" + msg.author.id)
-                            .setLabel('Взять тикет')
-                            .setStyle('PRIMARY')
-                    );
-
-            if (msg.attachments.size) embed.setImage(msg.attachments.first().url)
-
-            return channel.send({
-                embeds: [embed],
-                components: [row]
-            })
+    try {
+        if (msg.channel.type === "DM") {
+            $resolveMessagesDirect(client, msg);
         }
 
-        if (!tickets.get(msg.author.id).resolver) {
-            const embed = new discord.MessageEmbed()
-                    .setDescription(config.autoMessages.waiting)
-                    .setColor("#D82D42");
-
-            return msg.channel.send( {embeds: [embed]} )
+        if (msg.channel.type === "GUILD_PUBLIC_THREAD" && client.userLib.threads.has(msg.channel.id)) {
+            $resolveMessagesThread(client, msg);
         }
-
-        if (tickets.get(msg.author.id).thread) {
-            let opt = {
-                username: msg.author.username,
-                avatarURL: msg.author.displayAvatarURL(),
-                threadId: tickets.get(msg.author.id).thread.id,
-            }
-
-            if (msg.content.length) opt.content = msg.content;
-            if (msg.attachments.size) opt.files = [msg.attachments.first().url];
-
-            webHook.send(opt);
-        }
+    } catch (e) {
+        console.warn(e);
     }
-
-    if (msg.channel.type === "GUILD_PUBLIC_THREAD" && threads.has(msg.channel.id)) {
-
-        let opt = {};
-
-        if (msg.content.length) opt.content = `**${msg.author.username}**: ${msg.content}`;
-        if (msg.attachments.size) opt.files = [msg.attachments.first().url];
-
-        client.users.fetch(threads.get(msg.channel.id)).then((user) => {
-            user.send(opt)
-        })
-    }
-
-
-})
+});
 
 client.on("interactionCreate", async inter => {
     if (inter.type !== "MESSAGE_COMPONENT") return;
 
     const [command, userId] = inter.customId.split(":");
 
-    switch (command) {
-        case 'GET':
-            if (tickets.has(userId)) {
-                const row = new discord.MessageActionRow()
-                    .addComponents(
-                        new discord.MessageButton()
-                            .setCustomId("CLOSE:" + userId)
-                            .setLabel('Закрыть тикет')
-                            .setStyle('SUCCESS')
-                    );
+    try {
+        switch (command) {
+            case 'GET':
+                await $resolveInteractionButtonsGet(client, inter, userId);
+                break;
 
-                let embed = inter.message.embeds[0];
-                embed.color = "#7083CF";
-
-                inter.update({
-                    embeds: [embed],
-                    components: [row]
-                });
-                let thread = await inter.message.startThread({name: userId});
-                threads.set(thread.id, userId);
-                tickets.set(userId, {resolver: inter.user.id, thread: thread});
-
-                client.users.fetch(userId).then((user) => {
-                    const embedDM = new discord.MessageEmbed()
-                        .setTitle(config.autoMessages.stuffJoined)
-                        .setDescription(config.autoMessages.chatEnabled)
-                        .setColor("#378D53");
-
-                    return user.send( {embeds: [embedDM]} );
-                });
-            } else {
-                inter.reply({
-                    content: `Тикет #${userId}  уже закрыт!`,
-                    ephemeral: true
-                })
-            }
-            break;
-
-        case 'CLOSE':
-            client.users.fetch(userId).then((user) => {
-                const embedDM = new discord.MessageEmbed()
-                    .setTitle(config.autoMessages.goodbye)
-                    .setColor("#378D53");
-
-                return user.send( {embeds: [embedDM]} );
-            });
-
-            let embed = inter.message.embeds[0];
-            embed.title = config.autoMessages.goodbye;
-            embed.color = "#378D53";
-
-            inter.update({
-                embeds: [embed],
-                components: []
-            });
-
-            tickets.get(userId).thread.setArchived(true, config.autoMessages.goodbye);
-
-            tickets.delete(userId);
-            threads.delete(inter.message.id);
+            case 'CLOSE':
+                await $resolveInteractionButtonsClose(client, inter, userId);
+                break;
+            default:
+                console.warn(client.userLib.getTime() + `Что-то странное!\n${inter}`)
+        }
+    } catch (e) {
+        console.warn(e);
     }
-})
+});
+
+client.on("ready", async () => {
+    console.log(client.userLib.getTime() + `Авторизация выполнена!`);
+    client.userLib.channel = await client.channels.fetch(client.userLib.config.logChannel);
+    console.log(client.userLib.getTime() + `Лог канал закеширован! #${client.userLib.channel.name}`);
+    console.log(client.userLib.getTime() + "К работе готов!\n");
+});
 
 client.login(process.env.TOKEN).then(() => {
-    console.log("Authorized")
-})
+    console.log(client.userLib.getTime() + "Авторизация...")
+});
