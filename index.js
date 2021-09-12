@@ -16,6 +16,7 @@ const discord = require('discord.js'),
 const webHook = new discord.WebhookClient({url: process.env.WEBHOOK})
 
 let tickets = new Map(),
+    threads = new Map(),
     channel;
 
 client.on("ready", async () => {
@@ -37,7 +38,7 @@ client.on("messageCreate", msg => {
 
             const embed = new discord.MessageEmbed()
                     .setTitle("Новый тикет!")
-                    .setDescription(msg.content)
+                    .setDescription(`<@${msg.author.id}>: ` + msg.content)
                     .setFooter(msg.author.username, msg.author.displayAvatarURL())
                     .setColor("#D82D42"),
                 row = new discord.MessageActionRow()
@@ -47,6 +48,8 @@ client.on("messageCreate", msg => {
                             .setLabel('Взять тикет')
                             .setStyle('PRIMARY')
                     );
+
+            if (msg.attachments.size) embed.setImage(msg.attachments.first().url)
 
             return channel.send({
                 embeds: [embed],
@@ -63,20 +66,28 @@ client.on("messageCreate", msg => {
         }
 
         if (tickets.get(msg.author.id).thread) {
-            webHook.send({
+            let opt = {
                 username: msg.author.username,
                 avatarURL: msg.author.displayAvatarURL(),
-                content: msg.content,
-                threadId: tickets.get(msg.author.id).thread.id
-            });
+                threadId: tickets.get(msg.author.id).thread.id,
+            }
+
+            if (msg.content.length) opt.content = msg.content;
+            if (msg.attachments.size) opt.files = [msg.attachments.first().url];
+
+            webHook.send(opt);
         }
     }
 
-    if (msg.channel.type === "GUILD_PUBLIC_THREAD") {
-        if (!tickets.has(msg.channel.name)) return;
+    if (msg.channel.type === "GUILD_PUBLIC_THREAD" && threads.has(msg.channel.id)) {
 
-        client.users.fetch(msg.channel.name).then((user) => {
-            user.send(msg.content)
+        let opt = {};
+
+        if (msg.content.length) opt.content = `**${msg.author.username}**: ${msg.content}`;
+        if (msg.attachments.size) opt.files = [msg.attachments.first().url];
+
+        client.users.fetch(threads.get(msg.channel.id)).then((user) => {
+            user.send(opt)
         })
     }
 
@@ -96,7 +107,7 @@ client.on("interactionCreate", async inter => {
                         new discord.MessageButton()
                             .setCustomId("CLOSE:" + userId)
                             .setLabel('Закрыть тикет')
-                            .setStyle('DANGER')
+                            .setStyle('SUCCESS')
                     );
 
                 let embed = inter.message.embeds[0];
@@ -107,6 +118,7 @@ client.on("interactionCreate", async inter => {
                     components: [row]
                 });
                 let thread = await inter.message.startThread({name: userId});
+                threads.set(thread.id, userId);
                 tickets.set(userId, {resolver: inter.user.id, thread: thread});
 
                 client.users.fetch(userId).then((user) => {
@@ -146,6 +158,7 @@ client.on("interactionCreate", async inter => {
             tickets.get(userId).thread.setArchived(true, config.autoMessages.goodbye);
 
             tickets.delete(userId);
+            threads.delete(inter.message.id);
     }
 })
 
