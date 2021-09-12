@@ -71,6 +71,7 @@ client.on("interactionCreate", async inter => {
 
 client.on("ready", async () => {
     console.log(client.userLib.getTime() + `Авторизация выполнена!`);
+    client.user.setActivity('Напиши в ЛС для помощи!', { type: 'WATCHING' });
     client.userLib.channel = await client.channels.fetch(client.userLib.config.logChannel);
     console.log(client.userLib.getTime() + `Лог канал закеширован! #${client.userLib.channel.name}`);
     console.log(client.userLib.getTime() + "К работе готов!\n");
