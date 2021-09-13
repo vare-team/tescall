@@ -10,6 +10,8 @@ module.exports = async function (client, inter, userId) {
                     .setStyle('SUCCESS')
             );
 
+        const user = await client.users.fetch(userId);
+
         let embed = inter.message.embeds[0];
         embed.color = "#7083CF";
 
@@ -17,7 +19,7 @@ module.exports = async function (client, inter, userId) {
             embeds: [embed],
             components: [row]
         });
-        let thread = await inter.message.startThread({name: userId});
+        let thread = await inter.message.startThread({name: user.tag});
         client.userLib.threads.set(thread.id, userId);
         client.userLib.tickets.set(userId, {resolver: inter.user.id, thread: thread});
 
