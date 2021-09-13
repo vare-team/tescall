@@ -1,4 +1,4 @@
-if (!process.env.WEBHOOK || !process.env.TOKEN) {
+if (!process.env.WEBHOOK || !process.env.TOKEN || !process.env.CHANNEL) {
     console.log("Ошибка окружения!");
     process.exit();
 }
@@ -72,7 +72,7 @@ client.on("interactionCreate", async inter => {
 client.on("ready", async () => {
     console.log(client.userLib.getTime() + `Авторизация выполнена!`);
     client.user.setActivity('Напиши в ЛС для помощи!', { type: 'WATCHING' });
-    client.userLib.channel = await client.channels.fetch(client.userLib.config.logChannel);
+    client.userLib.channel = await client.channels.fetch(process.env.CHANNEL);
     console.log(client.userLib.getTime() + `Лог канал закеширован! #${client.userLib.channel.name}`);
     console.log(client.userLib.getTime() + "К работе готов!\n");
 });

@@ -7,5 +7,5 @@ module.exports = function (client, msg) {
 
     client.users.fetch(client.userLib.threads.get(msg.channel.id)).then((user) => {
         user.send(opt)
-    })
+    });
 }
