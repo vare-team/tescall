@@ -1,4 +1,4 @@
-import { MessageEmbed, MessageActionRow, MessageButton } from "discord.js";
+import { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } from "discord.js";
 
 export default async function(client, inter, userId) {
     if (client.userLib.tickets.has(userId)) {
@@ -18,12 +18,38 @@ export default async function(client, inter, userId) {
                             .setLabel('Закрыть тикет')
                             .setStyle('SUCCESS')
                     )
-            ]
+            ,
+                new MessageActionRow()
+                    .addComponents(
+                        new MessageSelectMenu()
+                            .setCustomId("AUTOMESSAGE:" + userId)
+                            .addOptions([
+                                {
+                                    label: "Ожидайте перепроверки",
+                                    value: "botReCheck",
+                                    description: "Здравствуйте и спасибо за предоставленную информацию, ожидайте перепроверки!",
+                                    emoji: "🛠"
+                                },
+                                {
+                                    label: "#шпаргалка",
+                                    value: "botShpora",
+                                    description: "Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в #перепроверка",
+                                    emoji: "🗑"
+                                },
+                                {
+                                    label: "Права ботов",
+                                    value: "botPerms",
+                                    description: "Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в #перепроверка",
+                                    emoji: "🛡"
+                                },
+                            ])
+                            .setPlaceholder("Быстрый ответ")
+                    )]
         });
 
         let thread = await inter.message.startThread({name: user.tag});
         client.userLib.threads.set(thread.id, userId);
-        client.userLib.tickets.set(userId, {resolver: inter.user.id, thread: thread.id, messageLinks: new Map(),});
+        client.userLib.tickets.set(userId, {resolver: inter.user.id, thread: thread.id, messageLinks: {}});
 
         console.log(client.userLib.getTime() + `Тикет был открыт! @${userId}`);
 

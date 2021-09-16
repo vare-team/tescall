@@ -1,8 +1,8 @@
-import $resolveMessagesDirect from "./messages/directMessage.mjs";
-import $resolveMessagesThread from "./messages/thread.mjs";
+import $resolveMessagesDirect from "./messages/directMessage";
+import $resolveMessagesThread from "./messages/thread";
 
 export default function(client, msg, action = "send") {
-    if (msg.author.bot) return;
+    if (msg.author.id === client.user.id) return;
 
     try {
         if (msg.channel.type === "DM") {

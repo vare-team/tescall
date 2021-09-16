@@ -1,10 +1,11 @@
 if (!process.env.WEBHOOK || !process.env.TOKEN || !process.env.CHANNEL) {console.log("Ошибка окружения!");process.exit();}
 
 import discord from 'discord.js';
-import { messages, clientOptions } from './config.js';
-import $resolveInteractionButtonsClose from './resolvers/interactions/buttons/close.mjs';
-import $resolveInteractionButtonsGet from './resolvers/interactions/buttons/get.mjs';
-import $resolveMessage from './resolvers/messageResolver.mjs';
+import { messages, clientOptions } from './config';
+import $resolveInteractionButtonsClose from './resolvers/interactions/buttons/close';
+import $resolveInteractionButtonsGet from './resolvers/interactions/buttons/get';
+import $resolveInteractionSelectmenu from './resolvers/interactions/selectMenu';
+import $resolveMessage from './resolvers/messageResolver';
 
 const client  = new discord.Client(clientOptions);
 
@@ -36,8 +37,12 @@ client.on("interactionCreate", async inter => {
                 await $resolveInteractionButtonsClose(client, inter, userId);
                 break;
 
+            case 'AUTOMESSAGE':
+                await $resolveInteractionSelectmenu(client, inter, userId);
+                break;
+
             default:
-                console.warn(client.userLib.getTime() + `Что-то странное!\n${inter}`)
+                console.warn(client.userLib.getTime() + `Что-то странное!`)
         }
     } catch (e) {
         console.warn(e);

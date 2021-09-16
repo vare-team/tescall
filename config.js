@@ -8,6 +8,12 @@ export const messages = {
   chatEnabled: "С этого момента вы находитесь в чате!"
 };
 
+export const replies = {
+  botReCheck: "Здравствуйте и спасибо за предоставленную информацию, ожидайте перепроверки!",
+  botShpora: "Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в канале #шпаргалка!",
+  botPerms: "На тестовом сервере установлены эти права для ботов: https://cdn.discordapp.com/attachments/669972218868138025/880823412614897724/testRole.png",
+};
+
 export const clientOptions = {
   intents: ["GUILDS", "DIRECT_MESSAGES", "GUILD_MESSAGES"],
   partials: ["CHANNEL"]
