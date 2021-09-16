@@ -1,8 +1,9 @@
 {
-  "name": "support-bot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "tescall",
+  "version": "1.1.0",
+  "description": "Support ticket bot",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node ."
   },

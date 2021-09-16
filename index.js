@@ -1,29 +1,15 @@
-if (!process.env.WEBHOOK || !process.env.TOKEN || !process.env.CHANNEL) {
-    console.log("Ошибка окружения!");
-    process.exit();
-}
+if (!process.env.WEBHOOK || !process.env.TOKEN || !process.env.CHANNEL) {console.log("Ошибка окружения!");process.exit();}
 
-const discord = require('discord.js'),
-      client  = new discord.Client({
-          intents: [
-              discord.Intents.FLAGS.GUILDS,
-              discord.Intents.FLAGS.DIRECT_MESSAGES,
-              discord.Intents.FLAGS.GUILD_MESSAGES,
-              discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING,
+import discord from 'discord.js';
+import { messages, clientOptions } from './config.js';
+import $resolveInteractionButtonsClose from './resolvers/interactions/buttons/close.mjs';
+import $resolveInteractionButtonsGet from './resolvers/interactions/buttons/get.mjs';
+import $resolveMessage from './resolvers/messageResolver.mjs';
 
-          ],
-          partials: [
-              "CHANNEL"
-          ]
-      });
-
-const $resolveInteractionButtonsClose = require('./resolvers/interactions/buttons/close'),
-      $resolveInteractionButtonsGet   = require('./resolvers/interactions/buttons/get'),
-      $resolveMessagesDirect          = require('./resolvers/messages/directMessage'),
-      $resolveMessagesThread          = require('./resolvers/messages/thread');
+const client  = new discord.Client(clientOptions);
 
 client.userLib = {
-    config : require("./config.json"),
+    config : messages,
     webHook: new discord.WebhookClient({url: process.env.WEBHOOK}),
     tickets: new Map(),
     threads: new Map(),
@@ -31,21 +17,9 @@ client.userLib = {
     getTime: function () {const date = new Date();return `(${date.getDate() > 9 ? date.getDate() : "0" + date.getDate()}.${(date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : "0" + (date.getMonth() + 1)} ${date.getHours() > 9 ? date.getHours() : "0" + date.getHours()}:${date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes()}:${date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds()}) `}
 };
 
-client.on("messageCreate", msg => {
-    if (msg.author.bot) return;
-
-    try {
-        if (msg.channel.type === "DM") {
-            $resolveMessagesDirect(client, msg);
-        }
-
-        if (msg.channel.type === "GUILD_PUBLIC_THREAD" && client.userLib.threads.has(msg.channel.id)) {
-            $resolveMessagesThread(client, msg);
-        }
-    } catch (e) {
-        console.warn(e);
-    }
-});
+client.on("messageCreate", msg => $resolveMessage(client, msg));
+client.on("messageDelete", msg => $resolveMessage(client, msg, "deleted"));
+client.on("messageUpdate", (oldMsg, newMsg) => $resolveMessage(client, newMsg, "edited"));
 
 client.on("interactionCreate", async inter => {
     if (inter.type !== "MESSAGE_COMPONENT") return;
@@ -61,6 +35,7 @@ client.on("interactionCreate", async inter => {
             case 'CLOSE':
                 await $resolveInteractionButtonsClose(client, inter, userId);
                 break;
+
             default:
                 console.warn(client.userLib.getTime() + `Что-то странное!\n${inter}`)
         }
