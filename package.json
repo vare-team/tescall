@@ -1,23 +1,23 @@
 {
   "name": "tescall",
-  "version": "1.2",
+  "version": "1.2.1",
   "description": "Support ticket bot",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node ."
+	"start": "node --experimental-specifier-resolution=node ."
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vare-team/tescall.git"
+	"type": "git",
+	"url": "git+https://github.com/vare-team/tescall.git"
   },
   "author": "Dellyare",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vare-team/tescall/issues"
+	"url": "https://github.com/vare-team/tescall/issues"
   },
   "homepage": "https://github.com/vare-team/tescall#readme",
   "dependencies": {
-    "discord.js": "^13.1.0"
+	"discord.js": "^13.1.0"
   }
 }
