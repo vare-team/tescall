@@ -6,6 +6,7 @@ import $resolveInteractionButtonsClose from './resolvers/interactions/buttons/cl
 import $resolveInteractionButtonsGet from './resolvers/interactions/buttons/get';
 import $resolveInteractionSelectmenu from './resolvers/interactions/selectMenu';
 import $resolveMessage from './resolvers/messageResolver';
+import $threadDelete from './resolvers/threadDelete';
 
 const client  = new discord.Client(clientOptions);
 
@@ -22,30 +23,28 @@ client.on("messageCreate", msg => $resolveMessage(client, msg));
 client.on("messageDelete", msg => $resolveMessage(client, msg, "deleted"));
 client.on("messageUpdate", (oldMsg, newMsg) => $resolveMessage(client, newMsg, "edited"));
 
+client.on("threadDelete", thread => $threadDelete(client, thread));
+
 client.on("interactionCreate", async inter => {
 	if (inter.type !== "MESSAGE_COMPONENT") return;
 
 	const [command, userId] = inter.customId.split(":");
 
-	try {
-		switch (command) {
-			case 'GET':
-				await $resolveInteractionButtonsGet(client, inter, userId);
-				break;
+	switch (command) {
+		case 'GET':
+			await $resolveInteractionButtonsGet(client, inter, userId);
+			break;
 
-			case 'CLOSE':
-				await $resolveInteractionButtonsClose(client, inter, userId);
-				break;
+		case 'CLOSE':
+			await $resolveInteractionButtonsClose(client, inter, userId);
+			break;
 
-			case 'AUTOMESSAGE':
-				await $resolveInteractionSelectmenu(client, inter, userId);
-				break;
+		case 'AUTOMESSAGE':
+			await $resolveInteractionSelectmenu(client, inter, userId);
+			break;
 
-			default:
-				console.warn(client.userLib.getTime() + `Что-то странное!`)
-		}
-	} catch (e) {
-		console.warn(e);
+		default:
+			console.warn(client.userLib.getTime() + `Что-то странное!`)
 	}
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "tescall",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Support ticket bot",
   "main": "index.js",
   "type": "module",

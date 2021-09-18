@@ -28,6 +28,8 @@ export default function(client, msg, action) {
 							.setLabel('Взять тикет')
 							.setStyle('PRIMARY'))
 			]
+		}).then(sendedMsg => {
+			client.userLib.threads.set(sendedMsg.id, msg.author.id);
 		});
 
 		console.log(client.userLib.getTime() + `Новый тикет создан! @${msg.author.id}`);

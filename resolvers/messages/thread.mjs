@@ -13,6 +13,7 @@ export default function(client, msg, action) {
 			})
 		} else {
 			client.users.fetch(client.userLib.threads.get(msg.channel.id)).then((user) => {
+				if (!client.userLib.tickets.get(user.id).messageLinks[msg.id]) return;
 				user.dmChannel.messages.fetch(client.userLib.tickets.get(user.id).messageLinks[msg.id]).then(fetchedMessage => {
 					if (action === 'edited') {
 						opt.files = undefined;
