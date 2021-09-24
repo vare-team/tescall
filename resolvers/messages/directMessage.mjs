@@ -16,7 +16,7 @@ export default function(client, msg, action) {
 		client.userLib.channel.send({
 			embeds: [
 				new MessageEmbed().setTitle("Новый тикет!")
-					.setDescription(`<@${msg.author.id}>: ` + msg.content).setFooter(msg.author.username, msg.author.displayAvatarURL())
+					.setDescription(`${msg.stickers.size ? "Отправил стикер «" + msg.stickers.first().name + "» \n" : ""}<@${msg.author.id}>: ` + msg.content).setFooter(msg.author.username, msg.author.displayAvatarURL())
 					.setColor("#D82D42")
 					.setImage(msg.attachments.size ? msg.attachments.first().url :  "")
 			],
@@ -50,11 +50,16 @@ export default function(client, msg, action) {
 			threadId: client.userLib.tickets.get(msg.author.id).thread
 		}
 
+		let embeds = [];
+
+		if (msg.stickers.size) embeds.push({description: "Отправил стикер «" + msg.stickers.first().name + "» \n", color: "#688ADC"});
 		if (msg.content.length) opt.content = msg.content;
 		if (msg.attachments.size) opt.files = [msg.attachments.first().url];
 
-		if (action === 'edited') {opt.embeds = [{description: "Сообщение было отредактировано", color: "#FFAC33"}]}
-		if (action === 'deleted') {opt.embeds = [{description: "Сообщение было удалено", color: "#F04747"}]}
+		if (action === 'edited') {embeds.push({description: "Сообщение было отредактировано", color: "#FFAC33"})}
+		if (action === 'deleted') {embeds.push({description: "Сообщение было удалено", color: "#F04747"})}
+
+		if (embeds.length) opt.embeds = embeds;
 
 		client.userLib.webHook.send(opt).then(() => {
 			console.log(client.userLib.getTime() + `Сообщение было получено и переслано! @${msg.author.id}`)
