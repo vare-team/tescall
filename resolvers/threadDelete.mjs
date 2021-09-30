@@ -20,7 +20,7 @@ export default async function(client, thread) {
 	if (ticketMsg) {
 		let embed = ticketMsg.embeds[0];
 		embed.title = client.userLib.config.goodbye;
-		embed.color = "#378D53";
+		embed.color = "#666666";
 
 		await ticketMsg.edit({embeds: [embed], components: []});
 	}

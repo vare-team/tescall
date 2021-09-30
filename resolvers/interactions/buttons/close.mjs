@@ -14,7 +14,7 @@ export default async function(client, inter, userId) {
 
 	let embed = inter.message.embeds[0];
 	embed.title = client.userLib.config.goodbye;
-	embed.color = "#378D53";
+	embed.color = "#666666";
 
 	inter.update({embeds: [embed], components: []});
 

@@ -20,7 +20,7 @@ export default async function(client, msg, action = "send") {
 					new MessageEmbed()
 						.setTitle(client.userLib.config.goodbye)
 						.setDescription(client.userLib.config.goodbyeDescription)
-						.setColor("#378D53")
+						.setColor("#666666")
 				]
 			});
 		});

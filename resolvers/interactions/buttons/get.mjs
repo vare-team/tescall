@@ -7,7 +7,7 @@ export default async function(client, inter, userId) {
 		const user = await client.users.fetch(userId);
 
 		let embed = inter.message.embeds[0];
-		embed.color = "#7083CF";
+		embed.color = "#378D53";
 
 		inter.update({
 			embeds: [embed],
