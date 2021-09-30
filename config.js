@@ -46,3 +46,11 @@ export const clientOptions = {
 	intents: ["GUILDS", "DIRECT_MESSAGES", "GUILD_MESSAGES"],
 	partials: ["CHANNEL"]
 };
+
+export const colors = {
+	grey: '#666666',
+	green: '#378D53',
+	blue: '#7083CF',
+	red: '#D82D42',
+	yellow: '#FFAC33'
+}

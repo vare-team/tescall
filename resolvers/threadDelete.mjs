@@ -1,4 +1,5 @@
 import {MessageEmbed} from "discord.js";
+import {colors} from "../config.js";
 
 export default async function(client, thread) {
 	if (!client.userLib.threads.has(thread.id)) return;
@@ -12,7 +13,7 @@ export default async function(client, thread) {
 				new MessageEmbed()
 					.setTitle(client.userLib.config.goodbye)
 					.setDescription(client.userLib.config.goodbyeDescription)
-					.setColor("#378D53")
+					.setColor(colors.green)
 			]
 		});
 	});
@@ -20,7 +21,7 @@ export default async function(client, thread) {
 	if (ticketMsg) {
 		let embed = ticketMsg.embeds[0];
 		embed.title = client.userLib.config.goodbye;
-		embed.color = "#666666";
+		embed.color = colors.grey;
 
 		await ticketMsg.edit({embeds: [embed], components: []});
 	}

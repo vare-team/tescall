@@ -1,4 +1,5 @@
 import { MessageEmbed } from "discord.js";
+import {colors} from "../../../config.js";
 
 export default async function(client, inter, userId) {
 	client.users.fetch(userId).then((user) => {
@@ -7,14 +8,14 @@ export default async function(client, inter, userId) {
 				new MessageEmbed()
 					.setTitle(client.userLib.config.goodbye)
 					.setDescription(client.userLib.config.goodbyeDescription)
-					.setColor("#378D53")
+					.setColor(colors.green)
 			]
 		});
 	});
 
 	let embed = inter.message.embeds[0];
 	embed.title = client.userLib.config.goodbye;
-	embed.color = "#666666";
+	embed.color = colors.grey;
 
 	inter.update({embeds: [embed], components: []});
 

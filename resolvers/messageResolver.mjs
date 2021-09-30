@@ -1,6 +1,7 @@
 import $resolveMessagesDirect from "./messages/directMessage";
 import $resolveMessagesThread from "./messages/thread";
 import {MessageEmbed} from "discord.js";
+import {colors} from "../config.js";
 
 export default async function(client, msg, action = "send") {
 	if (msg.channel.type === "DM" && !msg.author.bot) {
@@ -20,7 +21,7 @@ export default async function(client, msg, action = "send") {
 					new MessageEmbed()
 						.setTitle(client.userLib.config.goodbye)
 						.setDescription(client.userLib.config.goodbyeDescription)
-						.setColor("#666666")
+						.setColor(colors.grey)
 				]
 			});
 		});

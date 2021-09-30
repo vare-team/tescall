@@ -1,5 +1,5 @@
 import { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } from "discord.js";
-import { replies } from "../../../config.js";
+import {colors, replies} from "../../../config.js";
 
 export default async function(client, inter, userId) {
 	if (client.userLib.tickets.has(userId)) {
@@ -7,7 +7,7 @@ export default async function(client, inter, userId) {
 		const user = await client.users.fetch(userId);
 
 		let embed = inter.message.embeds[0];
-		embed.color = "#378D53";
+		embed.color = colors.green;
 
 		inter.update({
 			embeds: [embed],
@@ -41,7 +41,7 @@ export default async function(client, inter, userId) {
 					new MessageEmbed()
 						.setTitle(client.userLib.config.stuffJoined)
 						.setDescription(client.userLib.config.chatEnabled)
-						.setColor("#378D53")
+						.setColor(colors.green)
 				]
 			});
 		});
