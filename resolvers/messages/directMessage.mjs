@@ -40,7 +40,7 @@ export default function(client, msg, action) {
 	if (!client.userLib.tickets.get(msg.author.id).resolver) {
 		console.log(client.userLib.getTime() + `Сообщение было получено, не тикет не подтверждён! @${msg.author.id}`);
 
-		msg.channel.send({ embeds: [new MessageEmbed().setTitle(client.userLib.config.waiting).setColor(colors.red)] });
+		msg.channel.send({ embeds: [new MessageEmbed().setTitle(client.userLib.config.waiting).setColor(colors.red)] }).catch(console.error);
 		return;
 	}
 

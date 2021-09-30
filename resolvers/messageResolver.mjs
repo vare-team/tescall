@@ -23,7 +23,7 @@ export default async function(client, msg, action = "send") {
 						.setDescription(client.userLib.config.goodbyeDescription)
 						.setColor(colors.grey)
 				]
-			});
+			}).catch(console.error);
 		});
 
 		client.userLib.tickets.delete(userId);

@@ -43,7 +43,7 @@ export default async function(client, inter, userId) {
 						.setDescription(client.userLib.config.chatEnabled)
 						.setColor(colors.green)
 				]
-			});
+			}).catch(console.error);
 		});
 	} else {
 		inter.reply({

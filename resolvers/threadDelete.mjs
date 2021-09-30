@@ -15,7 +15,7 @@ export default async function(client, thread) {
 					.setDescription(client.userLib.config.goodbyeDescription)
 					.setColor(colors.green)
 			]
-		});
+		}).catch(console.error);
 	});
 
 	if (ticketMsg) {

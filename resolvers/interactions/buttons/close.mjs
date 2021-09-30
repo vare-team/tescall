@@ -10,7 +10,7 @@ export default async function(client, inter, userId) {
 					.setDescription(client.userLib.config.goodbyeDescription)
 					.setColor(colors.green)
 			]
-		});
+		}).catch(console.error);
 	});
 
 	let embed = inter.message.embeds[0];
