@@ -1,0 +1,40 @@
+{
+	"name": "tescall",
+	"version": "1.2.4",
+	"description": "Support ticket bot",
+	"license": "MIT",
+	"author": "Vare (https://vare.pw/)",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"start": "node --unhandled-rejections=warn --experimental-specifier-resolution=node .",
+		"debug": "nodemon --unhandled-rejections=warn --experimental-specifier-resolution=node ."
+	},
+	"engines": {
+		"node": ">=16"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vare-team/tescall.git"
+	},
+	"bugs": {
+		"url": "https://github.com/vare-team/tescall/issues"
+	},
+	"homepage": "https://github.com/vare-team/tescall#readme",
+	"dependencies": {
+		"discord.js": "^13.6.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.13.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.0.0",
+		"nodemon": "^2.0.15",
+		"prettier": "^2.6.2"
+	},
+	"optionalDependencies": {
+		"bufferutil": "^4.0.6",
+		"erlpack": "github:discord/erlpack",
+		"utf-8-validate": "^5.0.9",
+		"zlib-sync": "^0.1.7"
+	}
+}

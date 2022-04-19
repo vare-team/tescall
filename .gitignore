@@ -1,0 +1,7 @@
+# User-specific stuff
+.idea
+
+**/node_modules
+
+threads.json
+tickets.json
