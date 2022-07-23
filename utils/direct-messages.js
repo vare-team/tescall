@@ -12,7 +12,7 @@ export default async function (msg, action) {
 				new MessageEmbed()
 					.setTitle(messages.hello.replace('%NAME%', msg.author.username))
 					.setDescription(messages.helloDescription)
-					.setColor(colors.blue),
+					.setColor(msg.member?.roles.cache.has(process.env.ROLE) ? colors.yellow : colors.blue),
 			],
 		});
 
