@@ -4,7 +4,7 @@ if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL) {
 }
 
 import { Client, WebhookClient } from 'discord.js';
-import { createFiles } from './utils/save-tickets.js';
+import { createFiles, readFiles } from './utils/save-tickets.js';
 import log from './utils/log';
 import readyEvent from './events/ready';
 
@@ -17,12 +17,12 @@ const client = new Client({
 
 global.discordClient = client;
 global.discordWebhook = new WebhookClient({ url: process.env.WEBHOOK_URL });
-global.tickets = new Map(Object.entries(require('./tickets.json')));
+global.tickets = new Map(Object.entries(readFiles('./tickets.json')));
 
 /**
  * @type {Map<string, string>}
  */
-global.threads = new Map(Object.entries(require('./threads.json')));
+global.threads = new Map(Object.entries(readFiles('./threads.json')));
 
 client.once('ready', readyEvent);
 

@@ -1,11 +1,23 @@
-import { writeFile } from 'fs';
+import { writeFile, writeFileSync, readFileSync } from 'fs';
 
 export default function () {
-	writeFile('./tickets.json', JSON.stringify(tickets, null, 2), { flag: 'w' }, () => {});
-	writeFile('./threads.json', JSON.stringify(threads, null, 2), { flag: 'w' }, () => {});
+	writeFile('./tickets.json', JSON.stringify(Object.fromEntries(tickets), null, 2), { flag: 'w' }, e => {
+		if (e) console.warn(e);
+	});
+
+	writeFile('./threads.json', JSON.stringify(Object.fromEntries(threads), null, 2), { flag: 'w' }, e => {
+		if (e) console.warn(e);
+	});
 }
 
 export function createFiles() {
-	writeFile('./tickets.json', '{}', { flag: 'wx' }, () => {});
-	writeFile('./threads.json', '{}', { flag: 'wx' }, () => {});
+	try {
+		writeFileSync('./tickets.json', '{}', { flag: 'wx' });
+		writeFileSync('./threads.json', '{}', { flag: 'wx' });
+		// eslint-disable-next-line no-empty
+	} catch (e) {}
+}
+
+export function readFiles(path) {
+	return JSON.parse(readFileSync(path, 'utf8'));
 }

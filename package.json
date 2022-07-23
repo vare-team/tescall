@@ -21,6 +21,9 @@
 		"url": "https://github.com/vare-team/tescall/issues"
 	},
 	"homepage": "https://github.com/vare-team/tescall#readme",
+	"nodemonConfig": {
+		"ignore": ["threads.json", "tickets.json"]
+	},
 	"dependencies": {
 		"discord.js": "^13.6.0"
 	},
