@@ -2,6 +2,7 @@ import { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } from
 import { colors, messages, replies } from '../../config.js';
 import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
+import closeTickets from '../../utils/close-tickets.js';
 
 export default async function (inter) {
 	const [, userId] = inter.customId.split(':');
@@ -44,7 +45,7 @@ export default async function (inter) {
 				new MessageEmbed().setTitle(messages.stuffJoined).setDescription(messages.chatEnabled).setColor(colors.green),
 			],
 		})
-		.catch(console.error);
+		.catch(closeTickets(inter.message.id));
 
 	log(`Тикет был открыт! @${userId}`);
 }

@@ -2,6 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from '../utils/log.js';
 import saveTickets from '../utils/save-tickets.js';
+import closeTickets from '../utils/close-tickets.js';
 
 export default async function (thread) {
 	if (!threads.has(thread.id)) return;
@@ -10,7 +11,7 @@ export default async function (thread) {
 	const ticketMsg = await thread.parent.messages.fetch(thread.id);
 	const user = await discordClient.users.fetch(userId);
 
-	await user
+	const check = await user
 		.send({
 			embeds: [
 				new MessageEmbed()
@@ -19,7 +20,8 @@ export default async function (thread) {
 					.setColor(colors.green),
 			],
 		})
-		.catch(console.error);
+		.catch(closeTickets(thread.id));
+	if (!check) return;
 
 	if (ticketMsg) {
 		await ticketMsg.edit({

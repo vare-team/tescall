@@ -2,11 +2,12 @@ import { MessageEmbed } from 'discord.js';
 import { colors, messages } from '../../config.js';
 import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
+import closeTickets from '../../utils/close-tickets.js';
 
 export default async function (inter) {
 	const user = await discordClient.users.fetch(threads.get(inter.message.id));
 
-	await user
+	const check = await user
 		.send({
 			embeds: [
 				new MessageEmbed()
@@ -15,7 +16,8 @@ export default async function (inter) {
 					.setColor(colors.green),
 			],
 		})
-		.catch(console.error);
+		.catch(closeTickets(inter.message.id));
+	if (!check) return;
 
 	await inter.update({
 		embeds: [{ ...inter.message.embeds[0], title: messages.goodbye, color: colors.grey }],

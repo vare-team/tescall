@@ -1,5 +1,6 @@
 import { repliesMessages } from '../config';
 import log from '../utils/log.js';
+import closeTickets from '../utils/close-tickets.js';
 
 export default async function (inter) {
 	const message = await discordWebhook.send({
@@ -14,7 +15,7 @@ export default async function (inter) {
 
 	const sendedMsg = await user
 		.send(`**${inter.user.username}**: ${repliesMessages[inter.values[0]]}`)
-		.catch(console.error);
+		.catch(closeTickets(inter.message.id));
 
 	if (!sendedMsg) return;
 

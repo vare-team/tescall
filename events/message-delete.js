@@ -2,6 +2,7 @@ import { MessageEmbed } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from '../utils/log.js';
 import saveTickets from '../utils/save-tickets.js';
+import closeTickets from '../utils/close-tickets.js';
 
 export default async function (msg) {
 	if (msg.channel.type === 'DM' && !msg.author.bot) {
@@ -35,14 +36,14 @@ export default async function (msg) {
 		await fetchedMessage
 			.delete()
 			.then(() => log(`Сообщение было удалено и переслано! @${msg.author.id}`))
-			.catch(console.error);
+			.catch(closeTickets(msg.channel.id));
 	}
 
 	if (msg.channel.id === process.env.CHANNEL && threads.has(msg.id)) {
 		const userId = threads.get(msg.id);
 		const user = await discordClient.users.fetch(userId);
 
-		await user
+		const check = await user
 			.send({
 				embeds: [
 					new MessageEmbed()
@@ -51,7 +52,8 @@ export default async function (msg) {
 						.setColor(colors.grey),
 				],
 			})
-			.catch(console.error);
+			.catch(closeTickets(msg.id));
+		if (!check) return;
 
 		tickets.delete(userId);
 		threads.delete(msg.id);

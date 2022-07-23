@@ -1,5 +1,6 @@
 import log from '../utils/log.js';
 import directMessages from '../utils/direct-messages.js';
+import closeTickets from '../utils/close-tickets.js';
 
 export default async function (oldMsg, msg) {
 	if (msg.channel.type === 'DM' && !msg.author.bot) {
@@ -16,6 +17,6 @@ export default async function (oldMsg, msg) {
 		await fetchedMessage
 			.edit(opt)
 			.then(() => log(`Сообщение было отредактировано и переслано! @${msg.author.id}`))
-			.catch(console.error);
+			.catch(closeTickets(msg.channel.id));
 	}
 }
