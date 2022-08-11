@@ -5,6 +5,7 @@ import closeTickets from '../utils/close-tickets.js';
 export default async function (msg) {
 	if (msg.channel.type === 'DM' && !msg.author.bot) {
 		await directMessages(msg);
+		return;
 	}
 
 	if (msg.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(msg.channel.id)) {
