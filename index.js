@@ -1,4 +1,4 @@
-if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL) {
+if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL || !process.env.GUILD) {
 	console.log('Ошибка окружения!');
 	process.exit();
 }
