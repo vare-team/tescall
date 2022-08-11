@@ -5,7 +5,22 @@ import { MessageEmbed } from 'discord.js';
 import { colors, ticketsErrors } from '../config.js';
 
 export default async function (inter) {
-	if (inter.type !== 'MESSAGE_COMPONENT') return;
+	if (
+		mutes.has(inter.user.id) &&
+		!(mainGuild.members.cache.get(inter.user.id) ?? mainGuild.members.fetch(inter.user.id)).permissions.has(
+			'MODERATE_MEMBERS'
+		)
+	) {
+		let date = mutes.get(inter.user.id);
+		if (date > Date.now() / 1000) {
+			await inter
+				.reply({
+					ephemeral: true,
+					embeds: [new MessageEmbed().setTitle(ticketsErrors.muted).setColor(colors.red)],
+				})
+				.catch(console.error);
+			return;
+		}
 
 		mutes.delete(inter.user.id);
 	}
