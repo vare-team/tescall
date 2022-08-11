@@ -5,8 +5,8 @@ if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL) {
 
 import { Client, WebhookClient } from 'discord.js';
 import { createFiles, readFiles } from './utils/save-tickets.js';
-import log from './utils/log';
-import readyEvent from './events/ready';
+import log from './utils/log.js';
+import readyEvent from './events/ready.js';
 
 createFiles();
 
