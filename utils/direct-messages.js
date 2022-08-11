@@ -1,4 +1,4 @@
-import { MessageEmbed, MessageActionRow, MessageButton } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
 

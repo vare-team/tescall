@@ -1,3 +1,7 @@
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v10';
+import { commands } from '../config.js';
+
 import log from '../utils/log.js';
 import messageCreateEvent from './message-create.js';
 import messageUpdateEvent from './message-update.js';
