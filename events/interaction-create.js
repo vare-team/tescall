@@ -7,21 +7,20 @@ import { colors, ticketsErrors } from '../config.js';
 export default async function (inter) {
 	if (inter.type !== 'MESSAGE_COMPONENT') return;
 
-	const [command] = inter.customId.split(':');
-	switch (command) {
-		case 'GET':
-			await buttonTake(inter);
-			break;
+		mutes.delete(inter.user.id);
+	}
 
-		case 'CLOSE':
-			await buttonClose(inter);
-			break;
+	if (inter.isApplicationCommand()) {
+		await onApplicationCommands(inter);
+		return;
+	}
 
-		case 'AUTOMESSAGE':
-			await automessageMenu(inter);
-			break;
+	if (inter.isModalSubmit()) {
+		await onModalSubmit(inter);
+		return;
+	}
 
-		default:
-			log(`Что-то странное!`);
+	if (inter.isMessageComponent()) {
+		await onMessageComponents(inter);
 	}
 }
