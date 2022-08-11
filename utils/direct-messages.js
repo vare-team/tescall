@@ -5,43 +5,6 @@ import saveTickets from './save-tickets.js';
 
 export default async function (msg, action) {
 	if (!tickets.has(msg.author.id)) {
-		tickets.set(msg.author.id, { active: false, thread: null, guild: null, messageLinks: {} });
-
-		await msg.channel.send({
-			embeds: [
-				new MessageEmbed()
-					.setTitle(messages.hello.replace('%NAME%', msg.author.username))
-					.setDescription(messages.helloDescription)
-					.setColor(msg.member?.roles.cache.has(process.env.ROLE) ? colors.yellow : colors.blue),
-			],
-		});
-
-		const sendedMsg = await discordClient.channels.cache.get(process.env.CHANNEL).send({
-			embeds: [
-				new MessageEmbed()
-					.setTitle('Новый тикет!')
-					.setDescription(
-						(msg.stickers.size ? `Отправил стикер «${msg.stickers.first().name}»\n` : '') +
-							`<@${msg.author.id}>: ` +
-							msg.content
-					)
-					.setFooter(msg.author.username, msg.author.displayAvatarURL())
-					.setColor(colors.red)
-					.setImage(msg.attachments.size ? msg.attachments.first().url : ''),
-			],
-			components: [
-				new MessageActionRow().addComponents(
-					new MessageButton()
-						.setCustomId('GET:' + msg.author.id)
-						.setLabel('Взять тикет')
-						.setStyle('PRIMARY')
-				),
-			],
-		});
-
-		threads.set(sendedMsg.id, msg.author.id);
-		saveTickets();
-		log(`Новый тикет создан! @${msg.author.id}`);
 		return;
 	}
 
