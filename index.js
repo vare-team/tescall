@@ -23,6 +23,10 @@ global.tickets = new Map(Object.entries(readFiles('./tickets.json')));
  * @type {Map<string, string>}
  */
 global.threads = new Map(Object.entries(readFiles('./threads.json')));
+/**
+ * @type {Map<string, number>}
+ */
+global.mutes = new Map(Object.entries(readFiles('./mutes.json')));
 
 client.once('ready', readyEvent);
 
