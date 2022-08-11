@@ -14,6 +14,11 @@ export const messages = {
 	chatEnabled: 'С этого момента вы находитесь в чате!',
 };
 
+export const ticketsErrors = {
+	invalidBotId: 'Указан не верный айди',
+	muted: 'Вы временно не можете создавать новых обращений',
+};
+
 export const replies = [
 	{
 		label: 'Ожидайте перепроверки',
