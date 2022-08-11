@@ -5,7 +5,7 @@ import saveTickets from '../../utils/save-tickets.js';
 import closeTickets from '../../utils/close-tickets.js';
 
 export default async function (inter) {
-	const [, userId] = inter.customId.split(':');
+	const userId = inter.user.id;
 
 	if (!tickets.has(userId)) {
 		await inter.reply({ content: `Тикет #${userId} уже закрыт!`, ephemeral: true });
@@ -17,13 +17,13 @@ export default async function (inter) {
 		components: [
 			new MessageActionRow().addComponents(
 				new MessageButton()
-					.setCustomId('CLOSE:' + userId)
+					.setCustomId('CLOSE')
 					.setLabel('Закрыть тикет')
 					.setStyle('SUCCESS')
 			),
 			new MessageActionRow().addComponents(
 				new MessageSelectMenu()
-					.setCustomId('AUTOMESSAGE:' + userId)
+					.setCustomId('AUTOMESSAGE')
 					.addOptions(replies)
 					.setPlaceholder('Быстрый ответ')
 			),
@@ -34,9 +34,11 @@ export default async function (inter) {
 	const thread = await inter.message.startThread({ name: user.tag });
 
 	threads.set(thread.id, userId);
-	tickets.get(userId).thread = thread.id;
-	tickets.get(userId).guild = thread.guildId;
-	tickets.get(userId).active = true;
+
+	let ticket = tickets.get(userId);
+	ticket.thread = thread.id;
+	ticket.guild = thread.guildId;
+	ticket.active = true;
 	saveTickets();
 
 	await user

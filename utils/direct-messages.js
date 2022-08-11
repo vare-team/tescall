@@ -1,7 +1,6 @@
 import { MessageEmbed, MessageActionRow, MessageButton } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
-import saveTickets from './save-tickets.js';
 
 export default async function (msg, action) {
 	if (!tickets.has(msg.author.id)) {
