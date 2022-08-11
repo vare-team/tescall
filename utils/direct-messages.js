@@ -15,7 +15,7 @@ export default async function (msg, action) {
 			.send({ embeds: [new MessageEmbed().setTitle(messages.waiting).setColor(colors.red)] })
 			.catch(console.error);
 
-		log(`Сообщение было получено, не тикет не подтверждён! @${msg.author.id}`);
+		log(`Сообщение было получено, но тикет не принят! @${msg.author.id}`);
 		return;
 	}
 
