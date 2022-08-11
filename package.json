@@ -22,7 +22,11 @@
 	},
 	"homepage": "https://github.com/vare-team/tescall#readme",
 	"nodemonConfig": {
-		"ignore": ["threads.json", "tickets.json"]
+		"ignore": [
+			"threads.json",
+			"tickets.json",
+			"mutes.json"
+		]
 	},
 	"dependencies": {
 		"discord.js": "^13.6.0"
