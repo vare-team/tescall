@@ -1,3 +1,6 @@
+import { MessageActionRow as ModalActionRow, Modal, TextInputComponent } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption } from '@discordjs/builders';
+
 export const messages = {
 	hello: 'Здравствуйте, %NAME%!',
 	helloDescription:
