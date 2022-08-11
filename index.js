@@ -11,7 +11,7 @@ import readyEvent from './events/ready.js';
 createFiles();
 
 const client = new Client({
-	intents: ['GUILDS', 'DIRECT_MESSAGES', 'GUILD_MESSAGES'],
+	intents: ['GUILDS', 'DIRECT_MESSAGES', 'GUILD_MESSAGES', 'GUILD_MEMBERS'],
 	partials: ['CHANNEL'],
 });
 
