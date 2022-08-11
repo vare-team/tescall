@@ -1,6 +1,6 @@
-import { repliesMessages } from '../config';
-import log from '../utils/log.js';
-import closeTickets from '../utils/close-tickets.js';
+import { repliesMessages } from '../../config.js';
+import log from '../../utils/log.js';
+import closeTickets from '../../utils/close-tickets.js';
 
 export default async function (inter) {
 	const message = await discordWebhook.send({
