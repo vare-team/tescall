@@ -64,9 +64,133 @@ export const repliesMessages = {
 };
 
 export const colors = {
-	grey: '#666666',
-	green: '#378D53',
-	blue: '#7083CF',
-	red: '#D82D42',
-	yellow: '#FFAC33',
+	grey: 0x666666,
+	green: 0x378d53,
+	blue: 0x7083cf,
+	red: 0xd82d42,
+	yellow: 0xffac33,
+};
+
+export const TicketTitles = {
+	DEFAULT: 'Новый тикет!',
+	GENERAL: 'Новый тикет!',
+	RECHECK: 'Перепроверка',
+};
+
+export const TicketTopics = {
+	DEFAULT: () => 'DEFAULT',
+	GENERAL: interaction => interaction.fields.getField('topic').value,
+	RECHECK: interaction => {
+		let botId = interaction.fields.getField('botId').value;
+		let reason = interaction.fields.getField('reason').value;
+
+		try {
+			BigInt(botId);
+		} catch {
+			throw ticketsErrors.invalidBotId;
+		}
+
+		return `1. ${botId}\n2. ${reason}`;
+	},
+};
+
+export const commands = {
+	resolve: name => {
+		switch (name) {
+			case 'перепроверка_бота':
+				return 'recheck';
+			case 'обычное_обращение':
+				return 'general';
+			case 'mute':
+				return 'mute';
+		}
+	},
+
+	general: new SlashCommandBuilder()
+		.setName('обычное_обращение')
+		.setDescription('обращение на свободную тематику')
+		.toJSON(),
+	recheck: new SlashCommandBuilder()
+		.setName('перепроверка_бота')
+		.setDescription('открывает форму для отправки бота на перпроверку')
+		.toJSON(),
+	mute: new SlashCommandBuilder()
+		.setName('mute')
+		.setDescription('запрещяет создание тикетов для пользователя')
+		.addUserOption(
+			new SlashCommandUserOption()
+				.setName('user')
+				.setRequired(true)
+				.setDescription('пользователь который будет замьючен')
+		)
+		.addStringOption(
+			new SlashCommandStringOption()
+				.setName('time')
+				.setRequired(true)
+				.setDescription('длительность мута, в формате 1h и т.д.')
+		)
+		.setDMPermission(false)
+		.toJSON(),
+	unmute: new SlashCommandBuilder()
+		.setName('unmute')
+		.setDescription('снимает запрет на создание тикетов')
+		.addUserOption(
+			new SlashCommandUserOption()
+				.setName('user')
+				.setRequired(true)
+				.setDescription('пользователь с кого будет снят мут')
+		)
+		.setDMPermission(false)
+		.toJSON(),
+};
+
+export const modals = {
+	resolve: name => modals[commands.resolve(name)],
+
+	general: new Modal()
+		.setCustomId('GENERAL')
+		.setTitle('Анкета обращения')
+		.setComponents([
+			new ModalActionRow().setComponents([
+				new TextInputComponent()
+					.setCustomId('topic')
+					.setLabel('Опишите тему обращения')
+					.setRequired(true)
+					.setPlaceholder('Мне нужна помощь с...')
+					.setMinLength(6)
+					.setMaxLength(256)
+					.setStyle('PARAGRAPH'),
+			]),
+		]),
+
+	recheck: new Modal()
+		.setCustomId('RECHECK')
+		.setTitle('Заявка на перепроверку')
+		.setComponents([
+			new ModalActionRow().setComponents([
+				new TextInputComponent()
+					.setCustomId('botId')
+					.setLabel('Айди бота')
+					.setRequired(true)
+					.setPlaceholder('885850225820962826')
+					.setMinLength(17)
+					.setMaxLength(19)
+					.setStyle('SHORT'),
+			]),
+			new ModalActionRow().setComponents([
+				new TextInputComponent()
+					.setCustomId('reason')
+					.setRequired(true)
+					.setLabel('Причина отказа, указанная на сайте')
+					.setPlaceholder('офлайн')
+					.setMinLength(6)
+					.setMaxLength(127)
+					.setStyle('PARAGRAPH'),
+			]),
+		]),
+};
+
+String.prototype.format = function () {
+	const args = arguments;
+	return this.replace(/{([0-9]+)}/g, (match, index) => (typeof args[index] == 'undefined' ? match : args[index]));
 };
