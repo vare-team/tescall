@@ -12,6 +12,14 @@ import threadDeleteEvent from './thread-delete.js';
 export default async function () {
 	log('Авторизация выполнена!');
 
+	global.mainGuild = await discordClient.guilds.fetch(process.env.GUILD);
+	global.ticketsChannel = await mainGuild.channels.fetch(process.env.CHANNEL);
+
+	const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+	await rest.put(Routes.applicationCommands(discordClient.application.id), {
+		body: Object.values(commands).slice(1),
+	});
+
 	discordClient.on('messageCreate', messageCreateEvent);
 	discordClient.on('messageUpdate', messageUpdateEvent);
 	discordClient.on('messageDelete', messageDeleteEvent);
