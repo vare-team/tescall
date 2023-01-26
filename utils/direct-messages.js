@@ -21,11 +21,11 @@ export default async function (msg, action) {
 				new MessageEmbed()
 					.setTitle('Новый тикет!')
 					.setDescription(
-						(msg.stickers.size ? `Отправил стикер «${msg.stickers.first().name}»\n` : '') +
-							`<@${msg.author.id}>: ` +
+						`<@${msg.author.id}>:\n` +
+							(msg.stickers.size ? `Отправил стикер «${msg.stickers.first().name}»\n` : '') +
 							msg.content
 					)
-					.setFooter(msg.author.username, msg.author.displayAvatarURL())
+					.setFooter({ text: msg.author.username, iconURL: msg.author.displayAvatarURL() })
 					.setColor(colors.red)
 					.setImage(msg.attachments.size ? msg.attachments.first().url : ''),
 			],
@@ -52,7 +52,7 @@ export default async function (msg, action) {
 			.send({ embeds: [new MessageEmbed().setTitle(messages.waiting).setColor(colors.red)] })
 			.catch(console.error);
 
-		log(`Сообщение было получено, не тикет не подтверждён! @${msg.author.id}`);
+		log(`Сообщение было получено, но тикет не подтверждён! @${msg.author.id}`);
 		return;
 	}
 
