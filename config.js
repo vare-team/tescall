@@ -25,6 +25,7 @@ export const messages = {
 export const ticketsErrors = {
 	invalidBotId: 'Указан не верный айди',
 	muted: 'Вы временно не можете создавать новых обращений',
+	unavailableDm: 'Не возможно отправить сообщение этому пользователю.',
 };
 
 export const replies = [
