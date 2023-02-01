@@ -1,14 +1,13 @@
-import { MessageEmbed } from 'discord.js';
-import { colors, messages } from '../config.js';
+import { colors } from '../config.js';
 import log from '../utils/log.js';
-import saveTickets from '../utils/save-tickets.js';
 import closeTickets from '../utils/close-tickets.js';
+import removeTicket from '../utils/remove-ticket.js';
+import sendGoodbye from '../utils/send-goodbye.js';
 
 export default async function (msg) {
 	if (msg.channel.type === 'DM' && !msg.author.bot) {
 		const ticket = tickets.get(msg.author.id);
 		if (!ticket?.messageLinks[msg.id]) return;
-
 		const opt = {
 			username: msg.author.username,
 			avatarURL: msg.author.displayAvatarURL(),
@@ -46,21 +45,9 @@ export default async function (msg) {
 		const userId = threads.get(msg.id);
 		const user = await discordClient.users.fetch(userId);
 
-		const check = await user
-			.send({
-				embeds: [
-					new MessageEmbed()
-						.setTitle(messages.goodbye)
-						.setDescription(messages.goodbyeDescription)
-						.setColor(colors.grey),
-				],
-			})
-			.catch(closeTickets(msg.id));
+		const check = await sendGoodbye(user);
 		if (!check) return;
 
-		tickets.delete(userId);
-		threads.delete(msg.id);
-		saveTickets();
-		log(`Тикет закрыт! @${userId}`);
+		await removeTicket(userId);
 	}
 }

@@ -1,8 +1,6 @@
-import { MessageEmbed } from 'discord.js';
 import { colors, messages } from '../config.js';
-import log from '../utils/log.js';
-import saveTickets from '../utils/save-tickets.js';
-import closeTickets from '../utils/close-tickets.js';
+import removeTicket from '../utils/remove-ticket.js';
+import sendGoodbye from '../utils/send-goodbye.js';
 
 export default async function (thread) {
 	if (!threads.has(thread.id)) return;
@@ -11,16 +9,7 @@ export default async function (thread) {
 	const ticketMsg = await thread.parent.messages.fetch(thread.id);
 	const user = await discordClient.users.fetch(userId);
 
-	const check = await user
-		.send({
-			embeds: [
-				new MessageEmbed()
-					.setTitle(messages.goodbye)
-					.setDescription(messages.goodbyeDescription)
-					.setColor(colors.green),
-			],
-		})
-		.catch(closeTickets(thread.id));
+	const check = await sendGoodbye(user);
 	if (!check) return;
 
 	if (ticketMsg) {
@@ -30,8 +19,5 @@ export default async function (thread) {
 		});
 	}
 
-	tickets.delete(userId);
-	threads.delete(thread.id);
-	saveTickets();
-	log(`Тикет закрыт! @${userId}`);
+	await removeTicket(userId);
 }
