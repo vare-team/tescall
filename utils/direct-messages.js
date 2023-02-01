@@ -2,8 +2,33 @@ import { MessageEmbed } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
 
-export default async function (msg, action) {
-	if (!tickets.has(msg.author.id)) {
+/**
+ * @param message {Message}
+ * @param client {Client}
+ * @param action {String}
+ * @return {Promise<void>}
+ */
+export default async function (message, client, action) {
+	if (!tickets.has(message.author.id)) {
+		let general = client.application.commands.cache.find(x => x.name === 'обычное_обращение');
+		let recheck = client.application.commands.cache.find(x => x.name === 'перепроверка_бота');
+
+		await message.channel
+			.send({
+				embeds: [
+					new MessageEmbed()
+						.setTitle(messages.noTickets)
+						.setDescription(
+							messages.noTicketsDescription
+								.replace('%GENERAL_NAME%', general.name)
+								.replace('%GENERAL_ID%', general.id)
+								.replace('%RECHECK_NAME%', recheck.name)
+								.replace('%RECHECK_ID%', recheck.id)
+						)
+						.setColor(colors.red),
+				],
+			})
+			.catch(console.error);
 		return;
 	}
 
