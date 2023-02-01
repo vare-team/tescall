@@ -1,15 +1,12 @@
 import { colors, messages } from '../config.js';
-import saveTickets from './save-tickets.js';
-import log from './log.js';
+import removeTicket from './remove-ticket.js';
+import getThread from './get-thread.js';
 
 export default function (threadId) {
 	return async () => {
 		const user = await discordClient.users.fetch(threads.get(threadId));
-		const thread = await discordClient.channels.cache
-			.get(process.env.CHANNEL)
-			.threads.fetch(tickets.get(user.id).thread);
+		const thread = await getThread(user.id);
 
-		await thread.send('Не возможно отправить сообщение этому пользователю. Тикет закрывается...');
 		const ticketMsg = await thread.parent.messages.fetch(threadId);
 
 		if (ticketMsg) {
@@ -19,10 +16,6 @@ export default function (threadId) {
 			});
 		}
 
-		await thread.setArchived(true, messages.goodbyeError);
-		tickets.delete(user.id);
-		threads.delete(threadId);
-		saveTickets();
-		log(`Тикет закрыт! @${user.id}`);
+		await removeTicket(user.id);
 	};
 }

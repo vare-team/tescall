@@ -2,22 +2,27 @@ import log from '../utils/log.js';
 import directMessages from '../utils/direct-messages.js';
 import closeTickets from '../utils/close-tickets.js';
 
-export default async function (oldMsg, msg) {
-	if (msg.channel.type === 'DM' && !msg.author.bot) {
-		await directMessages(msg, 'edit');
+/**
+ * @param oldMessage {Message}
+ * @param message {Message}
+ * @return {Promise<void>}
+ */
+export default async function (oldMessage, message) {
+	if (message.channel.type === 'DM' && !message.author.bot) {
+		await directMessages(message, 'edit');
 		return;
 	}
 
-	if (msg.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(msg.channel.id)) {
-		if (!tickets.get(threads.get(msg.channel.id))?.messageLinks[msg.id]) return;
+	if (message.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(message.channel.id)) {
+		if (!tickets.get(threads.get(message.channel.id))?.messageLinks[message.id]) return;
 
-		const opt = { ...(msg.content.length && { content: `**${msg.author.username}**: ${msg.content}` }) };
-		const user = await discordClient.users.fetch(threads.get(msg.channel.id));
-		const fetchedMessage = await user.dmChannel.messages.fetch(tickets.get(user.id).messageLinks[msg.id]);
+		const opt = { ...(message.content.length && { content: `**${message.author.username}**: ${message.content}` }) };
+		const user = await discordClient.users.fetch(threads.get(message.channel.id));
+		const fetchedMessage = await user.dmChannel.messages.fetch(tickets.get(user.id).messageLinks[message.id]);
 
 		await fetchedMessage
 			.edit(opt)
-			.then(() => log(`Сообщение было отредактировано и переслано! @${msg.author.id}`))
-			.catch(closeTickets(msg.channel.id));
+			.then(() => log(`Сообщение было отредактировано и переслано! @${message.author.id}`))
+			.catch(closeTickets(message.channel.id));
 	}
 }

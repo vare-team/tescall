@@ -1,6 +1,6 @@
 import log from '../utils/log.js';
 import directMessages from '../utils/direct-messages.js';
-import closeTickets from '../utils/close-tickets.js';
+import unavailableDm from '../utils/unavailable-dm.js';
 
 /**
  * @param message {Message}
@@ -8,7 +8,7 @@ import closeTickets from '../utils/close-tickets.js';
  */
 export default async function (message) {
 	if (message.channel.type === 'DM' && !message.author.bot) {
-		await directMessages(message, message.client, '');
+		await directMessages(message);
 		return;
 	}
 
@@ -21,7 +21,7 @@ export default async function (message) {
 		};
 
 		const user = await discordClient.users.fetch(threads.get(message.channel.id));
-		const sendedMsg = await user.send(opt).catch(closeTickets(message.channel.id));
+		const sendedMsg = await user.send(opt).catch(unavailableDm(user.id));
 		if (!sendedMsg) return;
 
 		tickets.get(user.id).messageLinks[message.id] = sendedMsg.id;
