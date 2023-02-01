@@ -14,6 +14,12 @@ export const messages = {
 	waiting: '⚠ Пожалуйста, дождитесь, пока ваш тикет будет принят агентом поддержки!',
 	stuffJoined: 'К вам присоединился агент поддержки!',
 	chatEnabled: 'С этого момента вы находитесь в чате!',
+	noTickets: 'У вас нет открытых обращений',
+	noTicketsDescription:
+		'Для открытия обращения общего направления используйте:\n' +
+		'</%GENERAL_NAME%:%GENERAL_ID%>\n' +
+		'Для открытия обращения связанного с перепроверкой используйте:\n' +
+		'</%RECHECK_NAME%:%RECHECK_ID%>',
 };
 
 export const ticketsErrors = {
