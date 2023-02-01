@@ -16,16 +16,10 @@ export default async function (inter) {
 		embeds: [{ ...inter.message.embeds[0], color: colors.green }],
 		components: [
 			new MessageActionRow().addComponents(
-				new MessageButton()
-					.setCustomId('CLOSE')
-					.setLabel('Закрыть тикет')
-					.setStyle('SUCCESS')
+				new MessageButton().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle('SUCCESS')
 			),
 			new MessageActionRow().addComponents(
-				new MessageSelectMenu()
-					.setCustomId('AUTOMESSAGE')
-					.addOptions(replies)
-					.setPlaceholder('Быстрый ответ')
+				new MessageSelectMenu().setCustomId('AUTOMESSAGE').addOptions(replies).setPlaceholder('Быстрый ответ')
 			),
 		],
 	});
