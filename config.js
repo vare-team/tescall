@@ -1,4 +1,4 @@
-import { MessageActionRow as ModalActionRow, Modal, TextInputComponent } from 'discord.js';
+import { MessageActionRow as ModalActionRow, Modal, Permissions, TextInputComponent } from 'discord.js';
 import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption } from '@discordjs/builders';
 
 export const messages = {
@@ -115,6 +115,7 @@ export const commands = {
 		.setDescription('открывает форму для отправки бота на перпроверку')
 		.toJSON(),
 	mute: new SlashCommandBuilder()
+		.setDefaultMemberPermissions(Permissions.FLAGS.MODERATE_MEMBERS)
 		.setName('mute')
 		.setDescription('запрещяет создание тикетов для пользователя')
 		.addUserOption(
@@ -132,6 +133,7 @@ export const commands = {
 		.setDMPermission(false)
 		.toJSON(),
 	unmute: new SlashCommandBuilder()
+		.setDefaultMemberPermissions(Permissions.FLAGS.MODERATE_MEMBERS)
 		.setName('unmute')
 		.setDescription('снимает запрет на создание тикетов')
 		.addUserOption(
