@@ -1,5 +1,5 @@
-export default inter => {
-	inter.editReply({
+export default async function (interaction) {
+	interaction.editReply({
 		content:
 			'Список тикетов:\n' +
 			[...tickets.entries()].reduce(
@@ -8,4 +8,4 @@ export default inter => {
 				''
 			),
 	});
-};
+}

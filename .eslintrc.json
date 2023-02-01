@@ -9,8 +9,11 @@
 	"globals": {
 		"discordClient": true,
 		"discordWebhook": true,
+		"mainGuild":  true,
+		"ticketsChannel":  true,
 		"tickets": true,
-		"threads": true
+		"threads": true,
+		"mutes": true
 	},
 	"parserOptions": {
 		"ecmaVersion": 12,

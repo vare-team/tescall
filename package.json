@@ -23,10 +23,18 @@
 	},
 	"homepage": "https://github.com/vare-team/tescall#readme",
 	"nodemonConfig": {
-		"ignore": ["threads.json", "tickets.json"]
+		"ignore": [
+			"threads.json",
+			"tickets.json",
+			"mutes.json"
+		]
 	},
 	"dependencies": {
-		"discord.js": "^13.6.0"
+		"@discordjs/builders": "^1.1.0",
+		"@discordjs/rest": "^1.0.1",
+		"discord-api-types": "^0.37.1",
+		"discord.js": "^13.10.2",
+		"ms": "^2.1.3"
 	},
 	"devDependencies": {
 		"eslint": "^8.13.0",
