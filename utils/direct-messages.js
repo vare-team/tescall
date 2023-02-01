@@ -32,43 +32,43 @@ export default async function (message, client, action) {
 		return;
 	}
 
-	const ticket = tickets.get(msg.author.id);
+	const ticket = tickets.get(message.author.id);
 
 	if (!ticket.active) {
-		await msg.channel
+		await message.channel
 			.send({ embeds: [new MessageEmbed().setTitle(messages.waiting).setColor(colors.red)] })
 			.catch(console.error);
 
-		log(`Сообщение было получено, но тикет не принят! @${msg.author.id}`);
+		log(`Сообщение было получено, но тикет не принят! @${message.author.id}`);
 		return;
 	}
 
 	if (!ticket.thread) return;
 
 	const opt = {
-		username: msg.author.username,
-		avatarURL: msg.author.displayAvatarURL(),
+		username: message.author.username,
+		avatarURL: message.author.displayAvatarURL(),
 		threadId: ticket.thread,
 
-		...(msg.content.length && { content: msg.content }),
-		...(msg.attachments.size && { files: msg.attachments.map(a => a.url) }),
+		...(message.content.length && { content: message.content }),
+		...(message.attachments.size && { files: message.attachments.map(a => a.url) }),
 	};
 
 	const embeds = [
-		...(msg.stickers.size
-			? [{ description: `Отправил стикер «${msg.stickers.first().name}»\n`, color: colors.blue }]
+		...(message.stickers.size
+			? [{ description: `Отправил стикер «${message.stickers.first().name}»\n`, color: colors.blue }]
 			: []),
 	];
 
 	if (action === 'edit')
 		embeds.push({
 			description: `Предыдущее сообщение:
-https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLinks[msg.id]}`,
+https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLinks[message.id]}`,
 			color: colors.yellow,
 		});
 	if (embeds.length) opt.embeds = embeds;
 
 	const sendedMsg = await discordWebhook.send(opt);
-	tickets.get(msg.author.id).messageLinks[msg.id] = sendedMsg.id;
-	log(`Сообщение было получено и переслано! @${msg.author.id}`);
+	tickets.get(message.author.id).messageLinks[message.id] = sendedMsg.id;
+	log(`Сообщение было получено и переслано! @${message.author.id}`);
 }
