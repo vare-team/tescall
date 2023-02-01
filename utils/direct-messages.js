@@ -4,11 +4,11 @@ import log from './log.js';
 
 /**
  * @param message {Message}
- * @param client {Client}
  * @param action {String}
  * @return {Promise<void>}
  */
-export default async function (message, client, action) {
+export default async function (message, action = '') {
+	const client = message.client;
 	if (!tickets.has(message.author.id)) {
 		let general = client.application.commands.cache.find(x => x.name === 'обычное_обращение');
 		let recheck = client.application.commands.cache.find(x => x.name === 'перепроверка_бота');
