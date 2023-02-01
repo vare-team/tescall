@@ -1,13 +1,13 @@
-import { colors, messages } from '../config.js';
-import saveTickets from '../utils/save-tickets.js';
-import log from '../utils/log.js';
+import { colors, messages } from '../../config.js';
+import saveTickets from '../../utils/save-tickets.js';
+import log from '../../utils/log.js';
 import { MessageEmbed } from 'discord.js';
-import closeTickets from '../utils/close-tickets.js';
+import closeTickets from '../../utils/close-tickets.js';
 
-export default async inter => {
-	const user = inter.options.getUser('user');
-	if (!tickets.has(user.id)) return await inter.editReply({ content: 'Тикет отсутствиет!' });
-	if (!tickets.get(user.id).thread) return await inter.editReply({ content: 'Тред отсутствиет!' });
+export default async function (interaction) {
+	const user = interaction.options.getUser('user');
+	if (!tickets.has(user.id)) return await interaction.editReply({ content: 'Тикет отсутствиет!' });
+	if (!tickets.get(user.id).thread) return await interaction.editReply({ content: 'Тред отсутствиет!' });
 	const thread = await discordClient.channels.cache.get(process.env.CHANNEL).threads.fetch(tickets.get(user.id).thread);
 
 	const check = await user
@@ -35,5 +35,5 @@ export default async inter => {
 	threads.delete(thread.id);
 	saveTickets();
 	log(`Тикет закрыт! @${user.id}`);
-	await inter.editReply({ content: 'Тикет закрыт!' });
-};
+	await interaction.editReply({ content: 'Тикет закрыт!' });
+}

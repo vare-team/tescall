@@ -142,6 +142,24 @@ export const commands = {
 		)
 		.setDMPermission(false)
 		.toJSON(),
+	list: new SlashCommandBuilder()
+		.setDefaultMemberPermissions(Permissions.FLAGS.VIEW_AUDIT_LOG)
+		.setName('list')
+		.setDescription('Выводит список тикетов')
+		.setDMPermission(false)
+		.toJSON(),
+	close: new SlashCommandBuilder()
+		.setDefaultMemberPermissions(Permissions.FLAGS.VIEW_AUDIT_LOG)
+		.setName('close')
+		.setDescription('Закрывает тикет пользователя')
+		.addUserOption(
+			new SlashCommandUserOption()
+				.setName('user')
+				.setRequired(true)
+				.setDescription('пользователь чейтикет будет закрыт')
+		)
+		.setDMPermission(false)
+		.toJSON(),
 };
 
 export const modals = {
