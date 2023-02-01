@@ -8,7 +8,8 @@
 	"private": true,
 	"scripts": {
 		"start": "node --unhandled-rejections=warn --experimental-specifier-resolution=node .",
-		"debug": "nodemon --unhandled-rejections=warn --experimental-specifier-resolution=node ."
+		"debug": "nodemon --unhandled-rejections=warn --experimental-specifier-resolution=node .",
+		"lint": "eslint ."
 	},
 	"engines": {
 		"node": ">=16"
