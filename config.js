@@ -204,7 +204,7 @@ export const modals = {
 					.setLabel('Причина отказа, указанная на сайте')
 					.setPlaceholder('офлайн')
 					.setMinLength(6)
-					.setMaxLength(127)
+					.setMaxLength(200)
 					.setStyle('PARAGRAPH'),
 			]),
 		]),
