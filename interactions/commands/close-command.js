@@ -6,8 +6,8 @@ import closeTickets from '../../utils/close-tickets.js';
 
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
-	if (!tickets.has(user.id)) return await interaction.editReply({ content: 'Тикет отсутствиет!' });
-	if (!tickets.get(user.id).thread) return await interaction.editReply({ content: 'Тред отсутствиет!' });
+	if (!tickets.has(user.id)) return await interaction.reply({ content: 'Тикет отсутствиет!' });
+	if (!tickets.get(user.id).thread) return await interaction.reply({ content: 'Тред отсутствиет!' });
 	const thread = await discordClient.channels.cache.get(process.env.CHANNEL).threads.fetch(tickets.get(user.id).thread);
 
 	const check = await user
