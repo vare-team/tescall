@@ -4,16 +4,12 @@ import onApplicationCommands from '../interactions/commands/on-application-comma
 import { MessageEmbed } from 'discord.js';
 import { colors, ticketsErrors } from '../config.js';
 
-export default async function (inter) {
-	if (
-		mutes.has(inter.user.id) &&
-		!(mainGuild.members.cache.get(inter.user.id) ?? mainGuild.members.fetch(inter.user.id)).permissions.has(
-			'MODERATE_MEMBERS'
-		)
-	) {
-		const date = mutes.get(inter.user.id);
+export default async function (interaction) {
+	const member = mainGuild.members.fetch(interaction.user.id);
+	if (mutes.has(member.id) && !member.permissions.has('MODERATE_MEMBERS')) {
+		const date = mutes.get(member.id);
 		if (date > Date.now() / 1000) {
-			await inter
+			await interaction
 				.reply({
 					ephemeral: true,
 					embeds: [new MessageEmbed().setTitle(ticketsErrors.muted).setColor(colors.red)],
@@ -22,20 +18,20 @@ export default async function (inter) {
 			return;
 		}
 
-		mutes.delete(inter.user.id);
+		mutes.delete(member.id);
 	}
 
-	if (inter.isApplicationCommand()) {
-		await onApplicationCommands(inter);
+	if (interaction.isApplicationCommand()) {
+		await onApplicationCommands(interaction);
 		return;
 	}
 
-	if (inter.isModalSubmit()) {
-		await onModalSubmit(inter);
+	if (interaction.isModalSubmit()) {
+		await onModalSubmit(interaction);
 		return;
 	}
 
-	if (inter.isMessageComponent()) {
-		await onMessageComponents(inter);
+	if (interaction.isMessageComponent()) {
+		await onMessageComponents(interaction);
 	}
 }
