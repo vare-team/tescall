@@ -35,5 +35,5 @@ export default async function (interaction) {
 
 	if (!check) return;
 
-	await removeTicket(user.id);
+	await removeTicket(user.id).then(async () => await interaction.reply({ content: 'Закрыт !', ephemeral: true }));
 }

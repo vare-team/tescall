@@ -4,10 +4,15 @@ import log from './log.js';
 import getThread from './get-thread.js';
 
 export default async function (userId) {
-	const thread = await getThread(userId);
-	if (thread) await thread.setArchived(true, messages.goodbyeError).catch(() => log('no thread ticket remove'));
+	const ticket = tickets.get(userId);
+
+	if (ticket.active) {
+		const thread = await getThread(userId);
+		await thread.setArchived(true, messages.goodbyeError).catch(() => log('no thread ticket remove'));
+		threads.delete(thread.id);
+	}
+
 	tickets.delete(userId);
-	threads.delete(thread.id);
 	saveTickets();
 	log(`Тикет закрыт! @${userId}`);
 }

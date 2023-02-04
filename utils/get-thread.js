@@ -1,5 +1,5 @@
-export default async function (userId) {
+export default function (userId) {
 	const channel = discordClient.channels.cache.get(process.env.CHANNEL);
 
-	return await channel.threads.fetch(tickets.get(userId)?.thread ?? 0);
+	return channel.threads.fetch(tickets.get(userId)?.thread ?? 0);
 }
