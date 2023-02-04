@@ -13,6 +13,7 @@ export default async function () {
 	log('Авторизация выполнена!');
 
 	global.mainGuild = await discordClient.guilds.fetch(process.env.GUILD);
+	if (process.env.ROLE) global.boosterRole = await discordClient.guilds.fetch(process.env.ROLE);
 	global.ticketsChannel = await mainGuild.channels.fetch(process.env.CHANNEL);
 
 	const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
