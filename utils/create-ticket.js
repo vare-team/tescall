@@ -3,22 +3,18 @@ import { colors, TicketTitles } from '../config.js';
 import saveTickets from './save-tickets.js';
 import log from './log.js';
 
-/**
- * @param title {string}
- * @param user {User}
- * @param content {string}
- * @param attachments {Collection<Snowflake, MessageAttachment>}
- */
 export default async function (title = TicketTitles.DEFAULT, user, content, attachments = {}) {
 	tickets.set(user.id, { active: false, thread: null, guild: null, messageLinks: {} });
 
+	const member = await mainGuild.members.fetch(user.id);
+	const role = member.roles.resolve(boosterRole.id);
 	const sendedMsg = await ticketsChannel.send({
 		embeds: [
 			new MessageEmbed()
 				.setTitle(title)
 				.setDescription(`<@${user.id}>:\n` + content)
 				.setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
-				.setColor(colors.red)
+				.setColor(boosterRole && role ? colors.yellow : colors.red)
 				.setImage(attachments.size ? attachments.first().url : ''),
 		],
 		components: [

@@ -10,6 +10,7 @@
 		"discordClient": true,
 		"discordWebhook": true,
 		"mainGuild":  true,
+		"boosterRole": true,
 		"ticketsChannel":  true,
 		"tickets": true,
 		"threads": true,
