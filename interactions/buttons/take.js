@@ -4,16 +4,16 @@ import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 
-export default async function (inter) {
-	const userId = inter.user.id;
+export default async function (interaction) {
+	const [, userId] = interaction.customId.split(':');
 
 	if (!tickets.has(userId)) {
-		await inter.reply({ content: `Тикет #${userId} уже закрыт!`, ephemeral: true });
+		await interaction.reply({ content: `Тикет #${userId} уже закрыт!`, ephemeral: true });
 		return;
 	}
 
-	await inter.update({
-		embeds: [{ ...inter.message.embeds[0], color: colors.green }],
+	await interaction.update({
+		embeds: [{ ...interaction.message.embeds[0], color: colors.green }],
 		components: [
 			new MessageActionRow().addComponents(
 				new MessageButton().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle('SUCCESS')
@@ -25,7 +25,7 @@ export default async function (inter) {
 	});
 
 	const user = await discordClient.users.fetch(userId);
-	const thread = await inter.message.startThread({ name: user.tag });
+	const thread = await interaction.message.startThread({ name: user.tag });
 
 	threads.set(thread.id, userId);
 
