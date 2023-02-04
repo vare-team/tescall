@@ -5,7 +5,7 @@ import getThread from './get-thread.js';
 
 export default async function (userId) {
 	const thread = await getThread(userId);
-	await thread?.setArchived(true, messages.goodbyeError).catch();
+	await thread?.setArchived(true, messages.goodbyeError).catch(() => log('no thread ticket remove'));
 	tickets.delete(userId);
 	threads.delete(thread.id);
 	saveTickets();
