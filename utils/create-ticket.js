@@ -19,7 +19,10 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 		],
 		components: [
 			new MessageActionRow().addComponents(
-				new MessageButton().setCustomId('GET').setLabel('Взять тикет').setStyle('PRIMARY')
+				new MessageButton()
+					.setCustomId('GET:' + user.id)
+					.setLabel('Взять тикет')
+					.setStyle('PRIMARY')
 			),
 		],
 	});
