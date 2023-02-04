@@ -4,7 +4,9 @@ import automessageMenu from './automessage-menu.js';
 import log from '../../utils/log.js';
 
 export default async function (interaction) {
-	switch (interaction.customId) {
+	const [customId, userId] = interaction.customId.split(':');
+
+	switch (customId) {
 		case 'GET':
 			await buttonTake(interaction);
 			break;
@@ -18,6 +20,6 @@ export default async function (interaction) {
 			break;
 
 		default:
-			log(`Что-то странное! custom-id: ${interaction.customId}`);
+			log(`Что-то странное! custom-id: ${customId}, user-id: ${userId}`);
 	}
 }
