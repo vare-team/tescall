@@ -11,7 +11,7 @@ export default async function (inter) {
 			'MODERATE_MEMBERS'
 		)
 	) {
-		let date = mutes.get(inter.user.id);
+		const date = mutes.get(inter.user.id);
 		if (date > Date.now() / 1000) {
 			await inter
 				.reply({

@@ -2,8 +2,8 @@ import ms from 'ms';
 import saveTickets from '../../utils/save-tickets.js';
 
 export default async function (interaction) {
-	let user = interaction.options.getUser('user');
-	let time = parseInt(((Date.now() + ms(interaction.options.getString('time'))) / 1000).toFixed());
+	const user = interaction.options.getUser('user');
+	const time = parseInt(((Date.now() + ms(interaction.options.getString('time'))) / 1000).toFixed());
 
 	mutes.set(user.id, time);
 	saveTickets();

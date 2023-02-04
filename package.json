@@ -9,7 +9,8 @@
 	"scripts": {
 		"start": "node --unhandled-rejections=warn --experimental-specifier-resolution=node .",
 		"debug": "nodemon --unhandled-rejections=warn --experimental-specifier-resolution=node .",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
 	},
 	"engines": {
 		"node": ">=16"

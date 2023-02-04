@@ -93,8 +93,8 @@ export const TicketTopics = {
 	DEFAULT: () => 'DEFAULT',
 	GENERAL: interaction => interaction.fields.getField('topic').value,
 	RECHECK: interaction => {
-		let botId = interaction.fields.getField('botId').value;
-		let reason = interaction.fields.getField('reason').value;
+		const botId = interaction.fields.getField('botId').value;
+		const reason = interaction.fields.getField('reason').value;
 
 		try {
 			BigInt(botId);

@@ -24,6 +24,7 @@
 	],
 	"rules": {
 		"prettier/prettier": "error",
-		"no-prototype-builtins": "off"
+		"no-prototype-builtins": "off",
+		"prefer-const": "error"
 	}
 }

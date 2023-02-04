@@ -1,7 +1,7 @@
 import saveTickets from '../../utils/save-tickets.js';
 
 export default async function (interaction) {
-	let user = interaction.options.getUser('user');
+	const user = interaction.options.getUser('user');
 
 	if (!mutes.has(user.id)) {
 		await interaction.reply({
