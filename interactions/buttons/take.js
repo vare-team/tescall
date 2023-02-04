@@ -29,7 +29,7 @@ export default async function (inter) {
 
 	threads.set(thread.id, userId);
 
-	let ticket = tickets.get(userId);
+	const ticket = tickets.get(userId);
 	ticket.thread = thread.id;
 	ticket.guild = thread.guildId;
 	ticket.active = true;
