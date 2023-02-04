@@ -1,5 +1,5 @@
 export default async function (interaction) {
-	interaction.editReply({
+	interaction.reply({
 		content:
 			'Список тикетов:\n' +
 			[...tickets.entries()].reduce(

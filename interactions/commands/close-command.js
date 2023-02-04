@@ -35,5 +35,5 @@ export default async function (interaction) {
 	threads.delete(thread.id);
 	saveTickets();
 	log(`Тикет закрыт! @${user.id}`);
-	await interaction.editReply({ content: 'Тикет закрыт!' });
+	await interaction.reply({ content: 'Тикет закрыт!' });
 }

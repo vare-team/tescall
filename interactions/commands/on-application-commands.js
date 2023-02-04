@@ -5,8 +5,15 @@ import unmuteCommand from './unmute-command.js';
 import closeCommand from './close-command.js';
 import listCommand from './list-command.js';
 
+const commands = {
+	mute: muteCommand,
+	unmute: unmuteCommand,
+	list: listCommand,
+	close: closeCommand,
+};
+
 export default async function (interaction) {
-	if (commands.has(interaction.commandName)) {
+	if (commands[interaction.commandName]) {
 		await commands[interaction.commandName](interaction);
 		return;
 	}
@@ -22,10 +29,3 @@ export default async function (interaction) {
 	}
 	await interaction.showModal(modals.resolve(interaction.commandName));
 }
-
-const commands = {
-	mute: muteCommand,
-	unmute: unmuteCommand,
-	list: listCommand,
-	close: closeCommand,
-};
