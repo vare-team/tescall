@@ -170,7 +170,7 @@ export const commands = {
 			new SlashCommandUserOption()
 				.setName('user')
 				.setRequired(true)
-				.setDescription('пользователь чейтикет будет закрыт')
+				.setDescription('пользователь чей тикет будет закрыт')
 		)
 		.setDMPermission(false)
 		.toJSON(),
