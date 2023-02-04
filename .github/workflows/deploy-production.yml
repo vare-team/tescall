@@ -1,0 +1,25 @@
+name: Deploy production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+
+    steps:
+      - name: Connect to server
+        uses: appleboy/ssh-action@b87ddeff0013ea4c509514f51dd2d3f4eaf0e1d8
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd support-bot
+            git pull origin main
+            npm ci --production
+            pm2 restart support-bot
