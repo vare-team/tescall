@@ -1,14 +1,12 @@
 import { colors, messages } from '../../config.js';
-import saveTickets from '../../utils/save-tickets.js';
-import log from '../../utils/log.js';
 import { MessageEmbed } from 'discord.js';
-import closeTickets from '../../utils/close-tickets.js';
+import unavailableDm from '../../utils/unavailable-dm.js';
+import removeTicket from '../../utils/remove-ticket.js';
 
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
 	if (!tickets.has(user.id)) return await interaction.reply({ content: 'Тикет отсутствиет!' });
-	if (!tickets.get(user.id).thread) return await interaction.reply({ content: 'Тред отсутствиет!' });
-	const thread = await discordClient.channels.cache.get(process.env.CHANNEL).threads.fetch(tickets.get(user.id).thread);
+	const ticket = tickets.get(user.id);
 
 	const check = await user
 		.send({
@@ -19,21 +17,23 @@ export default async function (interaction) {
 					.setColor(colors.green),
 			],
 		})
-		.catch(closeTickets(thread.id));
-	if (!check) return;
+		.catch(unavailableDm(user.id));
 
-	const ticketMsg = await thread.parent.messages.fetch(thread.id);
-	if (ticketMsg) {
-		await ticketMsg.edit({
-			embeds: [{ ...ticketMsg.embeds[0], title: messages.goodbye, color: colors.grey }],
-			components: [],
-		});
+	if (ticket.thread) {
+		const thread = await discordClient.channels.cache
+			.get(process.env.CHANNEL)
+			.threads.fetch(tickets.get(user.id).thread);
+		const ticketMsg = await thread.parent.messages.fetch(thread.id);
+
+		if (ticketMsg) {
+			await ticketMsg.edit({
+				embeds: [{ ...ticketMsg.embeds[0], title: messages.goodbye, color: colors.grey }],
+				components: [],
+			});
+		}
 	}
 
-	await thread.setArchived(true, messages.goodbye);
-	tickets.delete(user.id);
-	threads.delete(thread.id);
-	saveTickets();
-	log(`Тикет закрыт! @${user.id}`);
-	await interaction.reply({ content: 'Тикет закрыт!' });
+	if (!check) return;
+
+	await removeTicket(user.id);
 }
