@@ -10,8 +10,9 @@ import log from './log.js';
 export default async function (message, action = '') {
 	const client = message.client;
 	if (!tickets.has(message.author.id)) {
-		let general = client.application.commands.cache.find(x => x.name === 'обычное_обращение');
-		let recheck = client.application.commands.cache.find(x => x.name === 'перепроверка_бота');
+		const commands = await client.application.commands.fetch();
+		const general = commands.find(x => x.name === 'обычное_обращение');
+		const recheck = commands.find(x => x.name === 'перепроверка_бота');
 
 		await message.channel
 			.send({
