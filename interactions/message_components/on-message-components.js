@@ -18,6 +18,6 @@ export default async function (interaction) {
 			break;
 
 		default:
-			log(`Что-то странное!`);
+			log(`Что-то странное! custom-id: ${interaction.customId}`);
 	}
 }
