@@ -13,7 +13,7 @@ export default async function (message) {
 		return;
 	}
 
-	if (message.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(message.channel.id)) {
+	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(message.channel.id)) {
 		if (message.author.bot) return;
 
 		const opt = {
