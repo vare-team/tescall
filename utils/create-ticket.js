@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from 'discord.js';
-import { colors, TicketTitles } from '../config.js';
+import { ButtonStyle, colors, TicketTitles } from '../config.js';
 import saveTickets from './save-tickets.js';
 import log from './log.js';
 
@@ -22,7 +22,7 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 				new ButtonBuilder()
 					.setCustomId('GET:' + user.id)
 					.setLabel('Взять тикет')
-					.setStyle('Primary')
+					.setStyle(ButtonStyle.Primary)
 			),
 		],
 	});

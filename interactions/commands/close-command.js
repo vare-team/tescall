@@ -5,8 +5,8 @@ import removeTicket from '../../utils/remove-ticket.js';
 
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
-	if (!tickets.has(user.id.toString())) return await interaction.reply({ content: 'Тикет отсутствиет!' });
-	const ticket = tickets.get(user.id.toString());
+	if (!tickets.has(user.id)) return await interaction.reply({ content: 'Тикет отсутствиет!' });
+	const ticket = tickets.get(user.id);
 
 	const check = await user
 		.send({
@@ -22,7 +22,7 @@ export default async function (interaction) {
 	if (ticket.thread) {
 		const thread = await discordClient.channels.cache
 			.get(process.env.CHANNEL)
-			.threads.fetch(tickets.get(user.id.toString()).thread);
+			.threads.fetch(tickets.get(user.id).thread);
 		const ticketMsg = await thread.parent.messages.fetch(thread.id);
 
 		if (ticketMsg) {

@@ -1,5 +1,5 @@
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder } from 'discord.js';
-import { colors, messages, replies } from '../../config.js';
+import { ButtonStyle, colors, messages, replies } from '../../config.js';
 import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
@@ -16,7 +16,7 @@ export default async function (interaction) {
 		embeds: [{ ...interaction.message.embeds[0].data, color: colors.green }],
 		components: [
 			new ActionRowBuilder().setComponents(
-				new ButtonBuilder().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle('Success')
+				new ButtonBuilder().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle(ButtonStyle.Success)
 			),
 			new ActionRowBuilder().setComponents(
 				new StringSelectMenuBuilder().setCustomId('AUTOMESSAGE').addOptions(replies).setPlaceholder('Быстрый ответ')
@@ -27,7 +27,7 @@ export default async function (interaction) {
 	const user = await discordClient.users.fetch(userId);
 	const thread = await interaction.message.startThread({ name: user.tag });
 
-	threads.set(thread.id.toString(), userId);
+	threads.set(thread.id, userId);
 
 	const ticket = tickets.get(userId);
 	ticket.thread = thread.id;

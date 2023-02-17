@@ -1,13 +1,14 @@
 import log from '../utils/log.js';
 import directMessages from '../utils/direct-messages.js';
 import unavailableDm from '../utils/unavailable-dm.js';
+import { ChannelType } from 'discord.js';
 
 /**
  * @param message {Message}
  * @return {Promise<void>}
  */
 export default async function (message) {
-	if (message.channel.type === 'DM' && !message.author.bot) {
+	if (message.channel.type === ChannelType.DM && !message.author.bot) {
 		await directMessages(message);
 		return;
 	}

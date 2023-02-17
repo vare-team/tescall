@@ -6,10 +6,11 @@ import {
 	SlashCommandUserOption,
 	TextInputBuilder,
 	SlashCommandStringOption,
+	PermissionsBitField,
 } from 'discord.js';
 
 export const Permissions = {
-	ModerateMembers: 1 << 40,
+	ModerateMembers: PermissionsBitField.Flags.ModerateMembers,
 	ViewAuditLog: 1 << 7,
 };
 export const Intents = {
@@ -17,6 +18,17 @@ export const Intents = {
 	DirectMessages: 1 << 12,
 	GuildMessages: 1 << 9,
 	GuildMembers: 1 << 1,
+};
+export const ActivityType = {
+	Watching: 3,
+};
+export const ButtonStyle = {
+	Primary: 1,
+	Success: 3,
+};
+export const TextInputStyle = {
+	Short: 1,
+	Paragraph: 2,
 };
 
 export const messages = {
@@ -205,7 +217,7 @@ export const modals = {
 					.setPlaceholder('Мне нужна помощь с...')
 					.setMinLength(6)
 					.setMaxLength(256)
-					.setStyle('Paragraph')
+					.setStyle(TextInputStyle.Paragraph)
 			),
 		]),
 	recheck: new ModalBuilder()
@@ -220,7 +232,7 @@ export const modals = {
 					.setPlaceholder('885850225820962826')
 					.setMinLength(17)
 					.setMaxLength(19)
-					.setStyle('Short')
+					.setStyle(TextInputStyle.Short)
 			),
 			new ActionRowBuilder().setComponents(
 				new TextInputBuilder()
@@ -230,7 +242,7 @@ export const modals = {
 					.setPlaceholder('офлайн')
 					.setMinLength(6)
 					.setMaxLength(200)
-					.setStyle('Paragraph')
+					.setStyle(TextInputStyle.Paragraph)
 			),
 		]),
 };

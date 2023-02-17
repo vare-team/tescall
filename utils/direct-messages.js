@@ -9,7 +9,7 @@ import log from './log.js';
  */
 export default async function (message, action = '') {
 	const client = message.client;
-	if (!tickets.has(message.author.id.toString())) {
+	if (!tickets.has(message.author.id)) {
 		const commands = await client.application.commands.fetch();
 		const general = commands.find(x => x.name === 'обычное_обращение');
 		const recheck = commands.find(x => x.name === 'перепроверка_бота');
@@ -22,9 +22,9 @@ export default async function (message, action = '') {
 						.setDescription(
 							messages.noTicketsDescription
 								.replace('%GENERAL_NAME%', general.name)
-								.replace('%GENERAL_ID%', general.id.toString)
+								.replace('%GENERAL_ID%', general.id)
 								.replace('%RECHECK_NAME%', recheck.name)
-								.replace('%RECHECK_ID%', recheck.id.toString)
+								.replace('%RECHECK_ID%', recheck.id)
 						)
 						.setColor(colors.red),
 				],
@@ -33,7 +33,7 @@ export default async function (message, action = '') {
 		return;
 	}
 
-	const ticket = tickets.get(message.author.id.toString());
+	const ticket = tickets.get(message.author.id);
 
 	if (!ticket.active) {
 		await message.channel
@@ -70,6 +70,6 @@ https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLi
 	if (embeds.length) opt.embeds = embeds;
 
 	const sendedMsg = await discordWebhook.send(opt);
-	tickets.get(message.author.id.toString()).messageLinks[message.id] = sendedMsg.id;
+	tickets.get(message.author.id).messageLinks[message.id] = sendedMsg.id;
 	log(`Сообщение было получено и переслано! @${message.author.id}`);
 }

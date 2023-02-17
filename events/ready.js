@@ -1,4 +1,4 @@
-import { commands } from '../config.js';
+import { ActivityType, commands } from '../config.js';
 
 import log from '../utils/log.js';
 import messageCreateEvent from './message-create.js';
@@ -22,7 +22,7 @@ export default async function () {
 	discordClient.on('interactionCreate', interactionCreateEvent);
 	discordClient.on('threadDelete', threadDeleteEvent);
 
-	discordClient.user.setActivity('Напиши в ЛС для помощи!', { type: 'Watching' });
+	discordClient.user.setActivity('Напиши в ЛС для помощи!', { type: ActivityType.Watching });
 
 	log(`Лог канал закеширован! #${discordClient.channels.cache.get(process.env.CHANNEL).name}`);
 	log('К работе готов!\n');

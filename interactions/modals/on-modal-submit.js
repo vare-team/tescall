@@ -9,9 +9,7 @@ export default async function (interaction) {
 	try {
 		ticketTopic = TicketTopics[interaction.customId](interaction);
 	} catch (err) {
-		await interaction
-			.reply({ embeds: [new EmbedBuilder().setTitle(err.toString()).setColor(colors.red)] })
-			.catch(console.error);
+		await interaction.reply({ embeds: [new EmbedBuilder().setTitle(err).setColor(colors.red)] }).catch(console.error);
 		return;
 	}
 	await createTicket(TicketTitles[interaction.customId], interaction.user, ticketTopic);

@@ -6,7 +6,7 @@ export default async function (interaction) {
 	const timeRaw = interaction.options.getString('time');
 	const time = timeRaw < 0 ? Infinity : parseInt(((Date.now() + ms(timeRaw)) / 1000).toFixed());
 
-	mutes.set(user.id.toString(), time);
+	mutes.set(user.id, time);
 	saveTickets();
 	await interaction.reply({
 		content: time === Infinity ? `<@${user.id}> muted forever` : `<@${user.id}> muted: <t:${time}:R>`,

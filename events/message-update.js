@@ -13,7 +13,7 @@ export default async function (oldMessage, message) {
 		return;
 	}
 
-	const id = message.channel.id.toString();
+	const id = message.channel.id;
 
 	if (message.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(id)) {
 		if (!tickets.get(threads.get(id))?.messageLinks[message.id]) return;
