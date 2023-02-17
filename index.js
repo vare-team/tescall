@@ -1,5 +1,3 @@
-import { Intents } from './config.js';
-
 if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL || !process.env.GUILD) {
 	console.log('Ошибка окружения!');
 	process.exit();
@@ -13,7 +11,7 @@ import readyEvent from './events/ready.js';
 createFiles();
 
 const client = new Client({
-	intents: [Intents.Guilds, Intents.GuildMembers, Intents.GuildMessages, Intents.DirectMessages],
+	intents: ['Guilds', 'DirectMessages', 'GuildMessages', 'GuildMembers'],
 	partials: [Partials.Channel],
 });
 
