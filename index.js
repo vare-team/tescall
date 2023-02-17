@@ -3,7 +3,7 @@ if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL || !p
 	process.exit();
 }
 
-import { Client, WebhookClient } from 'discord.js';
+import { Client, IntentsBitField, WebhookClient } from 'discord.js';
 import { createFiles, readFiles } from './utils/save-tickets.js';
 import log from './utils/log.js';
 import readyEvent from './events/ready.js';
@@ -11,7 +11,11 @@ import readyEvent from './events/ready.js';
 createFiles();
 
 const client = new Client({
-	intents: ['GUILDS', 'DIRECT_MESSAGES', 'GUILD_MESSAGES', 'GUILD_MEMBERS'],
+	intents:
+		IntentsBitField.Flags.Guilds |
+		IntentsBitField.Flags.DirectMessages |
+		IntentsBitField.Flags.GuildMessages |
+		IntentsBitField.Flags.GuildMembers,
 	partials: ['CHANNEL'],
 });
 
