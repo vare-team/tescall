@@ -1,5 +1,5 @@
-import { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } from 'discord.js';
-import { colors, messages, replies } from '../../config.js';
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder } from 'discord.js';
+import { ButtonStyle, colors, messages, replies } from '../../config.js';
 import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
@@ -13,13 +13,13 @@ export default async function (interaction) {
 	}
 
 	await interaction.update({
-		embeds: [{ ...interaction.message.embeds[0], color: colors.green }],
+		embeds: [{ ...interaction.message.embeds[0].data, color: colors.green }],
 		components: [
-			new MessageActionRow().addComponents(
-				new MessageButton().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle('SUCCESS')
+			new ActionRowBuilder().setComponents(
+				new ButtonBuilder().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle(ButtonStyle.Success)
 			),
-			new MessageActionRow().addComponents(
-				new MessageSelectMenu().setCustomId('AUTOMESSAGE').addOptions(replies).setPlaceholder('Быстрый ответ')
+			new ActionRowBuilder().setComponents(
+				new StringSelectMenuBuilder().setCustomId('AUTOMESSAGE').addOptions(replies).setPlaceholder('Быстрый ответ')
 			),
 		],
 	});
@@ -38,7 +38,7 @@ export default async function (interaction) {
 	await user
 		.send({
 			embeds: [
-				new MessageEmbed().setTitle(messages.stuffJoined).setDescription(messages.chatEnabled).setColor(colors.green),
+				new EmbedBuilder().setTitle(messages.stuffJoined).setDescription(messages.chatEnabled).setColor(colors.green),
 			],
 		})
 		.catch(unavailableDm(userId));

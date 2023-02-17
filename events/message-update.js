@@ -13,11 +13,13 @@ export default async function (oldMessage, message) {
 		return;
 	}
 
-	if (message.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(message.channel.id)) {
-		if (!tickets.get(threads.get(message.channel.id))?.messageLinks[message.id]) return;
+	const id = message.channel.id;
+
+	if (message.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(id)) {
+		if (!tickets.get(threads.get(id))?.messageLinks[message.id]) return;
 
 		const opt = { ...(message.content.length && { content: `**${message.author.username}**: ${message.content}` }) };
-		const user = await discordClient.users.fetch(threads.get(message.channel.id));
+		const user = await discordClient.users.fetch(threads.get(id));
 		const fetchedMessage = await user.dmChannel.messages.fetch(tickets.get(user.id).messageLinks[message.id]);
 
 		await fetchedMessage

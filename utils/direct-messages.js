@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
 
@@ -17,7 +17,7 @@ export default async function (message, action = '') {
 		await message.channel
 			.send({
 				embeds: [
-					new MessageEmbed()
+					new EmbedBuilder()
 						.setTitle(messages.noTickets)
 						.setDescription(
 							messages.noTicketsDescription
@@ -37,7 +37,7 @@ export default async function (message, action = '') {
 
 	if (!ticket.active) {
 		await message.channel
-			.send({ embeds: [new MessageEmbed().setTitle(messages.waiting).setColor(colors.red)] })
+			.send({ embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)] })
 			.catch(console.error);
 
 		log(`Сообщение было получено, но тикет не принят! @${message.author.id}`);

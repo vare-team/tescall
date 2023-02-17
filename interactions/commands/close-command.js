@@ -1,5 +1,5 @@
 import { colors, messages } from '../../config.js';
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 import removeTicket from '../../utils/remove-ticket.js';
 
@@ -11,7 +11,7 @@ export default async function (interaction) {
 	const check = await user
 		.send({
 			embeds: [
-				new MessageEmbed()
+				new EmbedBuilder()
 					.setTitle(messages.goodbye)
 					.setDescription(messages.goodbyeDescription)
 					.setColor(colors.green),

@@ -1,6 +1,4 @@
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v10';
-import { commands } from '../config.js';
+import { ActivityType, commands } from '../config.js';
 
 import log from '../utils/log.js';
 import messageCreateEvent from './message-create.js';
@@ -16,10 +14,7 @@ export default async function () {
 	if (process.env.ROLE) global.boosterRole = await mainGuild.roles.fetch(process.env.ROLE);
 	global.ticketsChannel = await mainGuild.channels.fetch(process.env.CHANNEL);
 
-	const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
-	await rest.put(Routes.applicationCommands(discordClient.application.id), {
-		body: Object.values(commands).slice(1),
-	});
+	await discordClient.application.commands.set(Object.values(commands).slice(1));
 
 	discordClient.on('messageCreate', messageCreateEvent);
 	discordClient.on('messageUpdate', messageUpdateEvent);
@@ -27,7 +22,7 @@ export default async function () {
 	discordClient.on('interactionCreate', interactionCreateEvent);
 	discordClient.on('threadDelete', threadDeleteEvent);
 
-	discordClient.user.setActivity('Напиши в ЛС для помощи!', { type: 'WATCHING' });
+	discordClient.user.setActivity('Напиши в ЛС для помощи!', { type: ActivityType.Watching });
 
 	log(`Лог канал закеширован! #${discordClient.channels.cache.get(process.env.CHANNEL).name}`);
 	log('К работе готов!\n');

@@ -1,9 +1,11 @@
+import { Intents } from './config.js';
+
 if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL || !process.env.GUILD) {
 	console.log('Ошибка окружения!');
 	process.exit();
 }
 
-import { Client, WebhookClient } from 'discord.js';
+import { Client, Partials, WebhookClient } from 'discord.js';
 import { createFiles, readFiles } from './utils/save-tickets.js';
 import log from './utils/log.js';
 import readyEvent from './events/ready.js';
@@ -11,8 +13,8 @@ import readyEvent from './events/ready.js';
 createFiles();
 
 const client = new Client({
-	intents: ['GUILDS', 'DIRECT_MESSAGES', 'GUILD_MESSAGES', 'GUILD_MEMBERS'],
-	partials: ['CHANNEL'],
+	intents: [Intents.Guilds, Intents.GuildMembers, Intents.GuildMessages, Intents.DirectMessages],
+	partials: [Partials.Channel],
 });
 
 global.discordClient = client;
