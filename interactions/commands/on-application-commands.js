@@ -1,5 +1,5 @@
 import { colors, messages, modals } from '../../config.js';
-import { EmbedBuilder } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import muteCommand from './mute-command.js';
 import unmuteCommand from './unmute-command.js';
 import closeCommand from './close-command.js';
@@ -22,7 +22,7 @@ export default async function (interaction) {
 		await interaction
 			.reply({
 				ephemeral: true,
-				embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)],
+				embeds: [new MessageEmbed().setTitle(messages.waiting).setColor(colors.red)],
 			})
 			.catch(console.error);
 		return;

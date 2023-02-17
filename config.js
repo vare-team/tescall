@@ -1,14 +1,5 @@
-import {
-	ActionRowBuilder,
-	ModalBuilder,
-	SlashCommandBuilder,
-	StringSelectMenuOptionBuilder,
-	SlashCommandUserOption,
-	TextInputBuilder,
-	PermissionsBitField,
-	SlashCommandStringOption,
-	TextInputStyle,
-} from 'discord.js';
+import { MessageActionRow as ModalActionRow, Modal, Permissions, TextInputComponent } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption } from '@discordjs/builders';
 
 export const messages = {
 	hello: 'Здравствуйте, %NAME%!',
@@ -38,31 +29,36 @@ export const ticketsErrors = {
 };
 
 export const replies = [
-	new StringSelectMenuOptionBuilder()
-		.setLabel('Ожидайте перепроверки')
-		.setDescription('Здравствуйте и спасибо за предоставленную информацию, ожидайте перепроверки!')
-		.setValue('botReCheck')
-		.setEmoji('🛠'),
-	new StringSelectMenuOptionBuilder()
-		.setLabel('#шпаргалка')
-		.setDescription('Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в канале #шпаргалка!')
-		.setValue('botShpora')
-		.setEmoji('🗑'),
-	new StringSelectMenuOptionBuilder()
-		.setLabel('Права ботов')
-		.setDescription('На тестовом сервере установлены эти права для ботов...')
-		.setValue('botPerms')
-		.setEmoji('🛡'),
-	new StringSelectMenuOptionBuilder()
-		.setLabel('Проблема с /up')
-		.setDescription('На всех серверах бот добавил свои слеш команды...')
-		.setValue('upIssue')
-		.setEmoji('🆙'),
-	new StringSelectMenuOptionBuilder()
-		.setLabel('В ЧС Ники')
-		.setDescription('Это означает что вы в черном списке системы Nika...')
-		.setValue('warnsIssue')
-		.setEmoji('⚠'),
+	{
+		label: 'Ожидайте перепроверки',
+		value: 'botReCheck',
+		description: 'Здравствуйте и спасибо за предоставленную информацию, ожидайте перепроверки!',
+		emoji: '🛠',
+	},
+	{
+		label: '#шпаргалка',
+		value: 'botShpora',
+		description: 'Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в канале #шпаргалка!',
+		emoji: '🗑',
+	},
+	{
+		label: 'Права ботов',
+		value: 'botPerms',
+		description: 'На тестовом сервере установлены эти права для ботов...',
+		emoji: '🛡',
+	},
+	{
+		label: 'Проблема с /up',
+		value: 'upIssue',
+		description: 'На всех серверах бот добавил свои слеш команды...',
+		emoji: '🆙',
+	},
+	{
+		label: 'В ЧС Ники',
+		value: 'warnsIssue',
+		description: 'Это означает что вы в черном списке системы Nika...',
+		emoji: '⚠',
+	},
 ];
 
 export const repliesMessages = {
@@ -131,7 +127,7 @@ export const commands = {
 		.setDescription('открывает форму для отправки бота на перпроверку')
 		.toJSON(),
 	mute: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
+		.setDefaultMemberPermissions(Permissions.FLAGS.MODERATE_MEMBERS)
 		.setName('mute')
 		.setDescription('запрещяет создание тикетов для пользователя')
 		.addUserOption(
@@ -149,7 +145,7 @@ export const commands = {
 		.setDMPermission(false)
 		.toJSON(),
 	unmute: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
+		.setDefaultMemberPermissions(Permissions.FLAGS.MODERATE_MEMBERS)
 		.setName('unmute')
 		.setDescription('снимает запрет на создание тикетов')
 		.addUserOption(
@@ -161,13 +157,13 @@ export const commands = {
 		.setDMPermission(false)
 		.toJSON(),
 	list: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ViewAuditLog)
+		.setDefaultMemberPermissions(Permissions.FLAGS.VIEW_AUDIT_LOG)
 		.setName('list')
 		.setDescription('Выводит список тикетов')
 		.setDMPermission(false)
 		.toJSON(),
 	close: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ViewAuditLog)
+		.setDefaultMemberPermissions(Permissions.FLAGS.VIEW_AUDIT_LOG)
 		.setName('close')
 		.setDescription('Закрывает тикет пользователя')
 		.addUserOption(
@@ -183,45 +179,46 @@ export const commands = {
 export const modals = {
 	resolve: name => modals[commands.resolve(name)],
 
-	general: new ModalBuilder()
+	general: new Modal()
 		.setCustomId('GENERAL')
 		.setTitle('Анкета обращения')
 		.setComponents([
-			new ActionRowBuilder().setComponents(
-				new TextInputBuilder()
+			new ModalActionRow().setComponents([
+				new TextInputComponent()
 					.setCustomId('topic')
 					.setLabel('Опишите тему обращения')
 					.setRequired(true)
 					.setPlaceholder('Мне нужна помощь с...')
 					.setMinLength(6)
 					.setMaxLength(256)
-					.setStyle(TextInputStyle.Paragraph)
-			),
+					.setStyle('PARAGRAPH'),
+			]),
 		]),
-	recheck: new ModalBuilder()
+
+	recheck: new Modal()
 		.setCustomId('RECHECK')
 		.setTitle('Заявка на перепроверку')
 		.setComponents([
-			new ActionRowBuilder().setComponents(
-				new TextInputBuilder()
+			new ModalActionRow().setComponents([
+				new TextInputComponent()
 					.setCustomId('botId')
 					.setLabel('Айди бота')
 					.setRequired(true)
 					.setPlaceholder('885850225820962826')
 					.setMinLength(17)
 					.setMaxLength(19)
-					.setStyle(TextInputStyle.Short)
-			),
-			new ActionRowBuilder().setComponents(
-				new TextInputBuilder()
+					.setStyle('SHORT'),
+			]),
+			new ModalActionRow().setComponents([
+				new TextInputComponent()
 					.setCustomId('reason')
 					.setRequired(true)
 					.setLabel('Причина отказа, указанная на сайте')
 					.setPlaceholder('офлайн')
 					.setMinLength(6)
 					.setMaxLength(200)
-					.setStyle(TextInputStyle.Paragraph)
-			),
+					.setStyle('PARAGRAPH'),
+			]),
 		]),
 };
 

@@ -3,7 +3,7 @@ import saveTickets from '../../utils/save-tickets.js';
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
 
-	if (!mutes.has(user.id.toString())) {
+	if (!mutes.has(user.id)) {
 		await interaction.reply({
 			content: `<@${user.id}> isn't muted`,
 			ephemeral: true,
@@ -12,7 +12,7 @@ export default async function (interaction) {
 		return;
 	}
 
-	mutes.delete(user.id.toString());
+	mutes.delete(user.id);
 	saveTickets();
 	await interaction.reply({
 		content: `<@${user.id}> unmuted`,

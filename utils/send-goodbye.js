@@ -1,12 +1,12 @@
 import { colors, messages } from '../config.js';
-import { EmbedBuilder } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import unavailableDm from './unavailable-dm.js';
 
 export default async function (user) {
 	return await user
 		.send({
 			embeds: [
-				new EmbedBuilder()
+				new MessageEmbed()
 					.setTitle(messages.goodbye)
 					.setDescription(messages.goodbyeDescription)
 					.setColor(colors.green),

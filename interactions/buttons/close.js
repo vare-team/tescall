@@ -9,8 +9,7 @@ export default async function (interaction) {
 	if (!check) return;
 
 	await interaction.update({
-		//embeds: [{ ...interaction.message.embeds[0], title: messages.goodbye, color: colors.grey }],
-		embeds: [{ ...interaction.message.embeds[0].data, title: messages.goodbye, color: colors.grey }],
+		embeds: [{ ...interaction.message.embeds[0], title: messages.goodbye, color: colors.grey }],
 		components: [],
 	});
 

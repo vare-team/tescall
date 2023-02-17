@@ -5,7 +5,7 @@ export default async function (interaction) {
 	const user = interaction.options.getUser('user');
 	const time = parseInt(((Date.now() + ms(interaction.options.getString('time'))) / 1000).toFixed());
 
-	mutes.set(user.id.toString(), time);
+	mutes.set(user.id, time);
 	saveTickets();
 	await interaction.reply({
 		content: `<@${user.id}> muted: <t:${time}:R>`,
