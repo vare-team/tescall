@@ -8,14 +8,14 @@ import { ChannelType } from 'discord.js';
  * @return {Promise<void>}
  */
 export default async function (message) {
-	if (message.channel.type === ChannelType.DM && !message.author.bot) {
+	if (message.author.bot) return;
+
+	if (message.channel.type === ChannelType.DM) {
 		await directMessages(message);
 		return;
 	}
 
 	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(message.channel.id)) {
-		if (message.author.bot) return;
-
 		const opt = {
 			...(message.content.length && { content: `**${message.author.username}**: ${message.content}` }),
 			...(message.attachments.size && { files: message.attachments.map(a => a.url) }),
