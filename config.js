@@ -34,7 +34,6 @@ export const messages = {
 export const ticketsErrors = {
 	invalidBotId: 'Указан не верный айди',
 	muted: 'Вы временно не можете создавать новых обращений',
-	mutedForever: 'Вы не можете создавать новых обращений',
 	unavailableDm: 'Не возможно отправить сообщение этому пользователю.',
 };
 
@@ -145,7 +144,7 @@ export const commands = {
 			new SlashCommandStringOption()
 				.setName('time')
 				.setRequired(true)
-				.setDescription('длительность мута, в ms формате 1h и т.д., или -1 для мута навсегда')
+				.setDescription('длительность мута, в формате 1h и т.д.')
 		)
 		.setDMPermission(false)
 		.toJSON(),

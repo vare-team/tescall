@@ -12,11 +12,7 @@ export default async function (interaction) {
 			await interaction
 				.reply({
 					ephemeral: true,
-					embeds: [
-						new EmbedBuilder()
-							.setTitle(date === Infinity ? ticketsErrors.mutedForever : ticketsErrors.muted)
-							.setColor(colors.red),
-					],
+					embeds: [new EmbedBuilder().setTitle(ticketsErrors.muted).setColor(colors.red)],
 				})
 				.catch(console.error);
 			return;
