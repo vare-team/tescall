@@ -7,8 +7,9 @@ import getThread from './get-thread.js';
  * @param userId
  */
 export default function (userId) {
-	return async () => {
-		const thread = getThread(userId);
+	return async e => {
+		console.log(e);
+		const thread = await getThread(userId);
 		await thread.send(ticketsErrors.unavailableDm);
 		await closeTickets(thread.id)();
 	};
