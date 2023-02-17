@@ -6,7 +6,7 @@ import sendGoodbye from '../utils/send-goodbye.js';
 
 export default async function (msg) {
 	if (msg.channel.type === 'DM' && !msg.author.bot) {
-		const ticket = tickets.get(msg.author.id);
+		const ticket = tickets.get(msg.author.id.toString());
 		if (!ticket?.messageLinks[msg.id]) return;
 		const opt = {
 			username: msg.author.username,

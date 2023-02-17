@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
 
@@ -9,7 +9,7 @@ import log from './log.js';
  */
 export default async function (message, action = '') {
 	const client = message.client;
-	if (!tickets.has(message.author.id)) {
+	if (!tickets.has(message.author.id.toString())) {
 		const commands = await client.application.commands.fetch();
 		const general = commands.find(x => x.name === 'обычное_обращение');
 		const recheck = commands.find(x => x.name === 'перепроверка_бота');
@@ -17,14 +17,14 @@ export default async function (message, action = '') {
 		await message.channel
 			.send({
 				embeds: [
-					new MessageEmbed()
+					new EmbedBuilder()
 						.setTitle(messages.noTickets)
 						.setDescription(
 							messages.noTicketsDescription
 								.replace('%GENERAL_NAME%', general.name)
-								.replace('%GENERAL_ID%', general.id)
+								.replace('%GENERAL_ID%', general.id.toString)
 								.replace('%RECHECK_NAME%', recheck.name)
-								.replace('%RECHECK_ID%', recheck.id)
+								.replace('%RECHECK_ID%', recheck.id.toString)
 						)
 						.setColor(colors.red),
 				],
@@ -33,11 +33,11 @@ export default async function (message, action = '') {
 		return;
 	}
 
-	const ticket = tickets.get(message.author.id);
+	const ticket = tickets.get(message.author.id.toString());
 
 	if (!ticket.active) {
 		await message.channel
-			.send({ embeds: [new MessageEmbed().setTitle(messages.waiting).setColor(colors.red)] })
+			.send({ embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)] })
 			.catch(console.error);
 
 		log(`Сообщение было получено, но тикет не принят! @${message.author.id}`);
@@ -70,6 +70,6 @@ https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLi
 	if (embeds.length) opt.embeds = embeds;
 
 	const sendedMsg = await discordWebhook.send(opt);
-	tickets.get(message.author.id).messageLinks[message.id] = sendedMsg.id;
+	tickets.get(message.author.id.toString()).messageLinks[message.id] = sendedMsg.id;
 	log(`Сообщение было получено и переслано! @${message.author.id}`);
 }

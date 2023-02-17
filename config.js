@@ -1,5 +1,14 @@
-import { MessageActionRow as ModalActionRow, Modal, Permissions, TextInputComponent } from 'discord.js';
-import { SlashCommandBuilder, SlashCommandStringOption, SlashCommandUserOption } from '@discordjs/builders';
+import {
+	ActionRowBuilder,
+	ModalBuilder,
+	SlashCommandBuilder,
+	StringSelectMenuOptionBuilder,
+	SlashCommandUserOption,
+	TextInputBuilder,
+	PermissionsBitField,
+	SlashCommandStringOption,
+	TextInputStyle,
+} from 'discord.js';
 
 export const messages = {
 	hello: 'Здравствуйте, %NAME%!',
@@ -25,40 +34,36 @@ export const messages = {
 export const ticketsErrors = {
 	invalidBotId: 'Указан не верный айди',
 	muted: 'Вы временно не можете создавать новых обращений',
+	mutedForever: 'Вы не можете создавать новых обращений',
 	unavailableDm: 'Не возможно отправить сообщение этому пользователю.',
 };
 
 export const replies = [
-	{
-		label: 'Ожидайте перепроверки',
-		value: 'botReCheck',
-		description: 'Здравствуйте и спасибо за предоставленную информацию, ожидайте перепроверки!',
-		emoji: '🛠',
-	},
-	{
-		label: '#шпаргалка',
-		value: 'botShpora',
-		description: 'Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в канале #шпаргалка!',
-		emoji: '🗑',
-	},
-	{
-		label: 'Права ботов',
-		value: 'botPerms',
-		description: 'На тестовом сервере установлены эти права для ботов...',
-		emoji: '🛡',
-	},
-	{
-		label: 'Проблема с /up',
-		value: 'upIssue',
-		description: 'На всех серверах бот добавил свои слеш команды...',
-		emoji: '🆙',
-	},
-	{
-		label: 'В ЧС Ники',
-		value: 'warnsIssue',
-		description: 'Это означает что вы в черном списке системы Nika...',
-		emoji: '⚠',
-	},
+	new StringSelectMenuOptionBuilder()
+		.setLabel('Ожидайте перепроверки')
+		.setDescription('Здравствуйте и спасибо за предоставленную информацию, ожидайте перепроверки!')
+		.setValue('botReCheck')
+		.setEmoji('🛠'),
+	new StringSelectMenuOptionBuilder()
+		.setLabel('#шпаргалка')
+		.setDescription('Убедитесь, пожалуйста, что ваш бот соответствует всему, что есть в канале #шпаргалка!')
+		.setValue('botShpora')
+		.setEmoji('🗑'),
+	new StringSelectMenuOptionBuilder()
+		.setLabel('Права ботов')
+		.setDescription('На тестовом сервере установлены эти права для ботов...')
+		.setValue('botPerms')
+		.setEmoji('🛡'),
+	new StringSelectMenuOptionBuilder()
+		.setLabel('Проблема с /up')
+		.setDescription('На всех серверах бот добавил свои слеш команды...')
+		.setValue('upIssue')
+		.setEmoji('🆙'),
+	new StringSelectMenuOptionBuilder()
+		.setLabel('В ЧС Ники')
+		.setDescription('Это означает что вы в черном списке системы Nika...')
+		.setValue('warnsIssue')
+		.setEmoji('⚠'),
 ];
 
 export const repliesMessages = {
@@ -127,7 +132,7 @@ export const commands = {
 		.setDescription('открывает форму для отправки бота на перпроверку')
 		.toJSON(),
 	mute: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(Permissions.FLAGS.MODERATE_MEMBERS)
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
 		.setName('mute')
 		.setDescription('запрещяет создание тикетов для пользователя')
 		.addUserOption(
@@ -140,12 +145,12 @@ export const commands = {
 			new SlashCommandStringOption()
 				.setName('time')
 				.setRequired(true)
-				.setDescription('длительность мута, в формате 1h и т.д.')
+				.setDescription('длительность мута, в ms формате 1h и т.д., или -1 для мута навсегда')
 		)
 		.setDMPermission(false)
 		.toJSON(),
 	unmute: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(Permissions.FLAGS.MODERATE_MEMBERS)
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
 		.setName('unmute')
 		.setDescription('снимает запрет на создание тикетов')
 		.addUserOption(
@@ -157,13 +162,13 @@ export const commands = {
 		.setDMPermission(false)
 		.toJSON(),
 	list: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(Permissions.FLAGS.VIEW_AUDIT_LOG)
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.ViewAuditLog)
 		.setName('list')
 		.setDescription('Выводит список тикетов')
 		.setDMPermission(false)
 		.toJSON(),
 	close: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(Permissions.FLAGS.VIEW_AUDIT_LOG)
+		.setDefaultMemberPermissions(PermissionsBitField.Flags.ViewAuditLog)
 		.setName('close')
 		.setDescription('Закрывает тикет пользователя')
 		.addUserOption(
@@ -179,46 +184,45 @@ export const commands = {
 export const modals = {
 	resolve: name => modals[commands.resolve(name)],
 
-	general: new Modal()
+	general: new ModalBuilder()
 		.setCustomId('GENERAL')
 		.setTitle('Анкета обращения')
 		.setComponents([
-			new ModalActionRow().setComponents([
-				new TextInputComponent()
+			new ActionRowBuilder().setComponents(
+				new TextInputBuilder()
 					.setCustomId('topic')
 					.setLabel('Опишите тему обращения')
 					.setRequired(true)
 					.setPlaceholder('Мне нужна помощь с...')
 					.setMinLength(6)
 					.setMaxLength(256)
-					.setStyle('PARAGRAPH'),
-			]),
+					.setStyle(TextInputStyle.Paragraph)
+			),
 		]),
-
-	recheck: new Modal()
+	recheck: new ModalBuilder()
 		.setCustomId('RECHECK')
 		.setTitle('Заявка на перепроверку')
 		.setComponents([
-			new ModalActionRow().setComponents([
-				new TextInputComponent()
+			new ActionRowBuilder().setComponents(
+				new TextInputBuilder()
 					.setCustomId('botId')
 					.setLabel('Айди бота')
 					.setRequired(true)
 					.setPlaceholder('885850225820962826')
 					.setMinLength(17)
 					.setMaxLength(19)
-					.setStyle('SHORT'),
-			]),
-			new ModalActionRow().setComponents([
-				new TextInputComponent()
+					.setStyle(TextInputStyle.Short)
+			),
+			new ActionRowBuilder().setComponents(
+				new TextInputBuilder()
 					.setCustomId('reason')
 					.setRequired(true)
 					.setLabel('Причина отказа, указанная на сайте')
 					.setPlaceholder('офлайн')
 					.setMinLength(6)
 					.setMaxLength(200)
-					.setStyle('PARAGRAPH'),
-			]),
+					.setStyle(TextInputStyle.Paragraph)
+			),
 		]),
 };
 

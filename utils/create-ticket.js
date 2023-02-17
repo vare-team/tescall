@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
 import { colors, TicketTitles } from '../config.js';
 import saveTickets from './save-tickets.js';
 import log from './log.js';
@@ -10,19 +10,19 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 	const role = member.roles.resolve(boosterRole.id);
 	const sendedMsg = await ticketsChannel.send({
 		embeds: [
-			new MessageEmbed()
+			new EmbedBuilder()
 				.setTitle(title)
 				.setDescription(`<@${user.id}>:\n` + content)
 				.setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
 				.setColor(boosterRole && role ? colors.yellow : colors.red)
-				.setImage(attachments.size ? attachments.first().url : ''),
+				.setImage(attachments.size ? attachments.first().url : null),
 		],
 		components: [
-			new MessageActionRow().addComponents(
-				new MessageButton()
+			new ActionRowBuilder().setComponents(
+				new ButtonBuilder()
 					.setCustomId('GET:' + user.id)
 					.setLabel('Взять тикет')
-					.setStyle('PRIMARY')
+					.setStyle(ButtonStyle.Primary)
 			),
 		],
 	});

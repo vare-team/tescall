@@ -19,7 +19,7 @@ export default async function (inter) {
 
 	if (!sendedMsg) return;
 
-	tickets.get(user.id).messageLinks[message.id] = sendedMsg.id;
+	tickets.get(user.id.toString()).messageLinks[message.id] = sendedMsg.id;
 	await inter.reply({ content: 'Ответ отправлен!', ephemeral: true });
 	log(`Сообщение было получено и переслано!`);
 }
