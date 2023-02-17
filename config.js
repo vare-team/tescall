@@ -5,10 +5,13 @@ import {
 	StringSelectMenuOptionBuilder,
 	SlashCommandUserOption,
 	TextInputBuilder,
-	PermissionsBitField,
 	SlashCommandStringOption,
-	TextInputStyle,
 } from 'discord.js';
+
+export const Permissions = {
+	ModerateMembers: 1 << 40,
+	ViewAuditLog: 1 << 7,
+};
 
 export const messages = {
 	hello: 'Здравствуйте, %NAME%!',
@@ -132,7 +135,7 @@ export const commands = {
 		.setDescription('открывает форму для отправки бота на перпроверку')
 		.toJSON(),
 	mute: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
+		.setDefaultMemberPermissions(Permissions.ModerateMembers)
 		.setName('mute')
 		.setDescription('запрещяет создание тикетов для пользователя')
 		.addUserOption(
@@ -150,7 +153,7 @@ export const commands = {
 		.setDMPermission(false)
 		.toJSON(),
 	unmute: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
+		.setDefaultMemberPermissions(Permissions.ModerateMembers)
 		.setName('unmute')
 		.setDescription('снимает запрет на создание тикетов')
 		.addUserOption(
@@ -162,13 +165,13 @@ export const commands = {
 		.setDMPermission(false)
 		.toJSON(),
 	list: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ViewAuditLog)
+		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
 		.setName('list')
 		.setDescription('Выводит список тикетов')
 		.setDMPermission(false)
 		.toJSON(),
 	close: new SlashCommandBuilder()
-		.setDefaultMemberPermissions(PermissionsBitField.Flags.ViewAuditLog)
+		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
 		.setName('close')
 		.setDescription('Закрывает тикет пользователя')
 		.addUserOption(
@@ -196,7 +199,7 @@ export const modals = {
 					.setPlaceholder('Мне нужна помощь с...')
 					.setMinLength(6)
 					.setMaxLength(256)
-					.setStyle(TextInputStyle.Paragraph)
+					.setStyle('Paragraph')
 			),
 		]),
 	recheck: new ModalBuilder()
@@ -211,7 +214,7 @@ export const modals = {
 					.setPlaceholder('885850225820962826')
 					.setMinLength(17)
 					.setMaxLength(19)
-					.setStyle(TextInputStyle.Short)
+					.setStyle('Short')
 			),
 			new ActionRowBuilder().setComponents(
 				new TextInputBuilder()
@@ -221,7 +224,7 @@ export const modals = {
 					.setPlaceholder('офлайн')
 					.setMinLength(6)
 					.setMaxLength(200)
-					.setStyle(TextInputStyle.Paragraph)
+					.setStyle('Paragraph')
 			),
 		]),
 };
