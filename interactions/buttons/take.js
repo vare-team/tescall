@@ -1,4 +1,4 @@
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder } from 'discord.js';
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, StringSelectMenuBuilder, ButtonStyle } from 'discord.js';
 import { colors, messages, replies } from '../../config.js';
 import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
@@ -16,7 +16,7 @@ export default async function (interaction) {
 		embeds: [{ ...interaction.message.embeds[0].data, color: colors.green }],
 		components: [
 			new ActionRowBuilder().setComponents(
-				new ButtonBuilder().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle('Success')
+				new ButtonBuilder().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle(ButtonStyle.Success)
 			),
 			new ActionRowBuilder().setComponents(
 				new StringSelectMenuBuilder().setCustomId('AUTOMESSAGE').addOptions(replies).setPlaceholder('Быстрый ответ')
