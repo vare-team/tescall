@@ -1,6 +1,7 @@
 import log from '../utils/log.js';
 import directMessages from '../utils/direct-messages.js';
 import closeTickets from '../utils/close-tickets.js';
+import { ChannelType } from 'discord.js';
 
 /**
  * @param oldMessage {Message}
@@ -8,14 +9,16 @@ import closeTickets from '../utils/close-tickets.js';
  * @return {Promise<void>}
  */
 export default async function (oldMessage, message) {
-	if (message.channel.type === 'DM' && !message.author.bot) {
+	if (message.author.bot) return;
+
+	if (message.channel.type === ChannelType.DM) {
 		await directMessages(message, 'edit');
 		return;
 	}
 
 	const id = message.channel.id;
 
-	if (message.channel.type === 'GUILD_PUBLIC_THREAD' && threads.has(id)) {
+	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(id)) {
 		if (!tickets.get(threads.get(id))?.messageLinks[message.id]) return;
 
 		const opt = { ...(message.content.length && { content: `**${message.author.username}**: ${message.content}` }) };
