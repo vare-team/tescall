@@ -15,13 +15,15 @@ export default async function (message) {
 		return;
 	}
 
-	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(message.channel.id)) {
+	const id = message.channel.id;
+
+	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(id)) {
 		const opt = {
 			...(message.content.length && { content: `**${message.author.username}**: ${message.content}` }),
 			...(message.attachments.size && { files: message.attachments.map(a => a.url) }),
 		};
 
-		const user = await discordClient.users.fetch(threads.get(message.channel.id));
+		const user = await discordClient.users.fetch(threads.get(id));
 		const sendedMsg = await user.send(opt).catch(unavailableDm(user.id));
 		if (!sendedMsg) return;
 
