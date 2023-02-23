@@ -12,17 +12,14 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 		embeds: [
 			new EmbedBuilder()
 				.setTitle(title)
-				.setDescription(`<@${user.id}>:\n` + content)
+				.setDescription(`<@${user.id}>:\n${content}`)
 				.setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
 				.setColor(boosterRole && role ? colors.yellow : colors.red)
 				.setImage(attachments.size ? attachments.first().url : null),
 		],
 		components: [
 			new ActionRowBuilder().setComponents(
-				new ButtonBuilder()
-					.setCustomId('GET:' + user.id)
-					.setLabel('Взять тикет')
-					.setStyle(ButtonStyle.Primary)
+				new ButtonBuilder().setCustomId(`GET:${user.id}`).setLabel('Взять тикет').setStyle(ButtonStyle.Primary)
 			),
 		],
 	});

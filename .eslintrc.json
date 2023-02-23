@@ -26,6 +26,8 @@
 	"rules": {
 		"prettier/prettier": "error",
 		"no-prototype-builtins": "off",
-		"prefer-const": "error"
+		"prefer-const": "error",
+		"no-useless-concat": "error",
+		"prefer-template": "error"
 	}
 }
