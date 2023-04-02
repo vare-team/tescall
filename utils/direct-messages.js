@@ -11,8 +11,8 @@ export default async function (message, action = '') {
 	const client = message.client;
 	if (!tickets.has(message.author.id)) {
 		const commands = await client.application.commands.fetch();
-		const general = commands.find(x => x.name === 'обычное_обращение');
-		const recheck = commands.find(x => x.name === 'перепроверка_бота');
+		const general = commands.find(x => x.name === 'general_request');
+		const recheck = commands.find(x => x.name === 'bot_recheck');
 
 		await message.channel
 			.send({
@@ -22,9 +22,9 @@ export default async function (message, action = '') {
 						.setDescription(
 							messages.noTicketsDescription
 								.replace('%GENERAL_NAME%', general.name)
-								.replace('%GENERAL_ID%', general.id)
+								.replace('%GENERAL_ID%', general?.id ?? 0)
 								.replace('%RECHECK_NAME%', recheck.name)
-								.replace('%RECHECK_ID%', recheck.id)
+								.replace('%RECHECK_ID%', recheck?.id ?? 0)
 						)
 						.setColor(colors.red),
 				],
