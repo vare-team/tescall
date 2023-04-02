@@ -136,9 +136,9 @@ export const TicketTopics = {
 export const commands = {
 	resolve: name => {
 		switch (name) {
-			case 'перепроверка_бота':
+			case 'bot_recheck':
 				return 'recheck';
-			case 'обычное_обращение':
+			case 'general_request':
 				return 'general';
 			case 'mute':
 				return 'mute';
@@ -146,58 +146,81 @@ export const commands = {
 	},
 
 	general: new SlashCommandBuilder()
-		.setName('обычное_обращение')
-		.setDescription('обращение на свободную тематику')
+		.setName('general_request')
+		.setNameLocalization('ru', 'обычное_обращение')
+		.setDescription('general topic request, for bot recheck use /bot_recheck')
+		.setDescriptionLocalization(
+			'ru',
+			'обращение на свободную тематику, для перепроверки бота используйте /перепроверка_бота'
+		)
 		.toJSON(),
 	recheck: new SlashCommandBuilder()
-		.setName('перепроверка_бота')
-		.setDescription('открывает форму для отправки бота на перпроверку')
+		.setName('bot_recheck')
+		.setNameLocalization('ru', 'перепроверка_бота')
+		.setDescription('opens form for bot recheck')
+		.setDescriptionLocalization('ru', 'открывает форму для отправки бота на перпроверку')
 		.toJSON(),
 	mute: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ModerateMembers)
 		.setName('mute')
-		.setDescription('запрещяет создание тикетов для пользователя')
+		.setNameLocalization('ru', 'мут')
+		.setDescription('mutes user from creating tickets')
+		.setDescriptionLocalization('ru', 'запрещяет создание тикетов для пользователя')
 		.addUserOption(
 			new SlashCommandUserOption()
 				.setName('user')
+				.setNameLocalization('ru', 'пользователь')
 				.setRequired(true)
-				.setDescription('пользователь который будет замьючен')
+				.setDescription('user to be muted')
+				.setDescriptionLocalization('ru', 'пользователь который будет замьючен')
 		)
 		.addStringOption(
 			new SlashCommandStringOption()
 				.setName('time')
+				.setNameLocalization('ru', 'время')
 				.setRequired(true)
-				.setDescription('длительность мута, в ms формате 1h и т.д., или -1 для мута навсегда')
+				.setDescription('mute duration, in ms format 1h etc, or -1 for permanent mute')
+				.setDescriptionLocalization('ru', 'длительность мута, в ms формате 1h и т.д., или -1 для мута навсегда')
 		)
 		.setDMPermission(false)
 		.toJSON(),
 	unmute: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ModerateMembers)
 		.setName('unmute')
-		.setDescription('снимает запрет на создание тикетов')
+		.setNameLocalization('ru', 'размут')
+		.setDescription('unmutes user from creating tickets')
+		.setDescriptionLocalization('ru', 'снимает запрет на создание тикетов')
 		.addUserOption(
 			new SlashCommandUserOption()
 				.setName('user')
+				.setNameLocalization('ru', 'пользователь')
 				.setRequired(true)
-				.setDescription('пользователь с кого будет снят мут')
+				.setDescription('user to be unmuted')
+				.setDescriptionLocalization('ru', 'пользователь с кого будет снят мут')
 		)
 		.setDMPermission(false)
 		.toJSON(),
 	list: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
 		.setName('list')
-		.setDescription('Выводит список тикетов')
+		.setNameLocalization('ru', 'список')
+		.setDescription('lists all tickets')
+		.setDescriptionLocalization('ru', 'Выводит список тикетов')
 		.setDMPermission(false)
 		.toJSON(),
 	close: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
 		.setName('close')
-		.setDescription('Закрывает тикет пользователя')
+		.setNameLocalization('ru', 'закрыть')
+		.setDescription('closes user ticket')
+		.setDescriptionLocalization('ru', 'Закрывает тикет пользователя')
 		.addUserOption(
 			new SlashCommandUserOption()
 				.setName('user')
+				.setNameLocalization('ru', 'пользователь')
 				.setRequired(true)
-				.setDescription('пользователь чей тикет будет закрыт')
+				.setDescription('user whose ticket will be closed')
+				.setDescriptionLocalization('ru', 'пользователь чей тикет будет закрыт')
 		)
 		.setDMPermission(false)
 		.toJSON(),
@@ -217,7 +240,7 @@ export const modals = {
 					.setRequired(true)
 					.setPlaceholder('Мне нужна помощь с...')
 					.setMinLength(6)
-					.setMaxLength(256)
+					.setMaxLength(495)
 					.setStyle(TextInputStyle.Paragraph)
 			),
 		]),
@@ -231,8 +254,8 @@ export const modals = {
 					.setLabel('Айди бота')
 					.setRequired(true)
 					.setPlaceholder('885850225820962826')
-					.setMinLength(17)
-					.setMaxLength(19)
+					.setMinLength(16)
+					.setMaxLength(20)
 					.setStyle(TextInputStyle.Short)
 			),
 			new ActionRowBuilder().setComponents(
@@ -241,8 +264,8 @@ export const modals = {
 					.setRequired(true)
 					.setLabel('Причина отказа, указанная на сайте')
 					.setPlaceholder('офлайн')
-					.setMinLength(6)
-					.setMaxLength(200)
+					.setMinLength(4)
+					.setMaxLength(495)
 					.setStyle(TextInputStyle.Paragraph)
 			),
 		]),
