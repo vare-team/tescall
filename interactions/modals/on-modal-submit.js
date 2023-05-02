@@ -12,6 +12,7 @@ export default async function (interaction) {
 		await interaction.reply({ embeds: [new EmbedBuilder().setTitle(err).setColor(colors.red)] }).catch(console.error);
 		return;
 	}
+
 	await createTicket(TicketTitles[interaction.customId], interaction.user, ticketTopic);
 
 	await modalsSendHello(interaction);

@@ -51,6 +51,9 @@ export const messages = {
 		'</%GENERAL_NAME%:%GENERAL_ID%>\n' +
 		'Для открытия обращения связанного с перепроверкой используйте:\n' +
 		'</%RECHECK_NAME%:%RECHECK_ID%>',
+	initWelcome: 'Выберите тип вашего обращения',
+	initWelcomeDescription: 'Для продолжения выберите тип вашего обращения с помощью кнопок ниже.',
+	initWelcomeSent: 'Сообщение было отправлено в текущий канал.',
 };
 
 export const ticketsErrors = {
@@ -86,6 +89,11 @@ export const replies = [
 		.setDescription('Это означает что вы в черном списке системы Nika...')
 		.setValue('warnsIssue')
 		.setEmoji('⚠'),
+	new StringSelectMenuOptionBuilder()
+		.setLabel('Где чаты')
+		.setDescription('Проект стал более официальным и больше не требует каналов для простого общения...')
+		.setValue('whereChats')
+		.setEmoji('❓'),
 ];
 
 export const repliesMessages = {
@@ -100,6 +108,8 @@ export const repliesMessages = {
 		'Здравствуйте. Это означает, что вы в черном списке системы Nika. Она предназначена для борьбы со спам рассылками приглашений.\n' +
 		'Если вы считаете, что произошла какая-то ошибка, то можете заполнить форму https://sdc.su/form\n' +
 		'Однако учтите, если последнее предупреждение в системе было выдано раньше полугода назад, то предупреждения сняты не будут.',
+	whereChats:
+		'Проект стал более официальным и больше не требует каналов для простого общения. Мы просим прощения за неудобства и надеемся на ваше понимание. Если у вас есть какие-либо вопросы или замечания, пожалуйста, опишите их здесь.',
 };
 
 export const colors = {
@@ -165,7 +175,7 @@ export const commands = {
 		.setName('mute')
 		.setNameLocalization('ru', 'мут')
 		.setDescription('mutes user from creating tickets')
-		.setDescriptionLocalization('ru', 'запрещяет создание тикетов для пользователя')
+		.setDescriptionLocalization('ru', 'запрещает создание тикетов для пользователя')
 		.addUserOption(
 			new SlashCommandUserOption()
 				.setName('user')
@@ -224,10 +234,34 @@ export const commands = {
 		)
 		.setDMPermission(false)
 		.toJSON(),
+	initwelcome: new SlashCommandBuilder()
+		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
+		.setName('initwelcome')
+		.setNameLocalization('ru', 'приветственное_сообщение')
+		.setDescription('initializes welcome message')
+		.setDescriptionLocalization('ru', 'Инициализирует приветственное сообщение')
+		.addStringOption(
+			new SlashCommandStringOption()
+				.setName('title')
+				.setNameLocalization('ru', 'заголовок')
+				.setRequired(true)
+				.setDescription('Message title')
+				.setDescriptionLocalization('ru', 'Заголовок сообщения')
+		)
+		.addStringOption(
+			new SlashCommandStringOption()
+				.setName('description')
+				.setNameLocalization('ru', 'описание')
+				.setRequired(true)
+				.setDescription('Message description')
+				.setDescriptionLocalization('ru', 'Описание сообщения')
+		)
+		.setDMPermission(false)
+		.toJSON(),
 };
 
 export const modals = {
-	resolve: name => modals[commands.resolve(name)],
+	resolve: name => modals[commands.resolve(name) ?? name.toLowerCase()] ?? modals.general,
 
 	general: new ModalBuilder()
 		.setCustomId('GENERAL')

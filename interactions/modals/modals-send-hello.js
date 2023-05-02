@@ -7,12 +7,8 @@ export default async function (interaction) {
 			new EmbedBuilder()
 				.setTitle(messages.hello.replace('%NAME%', interaction.user.username))
 				.setDescription(messages.helloDescription)
-				.setColor(
-					mainGuild.members.cache.get(interaction.user.id) ??
-						(await mainGuild.members.fetch(interaction.user.id))?.roles.cache.has(process.env.ROLE)
-						? colors.yellow
-						: colors.blue
-				),
+				.setColor(colors.blue),
 		],
+		ephemeral: interaction.channel.type !== 'DM',
 	});
 }

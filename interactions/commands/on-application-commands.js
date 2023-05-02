@@ -4,12 +4,14 @@ import muteCommand from './mute-command.js';
 import unmuteCommand from './unmute-command.js';
 import closeCommand from './close-command.js';
 import listCommand from './list-command.js';
+import initWelcomeCommand from './initwelcome-command.js';
 
 const commands = {
 	mute: muteCommand,
 	unmute: unmuteCommand,
 	list: listCommand,
 	close: closeCommand,
+	initwelcome: initWelcomeCommand,
 };
 
 export default async function (interaction) {
