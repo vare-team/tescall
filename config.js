@@ -89,6 +89,11 @@ export const replies = [
 		.setDescription('Это означает что вы в черном списке системы Nika...')
 		.setValue('warnsIssue')
 		.setEmoji('⚠'),
+	new StringSelectMenuOptionBuilder()
+		.setLabel('Где чаты')
+		.setDescription('Проект стал более официальным и больше не требует каналов для простого общения...')
+		.setValue('whereChats')
+		.setEmoji('❓'),
 ];
 
 export const repliesMessages = {
@@ -103,6 +108,7 @@ export const repliesMessages = {
 		'Здравствуйте. Это означает, что вы в черном списке системы Nika. Она предназначена для борьбы со спам рассылками приглашений.\n' +
 		'Если вы считаете, что произошла какая-то ошибка, то можете заполнить форму https://sdc.su/form\n' +
 		'Однако учтите, если последнее предупреждение в системе было выдано раньше полугода назад, то предупреждения сняты не будут.',
+	whereChats: 'Проект стал более официальным и больше не требует каналов для простого общения. Мы просим прощения за неудобства и надеемся на ваше понимание. Если у вас есть какие-либо вопросы или замечания, пожалуйста, опишите их здесь.'
 };
 
 export const colors = {
@@ -230,9 +236,25 @@ export const commands = {
 	initwelcome: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
 		.setName('initwelcome')
-		.setNameLocalization('ru', 'инит')
+		.setNameLocalization('ru', 'приветственное_сообщение')
 		.setDescription('initializes welcome message')
 		.setDescriptionLocalization('ru', 'Инициализирует приветственное сообщение')
+		.addStringOption(
+			new SlashCommandStringOption()
+				.setName('title')
+				.setNameLocalization('ru', 'заголовок')
+				.setRequired(true)
+				.setDescription('Message title')
+				.setDescriptionLocalization('ru', 'Заголовок сообщения')
+		)
+		.addStringOption(
+			new SlashCommandStringOption()
+				.setName('description')
+				.setNameLocalization('ru', 'описание')
+				.setRequired(true)
+				.setDescription('Message description')
+				.setDescriptionLocalization('ru', 'Описание сообщения')
+		)
 		.setDMPermission(false)
 		.toJSON(),
 };
