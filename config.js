@@ -261,7 +261,7 @@ export const commands = {
 };
 
 export const modals = {
-	resolve: name => modals[commands.resolve(name)],
+	resolve: name => modals[commands.resolve(name) ?? name.toLowerCase()] ?? modals.general,
 
 	general: new ModalBuilder()
 		.setCustomId('GENERAL')
