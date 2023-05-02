@@ -175,7 +175,7 @@ export const commands = {
 		.setName('mute')
 		.setNameLocalization('ru', 'мут')
 		.setDescription('mutes user from creating tickets')
-		.setDescriptionLocalization('ru', 'запрещяет создание тикетов для пользователя')
+		.setDescriptionLocalization('ru', 'запрещает создание тикетов для пользователя')
 		.addUserOption(
 			new SlashCommandUserOption()
 				.setName('user')
