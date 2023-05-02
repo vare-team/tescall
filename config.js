@@ -51,6 +51,9 @@ export const messages = {
 		'</%GENERAL_NAME%:%GENERAL_ID%>\n' +
 		'Для открытия обращения связанного с перепроверкой используйте:\n' +
 		'</%RECHECK_NAME%:%RECHECK_ID%>',
+	initWelcome: 'Выберите тип вашего обращения',
+	initWelcomeDescription: 'Для продолжения выберите тип вашего обращения с помощью кнопок ниже.',
+	initWelcomeSent: 'Сообщение было отправлено в текущий канал.'
 };
 
 export const ticketsErrors = {
@@ -222,6 +225,14 @@ export const commands = {
 				.setDescription('user whose ticket will be closed')
 				.setDescriptionLocalization('ru', 'пользователь чей тикет будет закрыт')
 		)
+		.setDMPermission(false)
+		.toJSON(),
+	initwelcome: new SlashCommandBuilder()
+		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
+		.setName('initwelcome')
+		.setNameLocalization('ru', 'инит')
+		.setDescription('initializes welcome message')
+		.setDescriptionLocalization('ru', 'Инициализирует приветственное сообщение')
 		.setDMPermission(false)
 		.toJSON(),
 };

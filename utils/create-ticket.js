@@ -7,7 +7,7 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 	tickets.set(user.id, { active: false, thread: null, guild: null, messageLinks: {} });
 
 	const member = await mainGuild.members.fetch(user.id);
-	const role = member.roles.resolve(boosterRole.id);
+	const role = member.roles.resolve(boosterRole?.id);
 	const sendedMsg = await ticketsChannel.send({
 		embeds: [
 			new EmbedBuilder()

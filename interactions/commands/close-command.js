@@ -5,7 +5,7 @@ import removeTicket from '../../utils/remove-ticket.js';
 
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
-	if (!tickets.has(user.id)) return await interaction.reply({ content: 'Тикет отсутствиет!' });
+	if (!tickets.has(user.id)) return await interaction.reply({ content: 'Тикет отсутствует!' });
 	const ticket = tickets.get(user.id);
 
 	const check = await user
