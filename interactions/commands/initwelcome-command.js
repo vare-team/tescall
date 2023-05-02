@@ -10,9 +10,9 @@ export default async function (interaction) {
 
 	const components = [
 		new ActionRowBuilder().setComponents([
-			new ButtonBuilder().setCustomId('ticket_DEFAULT').setEmoji('💬').setLabel('Вопрос').setStyle(2),
-			new ButtonBuilder().setCustomId('ticket_GENERAL').setEmoji('✉️').setLabel('Помощь').setStyle(2),
-			new ButtonBuilder().setCustomId('ticket_RECHECK').setEmoji('🔩').setLabel('Перепроверка').setStyle(2),
+			new ButtonBuilder().setCustomId('DEFAULT').setEmoji('💬').setLabel('Вопрос').setStyle(2),
+			new ButtonBuilder().setCustomId('GENERAL').setEmoji('✉️').setLabel('Помощь').setStyle(2),
+			new ButtonBuilder().setCustomId('RECHECK').setEmoji('🔩').setLabel('Перепроверка').setStyle(2),
 		]),
 	];
 
