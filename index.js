@@ -1,6 +1,12 @@
 import { Intents } from './config.js';
 
-if (!process.env.WEBHOOK_URL || !process.env.TOKEN || !process.env.CHANNEL || !process.env.GUILD) {
+if (
+	!process.env.WEBHOOK_URL
+	|| !process.env.TOKEN
+	|| !process.env.CHANNEL
+	|| !process.env.GUILD
+	|| !process.env.ROLE
+) {
 	console.log('Ошибка окружения!');
 	process.exit();
 }
