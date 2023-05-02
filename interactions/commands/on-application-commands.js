@@ -11,7 +11,7 @@ const commands = {
 	unmute: unmuteCommand,
 	list: listCommand,
 	close: closeCommand,
-	initwelcome: initWelcomeCommand
+	initwelcome: initWelcomeCommand,
 };
 
 export default async function (interaction) {
@@ -19,7 +19,7 @@ export default async function (interaction) {
 		await commands[interaction.commandName](interaction);
 		return;
 	}
-	
+
 	if (tickets.has(interaction.user.id)) {
 		await interaction
 			.reply({

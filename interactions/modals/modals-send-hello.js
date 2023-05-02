@@ -14,6 +14,6 @@ export default async function (interaction) {
 						: colors.blue
 				),
 		],
-		ephemeral: (interaction.channel.type !== "DM")
+		ephemeral: interaction.channel.type !== 'DM',
 	});
 }

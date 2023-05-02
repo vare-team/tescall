@@ -5,7 +5,7 @@ import automessageMenu from './automessage-menu.js';
 import log from '../../utils/log.js';
 
 export default async function (interaction) {
-	if (!interaction.customId.startsWith("ticket_")) {
+	if (!interaction.customId.startsWith('ticket_')) {
 		const [customId, userId] = interaction.customId.split(':');
 
 		switch (customId) {
