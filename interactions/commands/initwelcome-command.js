@@ -1,16 +1,17 @@
-import { colors, messages } from '../../config.js';
-import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, CommandInteraction} from 'discord.js';
+import { colors } from '../../config.js';
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from 'discord.js';
 
-export default async function (interaction = CommandInteraction.prototype) {
+export default async function (interaction) {
 	const embed = new EmbedBuilder({
-		title: messages.initWelcome,
-		description: messages.initWelcomeDescription,
-		color: colors.grey
+		title: interaction.options.getString('title'),
+		description: interaction.options.getString('description'),
+		color: colors.blue
 	});
+
 	const components = [new ActionRowBuilder().setComponents([
-		new ButtonBuilder().setCustomId("ticket_DEFAULT").setLabel("Вопрос").setStyle(2),
-		new ButtonBuilder().setCustomId("ticket_GENERAL").setLabel("Помощь").setStyle(2),
-		new ButtonBuilder().setCustomId("ticket_RECHECK").setLabel("Перепроверка").setStyle(2),
+		new ButtonBuilder().setCustomId("ticket_DEFAULT").setEmoji('💬').setLabel("Вопрос").setStyle(2),
+		new ButtonBuilder().setCustomId("ticket_GENERAL").setEmoji('✉️').setLabel("Помощь").setStyle(2),
+		new ButtonBuilder().setCustomId("ticket_RECHECK").setEmoji('🔩').setLabel("Перепроверка").setStyle(2),
 	])];
 
 	await interaction.channel.send({components: components, embeds: [embed]});
