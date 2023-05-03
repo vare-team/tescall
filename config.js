@@ -96,7 +96,7 @@ export const replies = [
 		.setEmoji('❓'),
 	new StringSelectMenuOptionBuilder()
 		.setLabel('Где чаты')
-		.setDescription('Проект стал более официальным и больше не требует каналов для простого общения...')
+		.setDescription('Данный сервер является поддержкой «VARE»')
 		.setValue('whatServer')
 		.setEmoji('📃')
 ];
