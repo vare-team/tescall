@@ -20,14 +20,7 @@ export default async function (interaction) {
 		return;
 	}
 
-	if (tickets.has(interaction.user.id)) {
-		await interaction
-			.reply({
-				ephemeral: true,
-				embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)],
-			})
-			.catch(console.error);
-		return;
-	}
+	if (await hasTicket(interaction)) return;
+
 	await interaction.showModal(modals.resolve(interaction.commandName));
 }
