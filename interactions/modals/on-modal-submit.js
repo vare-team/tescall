@@ -2,8 +2,11 @@ import modalsSendHello from './modals-send-hello.js';
 import createTicket from '../../utils/create-ticket.js';
 import { colors, TicketTitles, TicketTopics } from '../../config.js';
 import { EmbedBuilder } from 'discord.js';
+import hasTicket from '../../utils/has-ticket.js';
 
 export default async function (interaction) {
+	if (await hasTicket(interaction)) return;
+
 	let ticketTopic;
 
 	try {
