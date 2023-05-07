@@ -1,10 +1,10 @@
-import { colors, messages, modals } from '../../config.js';
-import { EmbedBuilder } from 'discord.js';
+import { modals } from '../../config.js';
 import muteCommand from './mute-command.js';
 import unmuteCommand from './unmute-command.js';
 import closeCommand from './close-command.js';
 import listCommand from './list-command.js';
 import initWelcomeCommand from './initwelcome-command.js';
+import hasTicket from '../../utils/has-ticket.js';
 
 const commands = {
 	mute: muteCommand,
@@ -20,14 +20,7 @@ export default async function (interaction) {
 		return;
 	}
 
-	if (tickets.has(interaction.user.id)) {
-		await interaction
-			.reply({
-				ephemeral: true,
-				embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)],
-			})
-			.catch(console.error);
-		return;
-	}
+	if (await hasTicket(interaction)) return;
+
 	await interaction.showModal(modals.resolve(interaction.commandName));
 }
