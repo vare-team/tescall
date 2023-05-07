@@ -9,5 +9,9 @@ export default async function (interaction) {
 				embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)],
 			})
 			.catch(console.error);
+
+		return true;
 	}
+
+	return false;
 }
