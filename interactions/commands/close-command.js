@@ -2,6 +2,7 @@ import { colors, messages } from '../../config.js';
 import { EmbedBuilder } from 'discord.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 import removeTicket from '../../utils/remove-ticket.js';
+import getThread from '../../utils/get-thread.js';
 
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
@@ -19,15 +20,15 @@ export default async function (interaction) {
 		})
 		.catch(unavailableDm(user.id));
 
-	if (ticket.thread) {
-		const thread = await discordClient.channels.cache
-			.get(process.env.CHANNEL)
-			.threads.fetch(tickets.get(user.id).thread);
-		const ticketMsg = await thread.parent.messages.fetch(thread.id);
+	if (ticket && ticket.thread) {
+		const parent =
+			(await getThread(user.id).catch(() => {}))?.parent ?? (await discordClient.channels.fetch(process.env.CHANNEL));
+
+		const ticketMsg = await parent.messages.fetch(ticket.thread);
 
 		if (ticketMsg) {
 			await ticketMsg.edit({
-				embeds: [{ ...ticketMsg.embeds[0], title: messages.goodbye, color: colors.grey }],
+				embeds: [{ ...ticketMsg.embeds[0].data, title: messages.goodbye, color: colors.grey }],
 				components: [],
 			});
 		}

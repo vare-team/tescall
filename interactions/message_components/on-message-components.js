@@ -5,31 +5,34 @@ import automessageMenu from './automessage-menu.js';
 import log from '../../utils/log.js';
 import { TicketTitles } from '../../config.js';
 import hasTicket from '../../utils/has-ticket.js';
+import unavailableDm from '../../utils/unavailable-dm.js';
 
 export default async function (interaction) {
-	if (await hasTicket(interaction)) return;
-
 	const [customId, userId] = interaction.customId.split(':');
 
-	switch (customId) {
-		case 'GET':
-			await buttonTake(interaction);
-			break;
-
-		case 'CLOSE':
-			await buttonClose(interaction);
-			break;
-
-		case 'AUTOMESSAGE':
-			await automessageMenu(interaction);
-			break;
-
-		default:
-			if (TicketTitles.hasOwnProperty(customId)) {
-				await buttonTicket(interaction);
+	try {
+		switch (customId) {
+			case 'GET':
+				await buttonTake(interaction);
 				break;
-			}
 
-			log(`Что-то странное! custom-id: ${customId}, user-id: ${userId ?? interaction.userId}`);
+			case 'CLOSE':
+				await buttonClose(interaction);
+				break;
+
+			case 'AUTOMESSAGE':
+				await automessageMenu(interaction);
+				break;
+
+			default:
+				if (TicketTitles.hasOwnProperty(customId)) {
+					if (!(await hasTicket(interaction))) await buttonTicket(interaction);
+					break;
+				}
+
+				log(`Что-то странное! custom-id: ${customId}, user-id: ${userId ?? interaction.userId}`);
+		}
+	} catch {
+		await unavailableDm(userId);
 	}
 }

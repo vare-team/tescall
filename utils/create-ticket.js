@@ -4,8 +4,6 @@ import saveTickets from './save-tickets.js';
 import log from './log.js';
 
 export default async function (title = TicketTitles.DEFAULT, user, content, attachments = {}) {
-	tickets.set(user.id, { active: false, thread: null, guild: null, messageLinks: {} });
-
 	const member = await mainGuild.members.fetch(user.id);
 	const role = boosterRole ? member.roles.resolve(boosterRole.id) : null;
 	const sendedMsg = await ticketsChannel.send({
@@ -25,6 +23,7 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 	});
 
 	threads.set(sendedMsg.id, user.id);
+	tickets.set(user.id, { active: false, thread: sendedMsg.id, guild: null, messageLinks: {} });
 	saveTickets();
 	log(`Новый тикет создан! @${user.id}`);
 }
