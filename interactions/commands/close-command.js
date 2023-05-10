@@ -2,7 +2,7 @@ import { colors, messages } from '../../config.js';
 import { EmbedBuilder } from 'discord.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 import removeTicket from '../../utils/remove-ticket.js';
-import getThread from "../../utils/get-thread.js";
+import getThread from '../../utils/get-thread.js';
 
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
