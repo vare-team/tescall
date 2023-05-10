@@ -5,13 +5,14 @@ import getThread from './get-thread.js';
 export default function (threadId) {
 	return async () => {
 		const user = await discordClient.users.fetch(threads.get(threadId));
-		const thread = await getThread(user.id);
+		const parent =
+			(await getThread(user.id).catch(() => {}))?.parent ?? (await discordClient.channels.fetch(process.env.CHANNEL));
 
-		const ticketMsg = await thread.parent.messages.fetch(threadId);
+		const ticketMsg = await parent.messages.fetch(threadId);
 
 		if (ticketMsg) {
 			await ticketMsg.edit({
-				embeds: [{ ...ticketMsg.embeds[0], title: messages.goodbyeError, color: colors.grey }],
+				embeds: [{ ...ticketMsg.embeds[0].data, title: messages.goodbyeError, color: colors.grey }],
 				components: [],
 			});
 		}
