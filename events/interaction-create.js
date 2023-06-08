@@ -6,8 +6,9 @@ import { colors, Permissions, ticketsErrors } from '../config.js';
 
 export default async function (interaction) {
 	const member = await mainGuild.members.fetch(interaction.userId);
-	if (mutes.has(member.id) && !member.permissions.has(Permissions.ModerateMembers)) {
-		const date = mutes.get(member.id);
+	const key = interaction.userId.toString();
+	if (mutes.has(key) && !member.permissions.has(Permissions.ModerateMembers)) {
+		const date = mutes.get(key);
 		if (date > Date.now() / 1000) {
 			await interaction
 				.reply({
@@ -22,7 +23,7 @@ export default async function (interaction) {
 			return;
 		}
 
-		mutes.delete(member.id);
+		mutes.delete(key);
 	}
 
 	if (interaction.isCommand()) {
