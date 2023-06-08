@@ -21,7 +21,7 @@ export default async function (interaction) {
 				.catch(console.error);
 			return;
 		}
-		mutes.delete(member);
+		mutes.delete(member.id);
 	}
 
 	if (interaction.isCommand()) {
