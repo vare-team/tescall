@@ -5,10 +5,10 @@ import { EmbedBuilder } from 'discord.js';
 import { colors, Permissions, ticketsErrors } from '../config.js';
 
 export default async function (interaction) {
-	const member = await mainGuild.members.fetch(interaction.userId);
-	const key = interaction.userId.toString();
-	if (mutes.has(key) && !member.permissions.has(Permissions.ModerateMembers)) {
-		const date = mutes.get(key);
+	const member = await mainGuild.members.fetch(interaction.user.id);
+	if (mutes.has(member.id) && !member.permissions.has(Permissions.ModerateMembers)) {
+		const date = mutes.get(member.id);
+
 		if (date > Date.now() / 1000) {
 			await interaction
 				.reply({
@@ -23,7 +23,7 @@ export default async function (interaction) {
 			return;
 		}
 
-		mutes.delete(key);
+		mutes.delete(member.id);
 	}
 
 	if (interaction.isCommand()) {
