@@ -54,6 +54,7 @@ export const messages = {
 	initWelcome: 'Выберите тип вашего обращения',
 	initWelcomeDescription: 'Для продолжения выберите тип вашего обращения с помощью кнопок ниже.',
 	initWelcomeSent: 'Сообщение было отправлено в текущий канал.',
+	closedDmErrorDescription: 'Перед созданием тикета, откройте лс.',
 };
 
 export const ticketsErrors = {

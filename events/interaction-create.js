@@ -8,6 +8,7 @@ export default async function (interaction) {
 	const member = await mainGuild.members.fetch(interaction.user.id);
 	if (mutes.has(member.id) && !member.permissions.has(Permissions.ModerateMembers)) {
 		const date = mutes.get(member.id);
+
 		if (date > Date.now() / 1000) {
 			await interaction
 				.reply({
@@ -21,6 +22,7 @@ export default async function (interaction) {
 				.catch(console.error);
 			return;
 		}
+
 		mutes.delete(member.id);
 	}
 
