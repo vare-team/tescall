@@ -1,6 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
+import getMember from './get-member.js';
 
 /**
  * @param message {Message}
@@ -9,7 +10,8 @@ import log from './log.js';
  */
 export default async function (message, action = '') {
 	const client = message.client;
-	if (!tickets.has(message.author.id)) {
+	const user = (await getMember(message.author.id)) ?? message.author;
+	if (!tickets.has(user.id)) {
 		const commands = await client.application.commands.fetch();
 		const general = commands.find(x => x.name === 'general_request');
 		const recheck = commands.find(x => x.name === 'bot_recheck');
@@ -33,22 +35,22 @@ export default async function (message, action = '') {
 		return;
 	}
 
-	const ticket = tickets.get(message.author.id);
+	const ticket = tickets.get(user.id);
 
 	if (!ticket.active) {
 		await message.channel
 			.send({ embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)] })
 			.catch(console.error);
 
-		log(`Сообщение было получено, но тикет не принят! @${message.author.id}`);
+		log(`Сообщение было получено, но тикет не принят! @${user.id}`);
 		return;
 	}
 
 	if (!ticket.thread) return;
 
 	const opt = {
-		username: message.author.username,
-		avatarURL: message.author.displayAvatarURL(),
+		username: user.displayName,
+		avatarURL: user.displayAvatarURL(),
 		threadId: ticket.thread,
 
 		...(message.content.length && { content: message.content }),
@@ -70,6 +72,6 @@ https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLi
 	if (embeds.length) opt.embeds = embeds;
 
 	const sendedMsg = await discordWebhook.send(opt);
-	tickets.get(message.author.id).messageLinks[message.id] = sendedMsg.id;
-	log(`Сообщение было получено и переслано! @${message.author.id}`);
+	tickets.get(user.id).messageLinks[message.id] = sendedMsg.id;
+	log(`Сообщение было получено и переслано! @${user.id}`);
 }
