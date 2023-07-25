@@ -3,9 +3,10 @@ import onMessageComponents from '../interactions/message_components/on-message-c
 import onApplicationCommands from '../interactions/commands/on-application-commands.js';
 import { EmbedBuilder } from 'discord.js';
 import { colors, Permissions, ticketsErrors } from '../config.js';
+import getMember from '../utils/get-member.js';
 
 export default async function (interaction) {
-	const member = await mainGuild.members.fetch(interaction.user.id);
+	const member = interaction.member ?? (await getMember(interaction.user.id));
 	if (mutes.has(member.id) && !member.permissions.has(Permissions.ModerateMembers)) {
 		const date = mutes.get(member.id);
 

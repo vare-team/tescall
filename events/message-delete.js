@@ -4,16 +4,18 @@ import closeTickets from '../utils/close-tickets.js';
 import removeTicket from '../utils/remove-ticket.js';
 import sendGoodbye from '../utils/send-goodbye.js';
 import { ChannelType } from 'discord.js';
+import getMember from '../utils/get-member.js';
 
 export default async function (message) {
 	if (message.author.bot) return;
 
 	if (message.channel.type === ChannelType.DM) {
-		const ticket = tickets.get(message.author.id);
+		const user = (await getMember(message.author.id)) ?? message.author;
+		const ticket = tickets.get(user.id);
 		if (!ticket?.messageLinks[message.id]) return;
 		const opt = {
-			username: message.author.username,
-			avatarURL: message.author.displayAvatarURL(),
+			username: user.displayName,
+			avatarURL: user.displayAvatarURL(),
 			threadId: ticket.thread,
 
 			...(message.content.length && { content: message.content }),
