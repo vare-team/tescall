@@ -5,8 +5,8 @@ export default async function (interaction) {
 				`${p}${index + 1}. ` +
 				`[сообщение](https://discord.com/channels/${mainGuild.id}/${ticketsChannel.id}/${ticket.thread})` +
 				`(<#${ticket.thread}>)` +
-				`  - Взят: **${ticket.active ? 'Да' : 'Нет'}** ` +
-				`  - Пользователь: <@${userId}> (\`${userId}\`) ` +
+				`\n  - Взят: **${ticket.active ? 'Да' : 'Нет'}** ` +
+				`\n  - Пользователь: <@${userId}> (\`${userId}\`) ` +
 				'\n\n',
 			''
 		)}`,
