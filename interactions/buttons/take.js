@@ -25,9 +25,9 @@ export default async function (interaction) {
 	});
 
 	const user = await discordClient.users.fetch(userId);
-	const thread = await interaction.message.startThread({ name: user.tag });
+	const thread = await interaction.message.startThread({ name: user.discriminator === '0' ? user.username : user.tag });
 
-	threads.set(thread.id, userId);
+	threads.set(thread.id.toString(), userId);
 
 	const ticket = tickets.get(userId);
 	ticket.thread = thread.id;
