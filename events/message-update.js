@@ -23,7 +23,7 @@ export default async function (oldMessage, message) {
 		if (!tickets.get(threads.get(id))?.messageLinks[message.id]) return;
 
 		const moderator = (await getMember(message.author.id)) ?? message.author;
-		const opt = { ...(message.content.length && { content: `**${moderator.displayName}**: ${message.content}` }) };
+		const opt = { ...(message.content.length && { content: `**${moderator.displayName}**:\n${message.content}` }) };
 		const user = await discordClient.users.fetch(threads.get(id));
 		const fetchedMessage = await user.dmChannel.messages.fetch(tickets.get(user.id).messageLinks[message.id]);
 
