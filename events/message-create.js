@@ -21,7 +21,7 @@ export default async function (message) {
 	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(id)) {
 		const moderator = (await getMember(message.author.id)) ?? message.author;
 		const opt = {
-			...(message.content.length && { content: `**${moderator.displayName}**: ${message.content}` }),
+			...(message.content.length && { content: `**${moderator.displayName}**:\n${message.content}` }),
 			...(message.attachments.size && { files: message.attachments.map(a => a.url) }),
 		};
 
