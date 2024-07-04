@@ -1,7 +1,7 @@
 import log from '../utils/log.js';
 import directMessages from '../utils/direct-messages.js';
 import unavailableDm from '../utils/unavailable-dm.js';
-import { ChannelType } from 'discord.js';
+import { ChannelType, Message } from 'discord.js';
 import getMember from '../utils/get-member.js';
 import saveTickets from '../utils/save-tickets.js';
 
