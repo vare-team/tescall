@@ -5,8 +5,8 @@ import { ChannelType } from 'discord.js';
 import getMember from '../utils/get-member.js';
 
 /**
- * @param oldMessage {Message}
- * @param message {Message}
+ * @param {Message} oldMessage
+ * @param {Message} message
  * @return {Promise<void>}
  */
 export default async function (oldMessage, message) {
@@ -19,7 +19,7 @@ export default async function (oldMessage, message) {
 
 	const id = message.channel.id;
 
-	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(id)) {
+	if (message.channel.type === ChannelType.PublicThread && threads.has(id)) {
 		if (!tickets.get(threads.get(id))?.messageLinks[message.id]) return;
 
 		const moderator = (await getMember(message.author.id)) ?? message.author;
