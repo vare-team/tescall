@@ -2,6 +2,7 @@ import { EmbedBuilder } from 'discord.js';
 import { colors, messages } from '../config.js';
 import log from './log.js';
 import getMember from './get-member.js';
+import saveTickets from './save-tickets.js';
 
 /**
  * @param message {Message}
@@ -73,5 +74,6 @@ https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLi
 
 	const sendedMsg = await discordWebhook.send(opt);
 	tickets.get(user.id).messageLinks[message.id] = sendedMsg.id;
+	saveTickets();
 	log(`Сообщение было получено и переслано! @${user.id}`);
 }
