@@ -7,7 +7,7 @@ import { ChannelType } from 'discord.js';
 import getMember from '../utils/get-member.js';
 
 export default async function (message) {
-	if (message.author.bot) return;
+	if (message.author.bot && !threads.has(message.channel.id)) return;
 
 	if (message.channel.type === ChannelType.DM) {
 		const user = (await getMember(message.author.id)) ?? message.author;
@@ -33,9 +33,8 @@ export default async function (message) {
 		return;
 	}
 
-	if (message.channel.type === ChannelType.GuildPublicThread && threads.has(message.channel.id)) {
+	if (message.channel.type === ChannelType.PublicThread && threads.has(message.channel.id)) {
 		if (!tickets.get(threads.get(message.channel.id))?.messageLinks[message.id]) return;
-
 		const user = await discordClient.users.fetch(threads.get(message.channel.id));
 		const fetchedMessage = await user.dmChannel.messages.fetch(tickets.get(user.id).messageLinks[message.id]);
 
