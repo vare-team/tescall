@@ -21,17 +21,16 @@ export default async function (message) {
 	if (message.channel.type === ChannelType.PublicThread && threads.has(id)) {
 		const moderator = (await getMember(message.author.id)) ?? message.author;
 		const user = await discordClient.users.fetch(threads.get(id));
+		const ticket = tickets.get(user.id);
 		const opt = {
 			...(message.content.length && { content: `**${moderator.displayName}**:\n${message.content}` }),
 			...(message.attachments.size && { files: message.attachments.map(a => a.url) }),
 			...(message.reference && {
 				allowedMentions: { repliedUser: false },
 				reply: {
-					messageReference: message.channel.messages.cache.get(message.reference?.messageId).webhookId
-						? Object.keys(tickets.get(user.id).messageLinks).find(
-								key => tickets.get(user.id).messageLinks[key] === message.reference?.messageId
-						  )
-						: tickets.get(user.id).messageLinks[message.reference?.messageId],
+					messageReference: message.mentions.repliedUser.bot
+						? Object.keys(ticket.messageLinks).find(key => ticket.messageLinks[key] === message.reference?.messageId)
+						: ticket.messageLinks[message.reference?.messageId],
 				},
 			}),
 		};

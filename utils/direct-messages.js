@@ -70,6 +70,18 @@ export default async function (message, action = '') {
 https://discord.com/channels/${ticket.guild}/${ticket.thread}/${ticket.messageLinks[message.id]}`,
 			color: colors.yellow,
 		});
+	if (
+		(message.reference && Object.keys(ticket.messageLinks).includes(message.reference?.messageId)) ||
+		Object.values(ticket.messageLinks).includes(message.reference?.messageId)
+	)
+		embeds.push({
+			description: `Ответ на сообщение: https://discord.com/channels/${ticket.guild}/${ticket.thread}/${
+				message.mentions.repliedUser.bot
+					? Object.keys(ticket.messageLinks).find(key => ticket.messageLinks[key] === message.reference?.messageId)
+					: ticket.messageLinks[message.reference?.messageId]
+			}`,
+			color: colors.blue,
+		});
 	if (embeds.length) opt.embeds = embeds;
 
 	const sendedMsg = await discordWebhook.send(opt);
