@@ -1,6 +1,11 @@
 import ms from 'ms';
 import saveTickets from '../../utils/save-tickets.js';
+import { messages } from '../../config.js';
 
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
 	const timeRaw = interaction.options.getString('time');
@@ -9,7 +14,9 @@ export default async function (interaction) {
 	mutes.set(user.id.toString(), time);
 	saveTickets();
 	await interaction.reply({
-		content: time === Infinity ? `<@${user.id}> muted forever` : `<@${user.id}> muted: <t:${time}:R>`,
+		content: messages.mute
+			.replace('{{USER}}', user)
+			.replace('{{TIME}}', time === Infinity ? 'Навсегда' : `<t:${time}:R>`),
 		ephemeral: true,
 		allowedMentions: { repliedUser: false },
 	});

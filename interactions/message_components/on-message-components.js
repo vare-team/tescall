@@ -7,6 +7,10 @@ import { TicketTitles } from '../../config.js';
 import hasTicket from '../../utils/has-ticket.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 
+/**
+ * @param {import('discord.js').BaseInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const [customId, userId] = interaction.customId.split(':');
 

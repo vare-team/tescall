@@ -6,7 +6,7 @@ import getMember from '../utils/get-member.js';
 import saveTickets from '../utils/save-tickets.js';
 
 /**
- * @param {Message} message
+ * @param {import('discord.js').Message} message
  * @return {Promise<void>}
  */
 export default async function (message) {

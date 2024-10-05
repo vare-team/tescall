@@ -1,3 +1,7 @@
+/**
+ * @param {String} log
+ * @returns {void}
+ */
 export default function (log) {
 	const date = new Date();
 	console.log(

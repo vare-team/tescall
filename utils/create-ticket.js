@@ -3,6 +3,13 @@ import { ButtonStyle, colors, TicketTitles } from '../config.js';
 import saveTickets from './save-tickets.js';
 import log from './log.js';
 
+/**
+ * @param {String} title
+ * @param {import('discord.js').User} user
+ * @param {String} content
+ * @param {import('discord.js').Message['attachments']} attachments
+ * @returns {Promise<void>}
+ */
 export default async function (title = TicketTitles.DEFAULT, user, content, attachments = {}) {
 	const member = await mainGuild.members.fetch(user.id);
 	const role = boosterRole ? member.roles.resolve(boosterRole.id) : null;

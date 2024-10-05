@@ -55,13 +55,21 @@ export const messages = {
 	initWelcomeDescription: 'Для продолжения выберите тип вашего обращения с помощью кнопок ниже.',
 	initWelcomeSent: 'Сообщение было отправлено в текущий канал.',
 	closedDmErrorDescription: 'Перед созданием тикета, откройте лс.',
+	ticketSent: 'Ваше обращение отправлено.',
+	ticketNotFound: 'Тикет отсутствует!',
+	ticketClosed: 'Тикет {{USER}} уже закрыт!',
+	quickReply: 'Быстрый ответ',
+	responseSent: 'Ответ отправлен!',
+	notMuted: '{{USER}} не в муте.',
+	unmute: '{{USER}} размучен.',
+	mute: '{{USER}} замучен: {{TIME}}',
 };
 
 export const ticketsErrors = {
 	invalidBotId: 'Указан не верный айди',
 	muted: 'Вы временно не можете создавать новых обращений',
-	mutedForever: 'Вы не можете создавать новых обращений',
-	unavailableDm: 'Не возможно отправить сообщение этому пользователю.',
+	mutedForever: 'Вы не можете создавать новые обращения',
+	unavailableDm: 'Невозможно отправить сообщение этому пользователю.',
 };
 
 export const replies = [

@@ -5,8 +5,8 @@ import { ChannelType } from 'discord.js';
 import getMember from '../utils/get-member.js';
 
 /**
- * @param {Message} oldMessage
- * @param {Message} message
+ * @param {import('discord.js').Message} oldMessage
+ * @param {import('discord.js').Message} message
  * @return {Promise<void>}
  */
 export default async function (oldMessage, message) {

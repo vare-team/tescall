@@ -3,6 +3,10 @@ import saveTickets from './save-tickets.js';
 import log from './log.js';
 import getThread from './get-thread.js';
 
+/**
+ * @param {import('discord.js').Snowflake} userId
+ * @returns {Promise<void>}
+ */
 export default async function (userId) {
 	const ticket = tickets.get(userId);
 

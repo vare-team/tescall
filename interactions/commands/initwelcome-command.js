@@ -1,6 +1,10 @@
-import { colors } from '../../config.js';
+import { colors, messages } from '../../config.js';
 import { EmbedBuilder, ActionRowBuilder, ButtonBuilder } from 'discord.js';
 
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const embed = new EmbedBuilder({
 		title: interaction.options.getString('title'),
@@ -17,5 +21,5 @@ export default async function (interaction) {
 	];
 
 	await interaction.channel.send({ components: components, embeds: [embed] });
-	interaction.reply({ content: 'Сообщение было отправлено в текущий канал.', ephemeral: true });
+	interaction.reply({ content: messages.initWelcomeSent, ephemeral: true });
 }

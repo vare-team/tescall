@@ -1,6 +1,9 @@
 import { EmbedBuilder } from 'discord.js';
 import { colors, messages } from '../config.js';
-
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<Boolean>}
+ */
 export default async function (interaction) {
 	if (tickets.has(interaction.user.id)) {
 		await interaction

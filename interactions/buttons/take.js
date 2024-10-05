@@ -4,11 +4,15 @@ import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 
+/**
+ * @param {import('discord.js').ButtonInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const [, userId] = interaction.customId.split(':');
 
 	if (!tickets.has(userId)) {
-		await interaction.reply({ content: `Тикет #${userId} уже закрыт!`, ephemeral: true });
+		await interaction.reply({ content: messages.ticketClosed.replace('{{USER}}', `#${userId}`), ephemeral: true });
 		return;
 	}
 

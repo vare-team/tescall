@@ -5,7 +5,11 @@ import removeTicket from '../utils/remove-ticket.js';
 import sendGoodbye from '../utils/send-goodbye.js';
 import { ChannelType } from 'discord.js';
 import getMember from '../utils/get-member.js';
-
+/**
+ *
+ * @param {import('discord.js').Message} message
+ * @returns {Promise<void>}
+ */
 export default async function (message) {
 	if (message.author.bot && !threads.has(message.channel.id)) return;
 

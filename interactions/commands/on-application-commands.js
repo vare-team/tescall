@@ -14,6 +14,10 @@ const commands = {
 	initwelcome: initWelcomeCommand,
 };
 
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	if (commands[interaction.commandName]) {
 		await commands[interaction.commandName](interaction);

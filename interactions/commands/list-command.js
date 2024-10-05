@@ -1,5 +1,9 @@
 import declension from '../../utils/declension.js';
 
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const ticketEntries = [...tickets.entries()];
 	const maxTickets = 4;

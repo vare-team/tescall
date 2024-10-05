@@ -1,3 +1,8 @@
+/**
+ * @param {Number} value
+ * @param {Array<String>} words
+ * @returns {String}
+ */
 export default function (value, words) {
 	value = Math.abs(value) % 100;
 	var num = value % 10;

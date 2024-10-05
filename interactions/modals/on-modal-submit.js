@@ -1,11 +1,15 @@
 import modalsSendHello from './modals-send-hello.js';
 import createTicket from '../../utils/create-ticket.js';
-import { colors, TicketTitles, TicketTopics } from '../../config.js';
-import { EmbedBuilder } from 'discord.js';
+import { colors, messages, TicketTitles, TicketTopics } from '../../config.js';
+import { ChannelType, EmbedBuilder } from 'discord.js';
 import hasTicket from '../../utils/has-ticket.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 import sendClosedDm from '../../utils/send-closed-dm.js';
 
+/**
+ * @param {import('discord.js').ModalMessageModalSubmitInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	if (await hasTicket(interaction)) return;
 
@@ -19,8 +23,18 @@ export default async function (interaction) {
 	}
 
 	try {
-		await createTicket(TicketTitles[interaction.customId], interaction.user, ticketTopic);
 		await modalsSendHello(interaction);
+		await createTicket(TicketTitles[interaction.customId], interaction.user, ticketTopic);
+		if (interaction.channel.type !== ChannelType.DM)
+			interaction.reply({
+				embeds: [
+					new EmbedBuilder()
+						.setTitle(messages.hello.replace('{{NAME}}', interaction.user.username))
+						.setDescription(messages.ticketSent)
+						.setColor(colors.blue),
+				],
+				ephemeral: true,
+			});
 	} catch {
 		await sendClosedDm(interaction);
 		await unavailableDm(interaction.user.id);

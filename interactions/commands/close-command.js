@@ -4,9 +4,13 @@ import unavailableDm from '../../utils/unavailable-dm.js';
 import removeTicket from '../../utils/remove-ticket.js';
 import getThread from '../../utils/get-thread.js';
 
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
-	if (!tickets.has(user.id)) return await interaction.reply({ content: 'Тикет отсутствует!' });
+	if (!tickets.has(user.id)) return await interaction.reply({ content: messages.ticketNotFound });
 	const ticket = tickets.get(user.id);
 
 	const check = await user
@@ -36,5 +40,5 @@ export default async function (interaction) {
 
 	if (!check) return;
 
-	await removeTicket(user.id).then(async () => await interaction.reply({ content: 'Закрыт !', ephemeral: true }));
+	await removeTicket(user.id).then(async () => await interaction.reply({ content: 'Тикет закрыт!', ephemeral: true }));
 }
