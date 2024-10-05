@@ -14,9 +14,7 @@ export default async function (interaction) {
 	mutes.set(user.id.toString(), time);
 	saveTickets();
 	await interaction.reply({
-		content: messages.mute
-			.replace('{{USER}}', user)
-			.replace('{{TIME}}', time === Infinity ? 'Навсегда' : `<t:${time}:R>`),
+		content: messages.mute.replace('%USER%', user).replace('%TIME%', time === Infinity ? 'Навсегда' : `<t:${time}:R>`),
 		ephemeral: true,
 		allowedMentions: { repliedUser: false },
 	});

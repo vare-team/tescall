@@ -29,7 +29,7 @@ export default async function (interaction) {
 			interaction.reply({
 				embeds: [
 					new EmbedBuilder()
-						.setTitle(messages.hello.replace('{{NAME}}', interaction.user.username))
+						.setTitle(messages.hello.replace('%NAME%', interaction.user.username))
 						.setDescription(messages.ticketSent)
 						.setColor(colors.blue),
 				],

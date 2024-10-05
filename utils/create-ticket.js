@@ -17,8 +17,8 @@ export default async function (title = TicketTitles.DEFAULT, user, content, atta
 		embeds: [
 			new EmbedBuilder()
 				.setTitle(title)
+				.setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
 				.setDescription(`<@${user.id}>:\n${content}`)
-				.setFooter({ text: user.username, iconURL: user.displayAvatarURL() })
 				.setColor(boosterRole && role ? colors.yellow : colors.red)
 				.setImage(attachments.size ? attachments.first().url : null),
 		],

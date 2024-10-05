@@ -10,7 +10,7 @@ export default async function (interaction) {
 
 	if (!mutes.has(user.id)) {
 		await interaction.reply({
-			content: messages.notMuted.replace('{{USER}}', user),
+			content: messages.notMuted.replace('%USER%', user),
 			ephemeral: true,
 			allowedMentions: {},
 		});
@@ -20,7 +20,7 @@ export default async function (interaction) {
 	mutes.delete(user.id);
 	saveTickets();
 	await interaction.reply({
-		content: messages.unmute.replace('{{USER}}', user),
+		content: messages.unmute.replace('%USER%', user),
 		ephemeral: true,
 		allowedMentions: { repliedUser: false },
 	});

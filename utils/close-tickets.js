@@ -9,8 +9,7 @@ import getThread from './get-thread.js';
 export default function (threadId) {
 	return async () => {
 		const user = await discordClient.users.fetch(threads.get(threadId));
-		const parent =
-			(await getThread(user.id).catch(() => {}))?.parent ?? (await discordClient.channels.fetch(process.env.CHANNEL));
+		const parent = (await getThread(user.id).catch(() => {}))?.parent ?? (await ticketsChannel);
 
 		const ticketMsg = await parent.messages.fetch(threadId);
 

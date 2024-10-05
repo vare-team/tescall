@@ -57,12 +57,12 @@ export const messages = {
 	closedDmErrorDescription: 'Перед созданием тикета, откройте лс.',
 	ticketSent: 'Ваше обращение отправлено.',
 	ticketNotFound: 'Тикет отсутствует!',
-	ticketClosed: 'Тикет {{USER}} уже закрыт!',
+	ticketClosed: 'Тикет %USER% уже закрыт!',
 	quickReply: 'Быстрый ответ',
 	responseSent: 'Ответ отправлен!',
-	notMuted: '{{USER}} не в муте.',
-	unmute: '{{USER}} размучен.',
-	mute: '{{USER}} замучен: {{TIME}}',
+	notMuted: '%USER% не в муте.',
+	unmute: '%USER% размучен.',
+	mute: '%USER% замучен: %TIME%',
 };
 
 export const ticketsErrors = {
