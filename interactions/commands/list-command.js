@@ -1,16 +1,20 @@
-import declension from '../../utils/declension.js';
-
 /**
  * @param {import('discord.js').CommandInteraction} interaction
  * @returns {Promise<void>}
  */
 export default async function (interaction) {
-	const ticketEntries = [...tickets.entries()];
-	const maxTickets = 4;
-	const remainingTickets = ticketEntries.length - maxTickets;
-	let ticketList = ticketEntries
-		.slice(0, maxTickets)
-		.reduce(
+	if (tickets.size == 0)
+		return interaction.reply({
+			content: 'Тикетов нет',
+		});
+	const ticketsChunk = Array();
+	const maxTickets = 5;
+	for (let i = 0; i < tickets.size / maxTickets; i++) {
+		ticketsChunk.push([...tickets].slice(i * maxTickets, i * maxTickets + maxTickets));
+	}
+
+	for (const [i, ticket] of ticketsChunk.entries()) {
+		const ticketList = ticket.reduce(
 			(p, [userId, ticket], index) =>
 				`${p}${index + 1}. ` +
 				`[сообщение](https://discord.com/channels/${mainGuild.id}/${ticketsChannel.id}/${ticket.thread})` +
@@ -20,11 +24,11 @@ export default async function (interaction) {
 				'\n\n',
 			''
 		);
-
-	if (remainingTickets > 0)
-		ticketList += `И ещё ${remainingTickets} ${declension(remainingTickets, ['тикет', 'тикета', 'тикетов'])}`;
-	interaction.reply({
-		content: `${tickets.size > 0 ? 'Список тикетов:\n' : 'Тикетов нет'}${ticketList}`,
-		flags: 'SuppressEmbeds',
-	});
+		if (i == 0)
+			await interaction.reply({
+				content: `Список тикетов:\n${ticketList}`,
+				flags: 'SuppressEmbeds',
+			});
+		if (i >= 1) await interaction.followUp({ content: ticketList });
+	}
 }
