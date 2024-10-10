@@ -3,18 +3,12 @@
  * @returns {Promise<void>}
  */
 export default async function (interaction) {
-	if (tickets.size == 0)
-		return interaction.reply({
-			content: 'Тикетов нет',
-		});
-	const ticketsChunk = Array();
 	const maxTickets = 5;
-	for (let i = 0; i < tickets.size / maxTickets; i++) {
-		ticketsChunk.push([...tickets].slice(i * maxTickets, i * maxTickets + maxTickets));
-	}
-
-	for (const [i, ticket] of ticketsChunk.entries()) {
-		const ticketList = ticket.reduce(
+	const ticketsChunk = Array.from({ length: Math.ceil(tickets.size / maxTickets) }, (_, ticket) =>
+		[...tickets.entries()].slice(ticket * maxTickets, ticket * maxTickets + maxTickets)
+	);
+	const ticketList = index =>
+		ticketsChunk[index].reduce(
 			(p, [userId, ticket], index) =>
 				`${p}${index + 1}. ` +
 				`[сообщение](https://discord.com/channels/${mainGuild.id}/${ticketsChannel.id}/${ticket.thread})` +
@@ -24,11 +18,11 @@ export default async function (interaction) {
 				'\n\n',
 			''
 		);
-		if (i == 0)
-			await interaction.reply({
-				content: `Список тикетов:\n${ticketList}`,
-				flags: 'SuppressEmbeds',
-			});
-		if (i >= 1) await interaction.followUp({ content: ticketList });
+	await interaction.reply({
+		content: `${tickets.size > 0 ? 'Список тикетов:\n' : 'Тикетов нет'}${ticketList(0)}`,
+		flags: 'SuppressEmbeds',
+	});
+	for (let i = 1; i < ticketsChunk.length; i++) {
+		await interaction.followUp({ content: ticketList(i) });
 	}
 }
