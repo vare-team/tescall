@@ -3,6 +3,7 @@
  * @returns {Promise<void>}
  */
 export default async function (interaction) {
+	if (tickets.size == 0) return interaction.reply({ content: 'Тикетов нет.' });
 	const maxTickets = 5;
 	const ticketsChunk = Array.from({ length: Math.ceil(tickets.size / maxTickets) }, (_, ticket) =>
 		[...tickets.entries()].slice(ticket * maxTickets, ticket * maxTickets + maxTickets)
@@ -19,7 +20,7 @@ export default async function (interaction) {
 			''
 		);
 	await interaction.reply({
-		content: `${tickets.size > 0 ? 'Список тикетов:\n' : 'Тикетов нет'}${ticketList(0)}`,
+		content: `Список тикетов:\n${ticketList(0)}`,
 		flags: 'SuppressEmbeds',
 	});
 	for (let i = 1; i < ticketsChunk.length; i++) {
