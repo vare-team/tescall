@@ -2,11 +2,14 @@ import { colors, messages } from '../config.js';
 import removeTicket from './remove-ticket.js';
 import getThread from './get-thread.js';
 
+/**
+ * @param {import('discord.js').Snowflake} threadId
+ * @returns {Promise<void>}
+ */
 export default function (threadId) {
 	return async () => {
 		const user = await discordClient.users.fetch(threads.get(threadId));
-		const parent =
-			(await getThread(user.id).catch(() => {}))?.parent ?? (await discordClient.channels.fetch(process.env.CHANNEL));
+		const parent = (await getThread(user.id).catch(() => {}))?.parent ?? (await ticketsChannel);
 
 		const ticketMsg = await parent.messages.fetch(threadId);
 

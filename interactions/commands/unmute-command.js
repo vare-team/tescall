@@ -1,11 +1,16 @@
+import { messages } from '../../config.js';
 import saveTickets from '../../utils/save-tickets.js';
 
+/**
+ * @param {import('discord.js').CommandInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const user = interaction.options.getUser('user');
 
 	if (!mutes.has(user.id)) {
 		await interaction.reply({
-			content: `<@${user.id}> isn't muted`,
+			content: messages.notMuted.replace('%USER%', user),
 			ephemeral: true,
 			allowedMentions: {},
 		});
@@ -15,7 +20,7 @@ export default async function (interaction) {
 	mutes.delete(user.id);
 	saveTickets();
 	await interaction.reply({
-		content: `<@${user.id}> unmuted`,
+		content: messages.unmute.replace('%USER%', user),
 		ephemeral: true,
 		allowedMentions: { repliedUser: false },
 	});

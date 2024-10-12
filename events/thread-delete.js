@@ -2,6 +2,11 @@ import { colors, messages } from '../config.js';
 import removeTicket from '../utils/remove-ticket.js';
 import sendGoodbye from '../utils/send-goodbye.js';
 
+/**
+ *
+ * @param {import('discord.js').ThreadChannel} thread
+ * @returns {Promise<void>}
+ */
 export default async function (thread) {
 	if (!threads.has(thread.id)) return;
 

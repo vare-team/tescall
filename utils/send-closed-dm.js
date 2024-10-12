@@ -1,6 +1,10 @@
-import { EmbedBuilder } from 'discord.js';
+import { ChannelType, EmbedBuilder } from 'discord.js';
 import { colors, messages } from '../config.js';
 
+/**
+ * @param {import('discord.js').BaseInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	await interaction.reply({
 		embeds: [
@@ -9,6 +13,6 @@ export default async function (interaction) {
 				.setDescription(messages.closedDmErrorDescription)
 				.setColor(colors.blue),
 		],
-		ephemeral: interaction.channel.type !== 'DM',
+		ephemeral: interaction.channel.type !== ChannelType.DM,
 	});
 }

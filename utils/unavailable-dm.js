@@ -3,8 +3,8 @@ import closeTickets from './close-tickets.js';
 import getThread from './get-thread.js';
 
 /**
+ * @param {import('discord.js').Snowflake} userId
  * @return {Promise<void>}
- * @param userId
  */
 export default function (userId) {
 	return async () => {

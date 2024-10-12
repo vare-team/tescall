@@ -4,16 +4,26 @@ import log from '../../utils/log.js';
 import saveTickets from '../../utils/save-tickets.js';
 import unavailableDm from '../../utils/unavailable-dm.js';
 
+/**
+ * @param {import('discord.js').ButtonInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const [, userId] = interaction.customId.split(':');
-
+	const moderator = interaction.member ?? interaction.user;
 	if (!tickets.has(userId)) {
-		await interaction.reply({ content: `Тикет #${userId} уже закрыт!`, ephemeral: true });
+		await interaction.reply({ content: messages.ticketClosed.replace('%USER%', `#${userId}`), ephemeral: true });
 		return;
 	}
 
 	await interaction.update({
-		embeds: [{ ...interaction.message.embeds[0].data, color: colors.green }],
+		embeds: [
+			{
+				...interaction.message.embeds[0].data,
+				footer: { text: moderator.displayName, icon_url: moderator.displayAvatarURL() },
+				color: colors.green,
+			},
+		],
 		components: [
 			new ActionRowBuilder().setComponents(
 				new ButtonBuilder().setCustomId('CLOSE').setLabel('Закрыть тикет').setStyle(ButtonStyle.Success)

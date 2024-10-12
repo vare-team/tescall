@@ -5,6 +5,11 @@ import { EmbedBuilder } from 'discord.js';
 import { colors, Permissions, ticketsErrors } from '../config.js';
 import getMember from '../utils/get-member.js';
 
+/**
+ *
+ * @param {import('discord.js').BaseInteraction} interaction
+ * @returns {Promise<void>}
+ */
 export default async function (interaction) {
 	const member = interaction.member ?? (await getMember(interaction.user.id));
 	if (mutes.has(member.id) && !member.permissions.has(Permissions.ModerateMembers)) {
