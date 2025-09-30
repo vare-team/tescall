@@ -25,6 +25,6 @@ export default async function (interaction) {
 	if (!sendedMsg) return;
 
 	tickets.get(user.id).messageLinks[message.id] = sendedMsg.id;
-	await interaction.reply({ content: messages.responseSent, ephemeral: true });
+	await interaction.reply({ content: messages.responseSent, flags: 'Ephemeral' });
 	log(`Сообщение было получено и переслано!`);
 }

@@ -22,7 +22,7 @@ export default async function () {
 	discordClient.on('interactionCreate', interactionCreateEvent);
 	discordClient.on('threadDelete', threadDeleteEvent);
 
-	discordClient.user.setActivity('Напиши в ЛС для помощи!', { type: ActivityType.Watching });
+	discordClient.user.setActivity('Напиши в ЛС для помощи!', { type: ActivityType.Custom });
 
 	log(`Лог канал закеширован! #${discordClient.channels.cache.get(process.env.CHANNEL).name}`);
 	log('К работе готов!\n');

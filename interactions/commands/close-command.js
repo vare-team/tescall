@@ -28,5 +28,7 @@ export default async function (interaction) {
 
 	if (!check) return;
 
-	await removeTicket(user.id).then(async () => await interaction.reply({ content: 'Тикет закрыт!', ephemeral: true }));
+	await removeTicket(user.id).then(
+		async () => await interaction.reply({ content: 'Тикет закрыт!', flags: 'Ephemeral' })
+	);
 }

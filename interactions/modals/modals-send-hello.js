@@ -13,7 +13,7 @@ export default async function (interaction) {
 				.setDescription(messages.helloDescription)
 				.setColor(colors.blue),
 		],
-		ephemeral: interaction.channel.type !== ChannelType.DM,
+		flags: interaction.channel.type !== ChannelType.DM ? 'Ephemeral' : [],
 	};
 	return interaction.channel.type == ChannelType.DM
 		? await interaction.reply(options)

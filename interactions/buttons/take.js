@@ -12,7 +12,7 @@ export default async function (interaction) {
 	const [, userId] = interaction.customId.split(':');
 	const moderator = interaction.member ?? interaction.user;
 	if (!tickets.has(userId)) {
-		await interaction.reply({ content: messages.ticketClosed.replace('%USER%', `#${userId}`), ephemeral: true });
+		await interaction.reply({ content: messages.ticketClosed.replace('%USER%', `#${userId}`), flags: 'Ephemeral' });
 		return;
 	}
 

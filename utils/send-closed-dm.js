@@ -13,6 +13,6 @@ export default async function (interaction) {
 				.setDescription(messages.closedDmErrorDescription)
 				.setColor(colors.blue),
 		],
-		ephemeral: interaction.channel.type !== ChannelType.DM,
+		flags: interaction.channel.type !== ChannelType.DM ? 'Ephemeral' : [],
 	});
 }

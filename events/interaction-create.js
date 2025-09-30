@@ -18,7 +18,7 @@ export default async function (interaction) {
 		if (date > Date.now() / 1000) {
 			await interaction
 				.reply({
-					ephemeral: true,
+					flags: 'Ephemeral',
 					embeds: [
 						new EmbedBuilder()
 							.setTitle(date === Infinity ? ticketsErrors.mutedForever : ticketsErrors.muted)

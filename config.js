@@ -15,13 +15,13 @@ export const Permissions = {
 };
 export const Intents = {
 	Guilds: 1 << 0,
-	DirectMessages: 1 << 12,
-	GuildMessages: 1 << 9,
 	GuildMembers: 1 << 1,
+	GuildMessages: 1 << 9,
+	DirectMessages: 1 << 12,
 	MessageContent: 1 << 15,
 };
 export const ActivityType = {
-	Watching: 3,
+	Custom: 4,
 };
 export const ButtonStyle = {
 	Primary: 1,
@@ -30,6 +30,12 @@ export const ButtonStyle = {
 export const TextInputStyle = {
 	Short: 1,
 	Paragraph: 2,
+};
+
+export const ContextType = {
+	Guild: 0,
+	BotDM: 1,
+	PrivateChannel: 2,
 };
 
 export const messages = {
@@ -177,12 +183,14 @@ export const commands = {
 			'ru',
 			'обращение на свободную тематику, для перепроверки бота используйте /перепроверка_бота'
 		)
+		.setContexts([ContextType.BotDM])
 		.toJSON(),
 	recheck: new SlashCommandBuilder()
 		.setName('bot_recheck')
 		.setNameLocalization('ru', 'перепроверка_бота')
 		.setDescription('opens form for bot recheck')
 		.setDescriptionLocalization('ru', 'открывает форму для отправки бота на перпроверку')
+		.setContexts([ContextType.BotDM])
 		.toJSON(),
 	mute: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ModerateMembers)
@@ -206,7 +214,7 @@ export const commands = {
 				.setDescription('mute duration, in ms format 1h etc, or -1 for permanent mute')
 				.setDescriptionLocalization('ru', 'длительность мута, в ms формате 1h и т.д., или -1 для мута навсегда')
 		)
-		.setDMPermission(false)
+		.setContexts([ContextType.Guild])
 		.toJSON(),
 	unmute: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ModerateMembers)
@@ -222,7 +230,7 @@ export const commands = {
 				.setDescription('user to be unmuted')
 				.setDescriptionLocalization('ru', 'пользователь с кого будет снят мут')
 		)
-		.setDMPermission(false)
+		.setContexts([ContextType.Guild])
 		.toJSON(),
 	list: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
@@ -230,7 +238,7 @@ export const commands = {
 		.setNameLocalization('ru', 'список')
 		.setDescription('lists all tickets')
 		.setDescriptionLocalization('ru', 'Выводит список тикетов')
-		.setDMPermission(false)
+		.setContexts([ContextType.Guild])
 		.toJSON(),
 	close: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
@@ -246,7 +254,7 @@ export const commands = {
 				.setDescription('user whose ticket will be closed')
 				.setDescriptionLocalization('ru', 'пользователь чей тикет будет закрыт')
 		)
-		.setDMPermission(false)
+		.setContexts([ContextType.Guild])
 		.toJSON(),
 	initwelcome: new SlashCommandBuilder()
 		.setDefaultMemberPermissions(Permissions.ViewAuditLog)
@@ -259,6 +267,7 @@ export const commands = {
 				.setName('title')
 				.setNameLocalization('ru', 'заголовок')
 				.setRequired(true)
+				.setMaxLength(256)
 				.setDescription('Message title')
 				.setDescriptionLocalization('ru', 'Заголовок сообщения')
 		)
@@ -267,10 +276,11 @@ export const commands = {
 				.setName('description')
 				.setNameLocalization('ru', 'описание')
 				.setRequired(true)
+				.setMaxLength(4096)
 				.setDescription('Message description')
 				.setDescriptionLocalization('ru', 'Описание сообщения')
 		)
-		.setDMPermission(false)
+		.setContexts([ContextType.Guild])
 		.toJSON(),
 };
 

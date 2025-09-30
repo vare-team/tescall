@@ -11,7 +11,7 @@ export default async function (interaction) {
 	if (!mutes.has(user.id)) {
 		await interaction.reply({
 			content: messages.notMuted.replace('%USER%', user),
-			ephemeral: true,
+			flags: 'Ephemeral',
 			allowedMentions: {},
 		});
 		return;
@@ -21,7 +21,7 @@ export default async function (interaction) {
 	saveTickets();
 	await interaction.reply({
 		content: messages.unmute.replace('%USER%', user),
-		ephemeral: true,
+		flags: 'Ephemeral',
 		allowedMentions: { repliedUser: false },
 	});
 }

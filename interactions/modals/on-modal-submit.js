@@ -18,7 +18,12 @@ export default async function (interaction) {
 	try {
 		ticketTopic = TicketTopics[interaction.customId](interaction);
 	} catch (err) {
-		await interaction.reply({ embeds: [new EmbedBuilder().setTitle(err).setColor(colors.red)] }).catch(console.error);
+		await interaction
+			.reply({
+				embeds: [new EmbedBuilder().setTitle(err).setColor(colors.red)],
+				flags: interaction.channel.type !== ChannelType.DM ? 'Ephemeral' : [],
+			})
+			.catch(console.error);
 		return;
 	}
 
@@ -33,9 +38,9 @@ export default async function (interaction) {
 						.setDescription(messages.ticketSent)
 						.setColor(colors.blue),
 				],
-				ephemeral: true,
+				flags: 'Ephemeral',
 			});
-	} catch {
+	} catch (error) {
 		await sendClosedDm(interaction);
 		await unavailableDm(interaction.user.id);
 	}

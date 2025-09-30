@@ -8,7 +8,7 @@ export default async function (interaction) {
 	if (tickets.has(interaction.user.id)) {
 		await interaction
 			.reply({
-				ephemeral: true,
+				flags: 'Ephemeral',
 				embeds: [new EmbedBuilder().setTitle(messages.waiting).setColor(colors.red)],
 			})
 			.catch(console.error);

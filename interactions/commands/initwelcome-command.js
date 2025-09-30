@@ -21,5 +21,5 @@ export default async function (interaction) {
 	];
 
 	await interaction.channel.send({ components: components, embeds: [embed] });
-	interaction.reply({ content: messages.initWelcomeSent, ephemeral: true });
+	interaction.reply({ content: messages.initWelcomeSent, flags: 'Ephemeral' });
 }

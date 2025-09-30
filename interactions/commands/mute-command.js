@@ -15,7 +15,7 @@ export default async function (interaction) {
 	saveTickets();
 	await interaction.reply({
 		content: messages.mute.replace('%USER%', user).replace('%TIME%', time === Infinity ? 'Навсегда' : `<t:${time}:R>`),
-		ephemeral: true,
+		flags: 'Ephemeral',
 		allowedMentions: { repliedUser: false },
 	});
 }

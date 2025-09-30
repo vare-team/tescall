@@ -36,6 +36,6 @@ global.threads = new Map(Object.entries(readFiles('./threads.json')));
  */
 global.mutes = new Map(Object.entries(readFiles('./mutes.json')));
 
-client.once('ready', readyEvent);
+client.once('clientReady', readyEvent);
 
 client.login(process.env.TOKEN).then(() => log('Авторизация...'));
