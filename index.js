@@ -13,13 +13,7 @@ import readyEvent from './events/ready.js';
 createFiles();
 
 const client = new Client({
-	intents: [
-		Intents.Guilds,
-		Intents.GuildMembers,
-		Intents.GuildMessages,
-		Intents.DirectMessages,
-		Intents.MessageContent,
-	],
+	intents: [Intents.Guilds, Intents.GuildMessages, Intents.DirectMessages, Intents.MessageContent],
 	partials: [Partials.Channel],
 });
 

@@ -17,7 +17,6 @@ export const Intents = {
 	Guilds: 1 << 0,
 	DirectMessages: 1 << 12,
 	GuildMessages: 1 << 9,
-	GuildMembers: 1 << 1,
 	MessageContent: 1 << 15,
 };
 export const ActivityType = {
